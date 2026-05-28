@@ -2,9 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WikiZero - Enciclopédia Livre</title>
-    <link rel="icon" href="https://wiki.wazzimagiygg.com/favicom.png" type="image/x-icon">
+    <link rel="icon" href="https://wiki.wazzimagiygg.com/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -1645,10 +1647,15 @@ function closeModal() {
 }
 
 function closeIframe() {
-    document.getElementById('iframe-overlay').style.display = 'none';
-    const iframe = document.getElementById('painel-iframe');
-    if (iframe) iframe.src = 'about:blank';
-    document.body.style.overflow = 'auto';
+    const overlay = document.getElementById('iframe-overlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        const iframe = document.getElementById('painel-iframe');
+        if (iframe) {
+            iframe.srcdoc = '<html><body style="background:#f8f9fa"></body></html>';
+        }
+        document.body.style.overflow = 'auto';
+    }
 }
 
 function closeDropdown() {
@@ -2095,16 +2102,18 @@ const sideMenu = document.getElementById('sidebar-menu');
 const menuToggle = document.getElementById('menu-toggle-btn');
 let isCollapsed = false;
 
-menuToggle.addEventListener('click', () => {
-    isCollapsed = !isCollapsed;
-    if (isCollapsed) {
-        sideMenu.classList.add('collapsed');
-        menuToggle.innerHTML = '▶';
-    } else {
-        sideMenu.classList.remove('collapsed');
-        menuToggle.innerHTML = '◀';
-    }
-});
+if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+        isCollapsed = !isCollapsed;
+        if (isCollapsed) {
+            sideMenu.classList.add('collapsed');
+            menuToggle.innerHTML = '▶';
+        } else {
+            sideMenu.classList.remove('collapsed');
+            menuToggle.innerHTML = '◀';
+        }
+    });
+}
 
 document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => {
     e.preventDefault();
