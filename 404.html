@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página não encontrada - WikiZero</title>
+    <meta name="description" content="A página que você procura não existe na WikiZero. Volte para a página inicial ou pesquise outro conteúdo.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            max-width: 600px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+        }
+
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .error-message {
+            color: #718096;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .wiki-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .suggestion-link {
+            background: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #4a5568;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .suggestion-link:hover {
+            background: #edf2f7;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .random-fact {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #4a5568;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+
+        .random-fact strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 500px) {
+            .error-card {
+                padding: 30px 20px;
+            }
+            .error-code {
+                font-size: 80px;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .btn-primary, .btn-secondary {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <div class="wiki-logo">
+                <span class="material-icons">menu_book</span>
+                <span>WikiZero</span>
+            </div>
+            
+            <div class="error-icon">🔍</div>
+            <div class="error-code">404</div>
+            
+            <h1>Página não encontrada</h1>
+            <p class="error-message">
+                A página que você está procurando pode ter sido removida,<br>
+                renomeada ou está temporariamente indisponível.
+            </p>
+
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-input" placeholder="Pesquisar na WikiZero..." autocomplete="off">
+                <button class="search-btn" onclick="searchWiki()">Buscar</button>
+            </div>
+
+            <div class="suggestions">
+                <a href="#" class="suggestion-link" onclick="suggestSearch('Tecnologia')">
+                    <span class="material-icons" style="font-size: 16px;">computer</span> Tecnologia
+                </a>
+                <a href="#" class="suggestion-link" onclick="suggestSearch('Ciência')">
+                    <span class="material-icons" style="font-size: 16px;">science</span> Ciência
+                </a>
+                <a href="#" class="suggestion-link" onclick="suggestSearch('História')">
+                    <span class="material-icons" style="font-size: 16px;">history</span> História
+                </a>
+                <a href="#" class="suggestion-link" onclick="suggestSearch('Arte')">
+                    <span class="material-icons" style="font-size: 16px;">palette</span> Arte
+                </a>
+                <a href="#" class="suggestion-link" onclick="suggestSearch('Filosofia')">
+                    <span class="material-icons" style="font-size: 16px;">psychology</span> Filosofia
+                </a>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/" class="btn-primary">
+                    <span class="material-icons">home</span> Página Inicial
+                </a>
+                <a href="#" class="btn-secondary" onclick="goBack()">
+                    <span class="material-icons">arrow_back</span> Voltar
+                </a>
+                <a href="#" class="btn-secondary" onclick="randomPage()">
+                    <span class="material-icons">shuffle</span> Página Aleatória
+                </a>
+            </div>
+
+            <div class="random-fact" id="random-fact">
+                <strong>💡 Sabia que?</strong> Carregando curiosidade...
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>WikiZero - A enciclopédia livre e colaborativa</p>
+            <p>
+                <a href="/privacidade">Política de Privacidade (LGPD)</a> |
+                <a href="/termos">Termos de Uso</a> |
+                <a href="/contato">Contato</a>
+            </p>
+            <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
+        </div>
+    </div>
+
+    <script>
+        // Curiosidades aleatórias sobre wikis
+        const facts = [
+            "A Wikipédia foi lançada em 15 de janeiro de 2001.",
+            "Existem mais de 300 versões linguísticas da Wikipédia.",
+            "O nome 'wiki' vem do havaiano 'wiki wiki', que significa 'rápido'.",
+            "A maior Wikipédia é a versão em inglês, com mais de 6 milhões de artigos.",
+            "Qualquer pessoa pode editar a maioria das wikis.",
+            "WikiZero segue a LGPD para proteger seus dados.",
+            "O movimento wiki promove o conhecimento livre para todos.",
+            "A primeira wiki foi criada por Ward Cunningham em 1995.",
+            "Wikis são usadas em empresas, escolas e projetos colaborativos.",
+            "O logotipo da Wikipédia é um globo incompleto, simbolizando conhecimento em construção."
+        ];
+
+        // Mostrar curiosidade aleatória
+        function showRandomFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const factElement = document.getElementById('random-fact');
+            if (factElement) {
+                factElement.innerHTML = `<strong>💡 Sabia que?</strong> ${facts[randomIndex]}`;
+            }
+        }
+
+        // Função de busca
+        function searchWiki() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (searchTerm) {
+                window.location.href = `/?search=${encodeURIComponent(searchTerm)}`;
+            } else {
+                alert('Digite um termo para buscar.');
+            }
+        }
+
+        // Sugestão de busca
+        function suggestSearch(term) {
+            document.getElementById('search-input').value = term;
+            searchWiki();
+        }
+
+        // Voltar para página anterior
+        function goBack() {
+            if (document.referrer && document.referrer !== '') {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Página aleatória - redireciona para a função da WikiZero
+        function randomPage() {
+            // Se existir uma função global de página aleatória
+            if (typeof window.showRandomPage === 'function') {
+                window.showRandomPage();
+            } else {
+                // Fallback: tenta carregar uma página aleatória via API
+                fetch('/api/random-page')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.url) window.location.href = data.url;
+                        else window.location.href = '/';
+                    })
+                    .catch(() => {
+                        window.location.href = '/';
+                    });
+            }
+        }
+
+        // Capturar tecla Enter na busca
+        document.getElementById('search-input')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchWiki();
+            }
+        });
+
+        // Registrar o erro 404 no console (para analytics)
+        function log404Error() {
+            const url = window.location.pathname;
+            console.log(`📄 Página 404 acessada: ${url}`);
+            
+            // Opcional: enviar para analytics
+            if (typeof gtag === 'function') {
+                gtag('event', '404_error', {
+                    'page_path': url,
+                    'page_title': document.title
+                });
+            }
+        }
+
+        // Inicializar
+        showRandomFact();
+        log404Error();
+
+        // Trocar curiosidade a cada 30 segundos
+        setInterval(showRandomFact, 30000);
+
+        // Foco no campo de busca
+        document.getElementById('search-input')?.focus();
+    </script>
+</body>
+</html>
