@@ -629,6 +629,34 @@
             background-color: #c82333;
         }
 
+        /* Botão do editor auxiliar */
+        .btn-helper {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-helper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.3);
+        }
+
+        .btn-helper i {
+            font-size: 18px;
+        }
+
         .editor-body {
             flex: 1;
             display: flex;
@@ -643,6 +671,8 @@
             border-radius: 8px;
             padding: 15px;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .editor-main {
@@ -912,7 +942,7 @@
             }
             .editor-sidebar {
                 width: 100%;
-                max-height: 200px;
+                max-height: 300px;
             }
         }
     </style>
@@ -1073,12 +1103,15 @@
     <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
-<!-- EDITOR MODAL INTEGRADO COM GUIA DE FORMATAÇÃO -->
+<!-- EDITOR MODAL INTEGRADO COM GUIA DE FORMATAÇÃO E BOTÃO PARA AUXILIAR -->
 <div id="editor-modal" class="editor-modal">
     <div class="editor-container">
         <div class="editor-header">
             <h3 id="editor-title">📝 Editor de Conteúdo</h3>
             <div class="editor-header-buttons">
+                <button id="editor-helper-btn" class="editor-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);" title="Abrir Editor Auxiliar">
+                    🛠️ Auxiliar
+                </button>
                 <button id="editor-save-btn" class="editor-btn">💾 Salvar</button>
                 <button id="editor-close-btn" class="editor-btn editor-btn-danger">❌ Fechar</button>
             </div>
@@ -1086,25 +1119,29 @@
         <div class="editor-body">
             <div class="editor-sidebar">
                 <h4>📄 Artigos desta página</h4>
-                <div id="editor-article-list" style="max-height: 300px; overflow-y: auto;"></div>
+                <div id="editor-article-list" style="max-height: 250px; overflow-y: auto;"></div>
                 <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
+                
+                <!-- Botão para abrir o editor auxiliar -->
+                <button id="open-helper-editor" class="btn-helper">
+                    <i class="material-icons">open_in_new</i> Editor Avançado (Nova Aba)
+                </button>
                 
                 <!-- GUIA DE FORMATAÇÃO -->
                 <div class="format-guide">
                     <h4>📝 Guia Rápido de Formatação</h4>
-                    <table>
-                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
-                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
-                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
-                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
-                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
-                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
-                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
-                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
-                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
-                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
-                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
-                        <tr><td><code>&lt;pre&gt;...&lt;/pre&gt;</code></td><td>→</td><td>Bloco de código</td></tr>
+                    <table style="width:100%; font-size:11px;">
+                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td</tr>
+                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td</tr>
+                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td</tr>
+                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td</tr>
+                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td</tr>
+                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td</tr>
+                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td</tr>
+                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td</tr>
+                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td</tr>
+                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td</tr>
+                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td</tr>
                     </table>
                 </div>
             </div>
@@ -1179,7 +1216,7 @@ function escapeHtml(text) {
 }
 
 // ============================================
-// FUNÇÃO DE FORMATAÇÃO WIKI PARA HTML (CORRIGIDA)
+// FUNÇÃO DE FORMATAÇÃO WIKI PARA HTML
 // ============================================
 function wikitextToHtml(wikitext) {
     if (!wikitext || typeof wikitext !== 'string') return '';
@@ -1198,14 +1235,12 @@ function wikitextToHtml(wikitext) {
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
-    html = html.replace(/__(.+?)__/g, '<u>$1</u>');
     html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
     
     // Links internos [[Página]] ou [[Página|Texto]]
     html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
         const displayText = text || target;
-        return `<a href="#" class="wiki-link" data-target="${escapeHtml(target)}" onclick="return false;">${escapeHtml(displayText)}</a>`;
+        return `<a href="#" class="wiki-link">${escapeHtml(displayText)}</a>`;
     });
     
     // Links externos [url texto] ou [url]
@@ -1256,7 +1291,6 @@ function wikitextToHtml(wikitext) {
         return `<p>${para}</p>`;
     }).join('\n');
     
-    // Quebras de linha
     html = html.replace(/\n/g, '<br>');
     html = html.replace(/<p><br><\/p>/g, '');
     
@@ -1469,7 +1503,6 @@ window.openArticle = async function(collectionUid, articleId) {
         if (!article.exists) { alert('Artigo não encontrado'); return; }
         const data = article.data();
         
-        // Converter o conteúdo wiki para HTML formatado
         const formattedContent = wikitextToHtml(data.descricao || 'Sem conteúdo.');
         
         document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
@@ -1518,7 +1551,6 @@ async function openEditor(pageUid, articleId) {
     
     document.getElementById('editor-modal').style.display = 'flex';
     
-    // Adicionar evento de pré-visualização ao vivo
     const contentTextarea = document.getElementById('editor-article-content');
     const updatePreview = () => {
         const content = contentTextarea.value;
@@ -1559,7 +1591,6 @@ async function loadArticleData(pageUid, articleId) {
             document.getElementById('editor-article-title').value = data.titulo || '';
             document.getElementById('editor-article-content').value = data.descricao || '';
             document.getElementById('editor-article-description').value = data.resumo || '';
-            // Atualizar pré-visualização
             const previewHtml = wikitextToHtml(data.descricao || '');
             document.getElementById('editor-preview').innerHTML = previewHtml || '<em>Sem conteúdo</em>';
         }
@@ -1651,6 +1682,14 @@ function closeEditor() {
     currentEditingArticleId = null;
 }
 
+// ============================================
+// FUNÇÃO PARA ABRIR O EDITOR AUXILIAR
+// ============================================
+
+function openHelperEditor() {
+    window.open('https://wiki.wazzimagiygg.com/pages/editor/', '_blank');
+}
+
 function showMyDataModal() {
     if (!currentUser || isGuestUser) { alert('Faça login.'); return; }
     document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
@@ -1699,6 +1738,8 @@ document.addEventListener('click', () => closeDropdown());
 document.getElementById('editor-save-btn')?.addEventListener('click', saveArticle);
 document.getElementById('editor-close-btn')?.addEventListener('click', closeEditor);
 document.getElementById('editor-new-article-btn')?.addEventListener('click', () => { if (currentEditingPageUid) openEditor(currentEditingPageUid, 'novo'); });
+document.getElementById('open-helper-editor')?.addEventListener('click', openHelperEditor);
+document.getElementById('editor-helper-btn')?.addEventListener('click', openHelperEditor);
 
 // Menu lateral
 const sideMenu = document.getElementById('sidebar-menu');
@@ -1753,6 +1794,7 @@ window.closeEditor = closeEditor;
 window.closeModal = closeModal;
 window.closeDropdown = closeDropdown;
 window.deleteArticle = deleteArticle;
+window.openHelperEditor = openHelperEditor;
 </script>
 
 </body>
