@@ -47,29 +47,23 @@
             gap: 15px;
         }
 
-        .wiki-logo {
-            font-size: 2.5em;
-            font-weight: bold;
-            background: linear-gradient(135deg, #36c, #00a86b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .wiki-logo small {
-            font-size: 0.4em;
-            color: #54595d;
+        .logo-img {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
         }
 
         .wiki-title h1 {
             font-size: 1.8em;
             font-weight: normal;
             font-family: 'Times New Roman', serif;
+            margin: 0;
         }
 
         .wiki-title p {
             color: #54595d;
             font-size: 0.85em;
+            margin: 0;
         }
 
         .search-area {
@@ -509,87 +503,62 @@
             font-size: 0.8em;
         }
 
-        .sidebar {
+        .article-meta {
             background-color: #f8f9fa;
+            padding: 10px;
             border: 1px solid #eaecf0;
-            border-radius: 4px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .sidebar-section {
-            margin-bottom: 25px;
-        }
-
-        .sidebar-section h3 {
-            font-size: 1.1em;
-            border-bottom: 1px solid #a2a9b1;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .sidebar-section ul {
-            list-style: none;
-        }
-
-        .sidebar-section li {
-            margin: 8px 0;
-        }
-
-        .sidebar-section a {
-            color: #0645ad;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        .sidebar-section a:hover {
-            text-decoration: underline;
-        }
-
-        .info-content {
-            line-height: 1.8;
-        }
-        .info-content h2 {
-            font-size: 1.4em;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            border-left: 4px solid #36c;
-            padding-left: 15px;
-        }
-        .info-content .highlight {
-            background-color: #e8f0fe;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #36c;
-        }
-        .info-content .success-box {
-            background-color: #d4edda;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #28a745;
-        }
-        .info-footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #a2a9b1;
+            margin: 15px 0;
             font-size: 0.85em;
-            color: #666;
-            text-align: center;
         }
 
-        .privacy-content {
-            line-height: 1.8;
+        .article-content {
+            line-height: 1.6;
         }
-        .privacy-content h2 {
-            font-size: 1.4em;
-            margin-top: 25px;
+
+        .article-content h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.8em;
+            border-bottom: 1px solid #a2a9b1;
             margin-bottom: 15px;
-            color: #2c3e50;
-            border-left: 4px solid #36c;
-            padding-left: 15px;
+        }
+
+        .wiki-content-rendered {
+            line-height: 1.6;
+        }
+        
+        .wiki-content-rendered h1, .wiki-content-rendered h2 {
+            font-family: 'Times New Roman', serif;
+            border-bottom: 1px solid #a2a9b1;
+            margin: 1.5em 0 0.5em 0;
+            padding-bottom: 0.17em;
+        }
+        
+        .wiki-content-rendered h1 { font-size: 1.8em; }
+        .wiki-content-rendered h2 { font-size: 1.5em; }
+        .wiki-content-rendered h3 { font-size: 1.2em; margin: 1.2em 0 0.3em 0; }
+        .wiki-content-rendered p { margin: 0.5em 0; }
+        .wiki-content-rendered ul, .wiki-content-rendered ol { 
+            margin: 0.5em 0 0.5em 2em; 
+        }
+        .wiki-content-rendered pre {
+            background: #f8f9fa;
+            border: 1px solid #eaecf0;
+            padding: 12px;
+            overflow-x: auto;
+        }
+        .wiki-content-rendered blockquote {
+            border-left: 4px solid #eaecf0;
+            padding-left: 16px;
+            margin: 1em 0;
+            color: #54595d;
+        }
+        .wiki-content-rendered table {
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        .wiki-content-rendered th, .wiki-content-rendered td {
+            border: 1px solid #a2a9b1;
+            padding: 8px 12px;
         }
 
         .btn-abrir-painel {
@@ -642,11 +611,6 @@
             color: white;
         }
 
-        .iframe-header h3 {
-            margin: 0;
-            font-size: 1em;
-        }
-
         .close-iframe {
             background: none;
             border: none;
@@ -680,37 +644,72 @@
             color: #0645ad;
             text-decoration: none;
         }
+        
         .footer a:hover {
             text-decoration: underline;
         }
 
-        @media (max-width: 900px) {
-            .sidebar-menu {
-                position: fixed;
-                left: 0;
-                top: 120px;
-                height: calc(100vh - 120px);
-                z-index: 1000;
-                transform: translateX(-100%);
-                transition: transform 0.3s;
-            }
-            .sidebar-menu.mobile-open {
-                transform: translateX(0);
-            }
-            .menu-toggle-btn {
-                right: -30px;
-                top: 80px;
-            }
-            .main-container {
-                padding: 15px;
-            }
-            .header-top {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .search-input {
-                width: 100%;
-            }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .article-view {
+            display: none;
+        }
+
+        .article-view.active {
+            display: block;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: #0645ad;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            padding: 5px 0;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #a2a9b1;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background-color: #36c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #2a5a9e;
         }
 
         .modal {
@@ -765,140 +764,14 @@
             border-top: 1px solid #eaecf0;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .highlight {
+            background-color: #e8f0fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #36c;
         }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #a2a9b1;
-            border-radius: 4px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .submit-btn {
-            background-color: #36c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover {
-            background-color: #2a5a9e;
-        }
-
-        .submit-btn:disabled {
-            background-color: #999;
-            cursor: not-allowed;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .article-view {
-            display: none;
-        }
-
-        .article-view.active {
-            display: block;
-        }
-
-        .back-button {
-            background: none;
-            border: none;
-            color: #0645ad;
-            cursor: pointer;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            padding: 5px 0;
-        }
-
-        .back-button:hover {
-            text-decoration: underline;
-        }
-
-        .article-content {
-            line-height: 1.6;
-        }
-
-        .article-content h1 {
-            font-family: 'Times New Roman', serif;
-            font-size: 1.8em;
-            border-bottom: 1px solid #a2a9b1;
-            margin-bottom: 15px;
-        }
-
-        .article-meta {
-            background-color: #f8f9fa;
-            padding: 10px;
-            border: 1px solid #eaecf0;
-            margin: 15px 0;
-            font-size: 0.85em;
-        }
-
-        .uid-display {
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.85em;
-            word-break: break-all;
-            margin: 10px 0;
-        }
-
-        .wiki-content-rendered {
-            line-height: 1.6;
-        }
-        .wiki-content-rendered h1, .wiki-content-rendered h2 {
-            font-family: 'Times New Roman', serif;
-            border-bottom: 1px solid #a2a9b1;
-            margin: 1.5em 0 0.5em 0;
-            padding-bottom: 0.17em;
-        }
-        .wiki-content-rendered h1 { font-size: 1.8em; }
-        .wiki-content-rendered h2 { font-size: 1.5em; }
-        .wiki-content-rendered h3 { font-size: 1.2em; margin: 1.2em 0 0.3em 0; }
-        .wiki-content-rendered p { margin: 0.5em 0; }
-        .wiki-content-rendered ul, .wiki-content-rendered ol { 
-            margin: 0.5em 0 0.5em 2em; 
-        }
-        .wiki-content-rendered pre {
-            background: #f8f9fa;
-            border: 1px solid #eaecf0;
-            padding: 12px;
-            overflow-x: auto;
-        }
-        .wiki-content-rendered blockquote {
-            border-left: 4px solid #eaecf0;
-            padding-left: 16px;
-            margin: 1em 0;
-            color: #54595d;
-        }
-        .wiki-content-rendered table {
-            border-collapse: collapse;
-            margin: 1em 0;
-        }
-        .wiki-content-rendered th, .wiki-content-rendered td {
-            border: 1px solid #a2a9b1;
-            padding: 8px 12px;
-        }
-        
         .guest-info {
             font-size: 11px;
             color: #28a745;
@@ -906,147 +779,44 @@
             text-align: center;
         }
 
-        .lgpd-modal-content {
-            max-width: 700px;
-        }
-        .lgpd-checkbox {
-            margin: 20px 0;
-        }
-        .lgpd-checkbox label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        .data-table th, .data-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .data-table th {
-            background-color: #f2f2f2;
-        }
-        .rights-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
+        @media (max-width: 900px) {
+            .sidebar-menu {
+                position: fixed;
+                left: 0;
+                top: 120px;
+                height: calc(100vh - 120px);
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar-menu.mobile-open {
+                transform: translateX(0);
+            }
+            .menu-toggle-btn {
+                right: -30px;
+                top: 80px;
+            }
+            .main-container {
+                padding: 15px;
+            }
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-input {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-
-<!-- MODAL LGPD DE CONSENTIMENTO -->
-<div id="lgpd-modal" class="modal">
-    <div class="modal-content lgpd-modal-content">
-        <div class="modal-header">
-            <h3>📋 Termo de Consentimento - LGPD (Lei 13.709/2018)</h3>
-            <span class="close-modal" onclick="closeLgpdModal()">&times;</span>
-        </div>
-        <div class="privacy-content" style="padding: 20px;">
-            <h3>🔐 Consentimento para Tratamento de Dados Pessoais</h3>
-            <p>A WikiZero coleta e trata os seguintes dados:</p>
-            <ul>
-                <li>✅ <strong>Nome e e-mail</strong> (fornecidos pelo Google)</li>
-                <li>✅ <strong>UID (identificador único)</strong> - usado como identificador principal</li>
-                <li>✅ <strong>Conteúdo que você cria</strong> (páginas, artigos, edições)</li>
-                <li>✅ <strong>Registro de suas edições</strong> (data, tipo, quantidade)</li>
-                <li>✅ <strong>Endereço de IP</strong> (para logs de segurança)</li>
-            </ul>
-            
-            <div class="highlight">
-                <p><strong>📌 Finalidades do Tratamento (Art. 7º, LGPD):</strong></p>
-                <ul>
-                    <li>Permitir sua identificação e autenticação na plataforma (Execução de contrato - Art. 7º, V)</li>
-                    <li>Registrar suas contribuições (Interesse legítimo - Art. 7º, IX)</li>
-                    <li>Garantir a segurança e integridade da plataforma (Cumprimento de obrigação legal - Art. 7º, II)</li>
-                </ul>
-            </div>
-
-            <div class="highlight" style="background-color:#d4edda; border-left-color:#28a745;">
-                <p><strong>📅 Prazo de Retenção de Dados:</strong></p>
-                <p>Seus dados pessoais serão mantidos enquanto sua conta estiver ativa. 
-                Após solicitação de exclusão, os dados serão anonimizados em até <strong>30 dias</strong>.</p>
-            </div>
-            
-            <h3>⚠️ Seus Direitos (LGPD Arts. 18-22)</h3>
-            <ul>
-                <li>🔍 Confirmar a existência de tratamento de seus dados</li>
-                <li>📋 Acessar seus dados pessoais</li>
-                <li>✏️ Corrigir dados incompletos</li>
-                <li>🗑️ Solicitar a eliminação de seus dados (direito ao esquecimento)</li>
-                <li>📤 Solicitar a portabilidade dos dados</li>
-                <li>🚫 Revogar seu consentimento a qualquer momento</li>
-            </ul>
-            
-            <h3>🔗 Compartilhamento de Dados (Art. 7º, LGPD)</h3>
-            <ul>
-                <li><strong>Google (Firebase)</strong> - Armazenamento e autenticação (<a href="https://policies.google.com/privacy" target="_blank">Política de Privacidade do Google</a>)</li>
-                <li><strong>GitHub (Pages)</strong> - Hospedagem do site (<a href="https://docs.github.com/pt/site-policy/privacy-policies/github-privacy-statement" target="_blank">Política de Privacidade do GitHub</a>)</li>
-            </ul>
-            
-            <h3>📞 Encarregado de Proteção de Dados (DPO) - Art. 41, LGPD</h3>
-            <div class="highlight">
-                <p><strong>Nome:</strong> Encarregado WikiZero<br>
-                <strong>E-mail:</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a><br>
-                <strong>Para assuntos de LGPD, privacidade e direitos do titular</strong></p>
-            </div>
-            
-            <div class="form-group">
-                <label for="consent-birthdate">📅 Data de Nascimento (para verificação de idade - Art. 14, LGPD)</label>
-                <input type="date" id="consent-birthdate">
-                <small>Se você é menor de 18 anos, é necessário o consentimento dos seus responsáveis legais.</small>
-            </div>
-            
-            <div class="lgpd-checkbox">
-                <label>
-                    <input type="checkbox" id="consent-checkbox">
-                    <span>Declaro que li e concordo com os termos de consentimento da WikiZero, estou ciente de meus direitos como titular de dados pessoais (LGPD) e autorizo o tratamento conforme descrito acima.</span>
-                </label>
-            </div>
-            <div class="lgpd-checkbox">
-                <label>
-                    <input type="checkbox" id="age-checkbox">
-                    <span>Declaro que tenho pelo menos 13 anos de idade (ou estou sob supervisão dos meus responsáveis legais).</span>
-                </label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button id="consent-decline" class="submit-btn" style="background-color: #999;">❌ Recusar</button>
-            <button id="consent-accept" class="submit-btn" style="background-color: #28a745;" disabled>✅ Aceitar</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL DE DADOS DO USUÁRIO (LGPD) -->
-<div id="userdata-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>📋 Seus Dados Pessoais - LGPD</h3>
-            <span class="close-modal" onclick="closeUserDataModal()">&times;</span>
-        </div>
-        <div id="userdata-body" class="privacy-content" style="padding: 20px;">
-            <div class="loading">Carregando...</div>
-        </div>
-        <div class="modal-footer">
-            <button id="export-user-data" class="submit-btn" style="background-color: #28a745;">📥 Exportar Dados</button>
-            <button id="request-deletion" class="submit-btn" style="background-color: #dc3545;">🗑️ Solicitar Exclusão</button>
-            <button id="revoke-consent-data" class="submit-btn" style="background-color: #ffc107;">🔄 Revogar Consentimento</button>
-        </div>
-    </div>
-</div>
 
 <div class="wikipedia-header">
     <div class="header-top">
         <div class="logo-area">
             <img src="https://wiki.wazzimagiygg.com/Favicom.png" 
                  alt="Logo WikiZero" 
-                 style="height: 50px; width: auto; border-radius: 8px;">
+                 class="logo-img">
             <div class="wiki-title">
                 <h1>WikiZero</h1>
                 <p>A enciclopédia livre e colaborativa</p>
@@ -1104,29 +874,8 @@
         <button class="nav-tab" data-view="mydata">📋 Meus Dados</button>
     </div>
 </div>
-    <div class="nav-tabs">
-        <button class="nav-tab active" data-view="list">🏠 Página principal</button>
-        <button class="nav-tab" data-view="create">✏️ Criar Página</button>
-        <button class="nav-tab" data-view="security">🔐 Segurança</button>
-        <button class="nav-tab" data-view="donation">💝 Doação</button>
-        <button class="nav-tab" data-view="privacy">🔒 Privacidade</button>
-        <button class="nav-tab" data-view="terms">📜 Termos</button>
-        <button class="nav-tab" data-view="mydata">📋 Meus Dados</button>
-    </div>
-</div>
-    <div class="nav-tabs">
-        <button class="nav-tab active" data-view="list">🏠 Página principal</button>
-        <button class="nav-tab" data-view="create">✏️ Criar Página</button>
-        <button class="nav-tab" data-view="security">🔐 Segurança</button>
-        <button class="nav-tab" data-view="donation">💝 Doação</button>
-        <button class="nav-tab" data-view="privacy">🔒 Privacidade</button>
-        <button class="nav-tab" data-view="terms">📜 Termos</button>
-        <button class="nav-tab" data-view="mydata">📋 Meus Dados</button>
-    </div>
-</div>
 
 <div class="main-wrapper">
-    <!-- MENU LATERAL EXPANSÍVEL -->
     <div class="sidebar-menu" id="sidebar-menu">
         <div class="menu-toggle-btn" id="menu-toggle-btn">◀</div>
         <div class="menu-header">
@@ -1202,7 +951,7 @@
 
             <div id="security-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="info-content">
+                <div class="article-content">
                     <h1>🔐 Segurança da Conta</h1>
                     <div class="highlight">
                         <p><strong>🔒 Tipos de Acesso:</strong></p>
@@ -1211,121 +960,74 @@
                             <li><strong>Acesso Convidado:</strong> Acesso anônimo gerado automaticamente, apenas leitura</li>
                         </ul>
                     </div>
-                    <div id="user-uid-display" class="uid-display"></div>
+                    <div id="user-uid-display" class="article-meta"></div>
                     <div class="info-footer">© 2026 WikiZero - Sua segurança é prioridade</div>
                 </div>
             </div>
 
             <div id="donation-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="info-content">
+                <div class="article-content">
                     <h1>💝 Doações</h1>
-                    <div class="success-box">
+                    <div class="highlight" style="background-color:#d4edda; border-left-color:#28a745;">
                         <p><strong>🎉 Boa notícia!</strong> A WikiZero é <strong>100% gratuita</strong> e permanecerá assim para sempre!</p>
                     </div>
-                    <div class="info-footer">© 2026 WikiZero - Enciclopédia Livre e Sempre Gratuita</div>
                 </div>
             </div>
 
             <div id="privacy-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="privacy-content">
+                <div class="article-content">
                     <h1>Política de Privacidade - LGPD</h1>
                     <p><em>Última atualização: 19 de maio de 2026</em></p>
-                    <p>A WikiZero está em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong> e o <strong>Marco Civil da Internet (Lei 12.965/2014)</strong>.</p>
-                    
+                    <p>A WikiZero está em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong>.</p>
                     <h2>1. Dados Coletados</h2>
                     <ul>
                         <li>Nome e e-mail (via Google)</li>
                         <li>UID (identificador único)</li>
                         <li>Conteúdo criado (páginas e artigos)</li>
                         <li>Histórico de edições</li>
-                        <li>Endereço de IP (logs de segurança)</li>
                     </ul>
-                    
-                    <h2>2. Base Legal (Art. 7º)</h2>
-                    <table class="data-table">
-                        <thead><tr><th>Base Legal</th><th>Aplicação</th></tr></thead>
-                        <tbody>
-                            <tr><td>Consentimento (Art. 7º, I)</td><td>Termos de consentimento</td></tr>
-                            <tr><td>Execução de contrato (Art. 7º, V)</td><td>Participação na plataforma</td></tr>
-                            <tr><td>Interesse legítimo (Art. 7º, IX)</td><td>Segurança e melhorias</td></tr>
-                        </tbody>
-                    </table>
-                    
-                    <h2>3. Seus Direitos (Arts. 18-22)</h2>
+                    <h2>2. Seus Direitos</h2>
                     <ul>
                         <li>Acessar seus dados</li>
                         <li>Corrigir dados incompletos</li>
-                        <li>Solicitar exclusão (direito ao esquecimento)</li>
-                        <li>Exportar seus dados (portabilidade)</li>
-                        <li>Revogar consentimento</li>
+                        <li>Solicitar exclusão</li>
+                        <li>Exportar seus dados</li>
                     </ul>
-                    
-                    <h2>4. Encarregado (DPO) - Art. 41</h2>
+                    <h2>3. Encarregado (DPO)</h2>
                     <div class="highlight">
                         <p><strong>E-mail do DPO:</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a></p>
-                        <p><strong>Ou use nosso:</strong> <a href="https://support.wazzimagiygg.com/">Suporte WazzimaGiygg</a></p>
-                      
                     </div>
-                    
-                    <h2>5. Prazo de Retenção</h2>
-                    <p>Dados mantidos enquanto a conta estiver ativa. Após solicitação de exclusão, anonimização em até 30 dias.</p>
-                    
-                    <div class="info-footer">© 2026 WikiZero - Em conformidade com a LGPD</div>
                 </div>
             </div>
 
             <div id="terms-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="privacy-content">
+                <div class="article-content">
                     <h1>📜 Termos de Uso - WikiZero</h1>
                     <p><em>Última atualização: 19 de maio de 2026</em></p>
-                    
                     <h2>1. Aceitação dos Termos</h2>
                     <p>Ao utilizar a WikiZero, você concorda com estes Termos de Uso.</p>
-                    
                     <h2>2. Conduta do Usuário</h2>
                     <p>É proibido publicar conteúdo ilegal, difamatório, ofensivo ou que viole direitos autorais.</p>
-                    
-                    <h2>3. Limitações</h2>
-                    <ul>
-                        <li>Limite de 5 edições por dia por usuário autenticado</li>
-                        <li>Conteúdo impróprio será removido</li>
-                    </ul>
-                    
-                    <h2>4. Privacidade</h2>
-                    <p>Seus dados são tratados conforme nossa <a href="#" onclick="showPrivacyView(); return false;">Política de Privacidade</a>.</p>
-                    
-                    <div class="info-footer">© 2026 WikiZero</div>
                 </div>
             </div>
 
             <div id="mydata-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div id="user-data-container"><div class="loading">Carregando...</div></div>
-                <div class="rights-buttons">
-                    <button id="export-data-btn" class="submit-btn" style="background-color: #28a745;">📥 Exportar Dados</button>
-                    <button id="delete-data-btn" class="submit-btn" style="background-color: #dc3545;">🗑️ Solicitar Exclusão</button>
-                    <button id="revoke-consent-btn" class="submit-btn" style="background-color: #ffc107;">🔄 Revogar Consentimento</button>
-                </div>
-                <div class="info-footer" style="margin-top: 20px;">
-                    <p>De acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018)</p>
-                    <p><strong>DPO:</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a></p>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="footer">
-    <p>WikiZero - Enciclopédia livre Όχι, ο Χρόνος δεν είναι ο άρχοντας της γνώσης!| 
+    <p>WikiZero - Enciclopédia livre | 
        <a href="#" onclick="showPrivacyView(); return false;">🔒 Política de Privacidade (LGPD)</a> | 
        <a href="#" onclick="showTermsView(); return false;">📜 Termos de Uso</a>
     </p>
-    <p><strong>📞 Encarregado (DPO):</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a></p>
-    <p><strong>Ou use nosso:</strong> <a href="https://support.wazzimagiygg.com/">Suporte WazzimaGiygg</a></p>
-    <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD) e Lei 12.965/2014 (Marco Civil da Internet)</p>
+    <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
 <div id="iframe-overlay" class="iframe-overlay">
@@ -1334,7 +1036,7 @@
             <h3>📝 Painel Administrativo - WikiZero</h3>
             <button class="close-iframe" onclick="closeIframe()">✕</button>
         </div>
-        <iframe id="painel-iframe" srcdoc="<html style='background:#f8f9fa;font-family:system-ui'><body style='padding:30px'><h1 style='color:#36c'>📊 Painel Administrativo</h1><div style='background:white;padding:20px;border-radius:8px'><p>Bem-vindo ao painel administrativo da WikiZero!</p><hr><h3>📋 Informações</h3><p>Este é um painel de demonstração que abre dentro do iframe.</p><p>Você pode gerenciar suas páginas e artigos aqui.</p></div></body></html>"></iframe>
+        <iframe id="painel-iframe" srcdoc="<html style='background:#f8f9fa'><body style='padding:30px'><h1>📊 Painel Administrativo</h1><p>Bem-vindo ao painel administrativo da WikiZero!</p></body></html>"></iframe>
     </div>
 </div>
 
@@ -1353,16 +1055,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-// ============================================
-// CONSTANTES LGPD
-// ============================================
-const CONSENT_VERSION = '2.0';
-const CONSENT_STORAGE_KEY = 'wikizero_lgpd_consent';
-const CONSENT_VERSION_KEY = 'wikizero_consent_version';
-
-// ============================================
-// CONFIGURAÇÃO FIREBASE
-// ============================================
+// Configuração Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyB9GkSqTIZ0kbVsba_WOdQeVAETrF9qna0",
     authDomain: "wzzm-ce3fc.firebaseapp.com",
@@ -1376,196 +1069,17 @@ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// ============================================
-// VARIÁVEIS GLOBAIS
-// ============================================
 let currentUser = null;
 let isGuestUser = false;
 let allSubcollections = [];
 
-// ============================================
-// FUNÇÕES LGPD - CONSENTIMENTO
-// ============================================
-function checkConsent() {
-    const storedConsent = localStorage.getItem(CONSENT_STORAGE_KEY);
-    const storedVersion = localStorage.getItem(CONSENT_VERSION_KEY);
-    return storedConsent === 'accepted' && storedVersion === CONSENT_VERSION;
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
-async function logConsent(userId, accepted, birthdate = null) {
-    if (!db) return;
-    try {
-        await db.collection('consent_logs').add({
-            userId: userId || 'anonymous',
-            accepted: accepted,
-            birthdate: birthdate,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            version: CONSENT_VERSION,
-            userAgent: navigator.userAgent
-        });
-    } catch (error) {
-        console.error('Erro ao registrar consentimento:', error);
-    }
-}
-
-function showConsentModal() {
-    const modal = document.getElementById('lgpd-modal');
-    const acceptBtn = document.getElementById('consent-accept');
-    const declineBtn = document.getElementById('consent-decline');
-    const checkbox = document.getElementById('consent-checkbox');
-    const ageCheckbox = document.getElementById('age-checkbox');
-    const birthdateInput = document.getElementById('consent-birthdate');
-    
-    modal.style.display = 'flex';
-    
-    function validateConsent() {
-        acceptBtn.disabled = !(checkbox.checked && ageCheckbox.checked);
-    }
-    
-    checkbox.onchange = validateConsent;
-    ageCheckbox.onchange = validateConsent;
-    
-    acceptBtn.onclick = async () => {
-        const birthdate = birthdateInput.value;
-        if (birthdate) {
-            const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
-            if (age < 13) {
-                alert('⚠️ Para menores de 13 anos, é necessário o consentimento dos responsáveis legais.');
-                return;
-            }
-        }
-        localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted');
-        localStorage.setItem(CONSENT_VERSION_KEY, CONSENT_VERSION);
-        if (birthdate) localStorage.setItem('wikizero_user_birthdate', birthdate);
-        
-        if (auth && auth.currentUser) {
-            await logConsent(auth.currentUser.uid, true, birthdate);
-        }
-        modal.style.display = 'none';
-    };
-    
-    declineBtn.onclick = () => {
-        logConsent(null, false);
-        alert('⚠️ Para utilizar a WikiZero, você precisa aceitar os termos de consentimento.');
-    };
-}
-
-function closeLgpdModal() {
-    document.getElementById('lgpd-modal').style.display = 'none';
-}
-
-// ============================================
-// FUNÇÕES LGPD - DIREITOS DO TITULAR
-// ============================================
-async function showMyDataModal() {
-    const modal = document.getElementById('userdata-modal');
-    const body = document.getElementById('userdata-body');
-    
-    if (!currentUser || isGuestUser) {
-        body.innerHTML = '<p>🔒 Faça login com Google para visualizar seus dados.</p>';
-        modal.style.display = 'flex';
-        return;
-    }
-    
-    body.innerHTML = '<div class="loading">Carregando seus dados...</div>';
-    modal.style.display = 'flex';
-    
-    try {
-        const editsSnapshot = await db.collection('user_edits')
-            .where('userId', '==', currentUser.uid)
-            .orderBy('timestamp', 'desc')
-            .limit(50)
-            .get();
-        
-        const pagesSnapshot = await db.collection('documentos')
-            .where('criadoPor', '==', currentUser.uid)
-            .get();
-        
-        body.innerHTML = `
-            <div class="highlight">
-                <h3>👤 Seus Dados Pessoais</h3>
-                <p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || 'Não informado')}</p>
-                <p><strong>E-mail:</strong> ${escapeHtml(currentUser.email)}</p>
-                <p><strong>UID:</strong> <code>${currentUser.uid}</code></p>
-                <p><strong>Último login:</strong> ${new Date(currentUser.metadata.lastSignInTime).toLocaleString('pt-BR')}</p>
-            </div>
-            <h3>📄 Páginas Criadas (${pagesSnapshot.size})</h3>
-            <ul>${pagesSnapshot.docs.slice(0, 10).map(doc => `<li><strong>${escapeHtml(doc.data().titulo || doc.id)}</strong></li>`).join('')}</ul>
-            <h3>✏️ Últimas Edições (${editsSnapshot.size})</h3>
-            <ul>${editsSnapshot.docs.slice(0, 20).map(doc => `<li>${doc.data().action || 'Edição'} - ${doc.data().timestamp ? new Date(doc.data().timestamp.seconds * 1000).toLocaleString('pt-BR') : 'Data desconhecida'}</li>`).join('')}</ul>
-        `;
-    } catch (error) {
-        body.innerHTML = `<p class="error-message">❌ Erro: ${error.message}</p>`;
-    }
-}
-
-function closeUserDataModal() {
-    document.getElementById('userdata-modal').style.display = 'none';
-}
-
-async function exportUserData() {
-    if (!currentUser || isGuestUser) { alert('Faça login com Google para exportar seus dados.'); return; }
-    try {
-        const editsSnapshot = await db.collection('user_edits').where('userId', '==', currentUser.uid).get();
-        const pagesSnapshot = await db.collection('documentos').where('criadoPor', '==', currentUser.uid).get();
-        const userData = {
-            exportDate: new Date().toISOString(),
-            userInfo: {
-                uid: currentUser.uid,
-                email: currentUser.email,
-                displayName: currentUser.displayName,
-                lastLogin: currentUser.metadata.lastSignInTime
-            },
-            pagesCreated: pagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-            editHistory: editsSnapshot.docs.map(doc => doc.data())
-        };
-        const dataStr = JSON.stringify(userData, null, 2);
-        const blob = new Blob([dataStr], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `wikizero_meus_dados_${currentUser.uid}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        alert('✅ Dados exportados com sucesso!');
-    } catch (error) {
-        alert('❌ Erro: ' + error.message);
-    }
-}
-
-async function requestAccountDeletion() {
-    if (!currentUser || isGuestUser) { alert('Faça login para solicitar exclusão.'); return; }
-    if (confirm('⚠️ Esta ação solicitará a exclusão da sua conta. O processo pode levar até 30 dias. Deseja continuar?')) {
-        try {
-            await db.collection('deletion_requests').add({
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                userName: currentUser.displayName,
-                requestDate: firebase.firestore.FieldValue.serverTimestamp(),
-                status: 'pending',
-                type: 'account_deletion'
-            });
-            alert('✅ Solicitação enviada! Processaremos em até 30 dias.');
-        } catch (error) {
-            alert('❌ Erro: ' + error.message);
-        }
-    }
-}
-
-async function revokeConsent() {
-    if (confirm('⚠️ Ao revogar seu consentimento, você será desconectado. Deseja continuar?')) {
-        if (currentUser && !isGuestUser) await logConsent(currentUser.uid, false);
-        localStorage.removeItem(CONSENT_STORAGE_KEY);
-        localStorage.removeItem(CONSENT_VERSION_KEY);
-        alert('Consentimento revogado. Você será desconectado.');
-        if (auth && auth.currentUser) auth.signOut();
-        else location.reload();
-    }
-}
-
-// ============================================
-// FUNÇÕES DE NAVEGAÇÃO
-// ============================================
 function showListView() {
     document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
     document.getElementById('list-view').classList.add('active');
@@ -1576,7 +1090,7 @@ function showListView() {
 
 function showCreateView() {
     if (isGuestUser) { 
-        alert('🎭 Modo convidado permite apenas leitura. Faça login com Google para criar páginas.');
+        alert('Modo convidado permite apenas leitura. Faça login para criar páginas.');
         return;
     }
     document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
@@ -1594,16 +1108,10 @@ function showSecurityView() {
     if (securityTab) securityTab.classList.add('active');
     
     const uidDisplay = document.getElementById('user-uid-display');
-    if (uidDisplay) {
-        if (currentUser) {
-            if (isGuestUser) {
-                uidDisplay.innerHTML = `<strong>🎭 Modo Convidado:</strong><br>UID: ${currentUser.uid}<br><small>🔒 Acesso apenas para leitura<br>⏰ Expira em 24 horas</small>`;
-            } else {
-                uidDisplay.innerHTML = `<strong>🔐 Usuário Autenticado:</strong><br>UID: ${currentUser.uid}<br><small>✅ Acesso completo (criar/editar páginas)</small>`;
-            }
-        } else {
-            uidDisplay.innerHTML = '<strong>⚠️ Não autenticado</strong><br><small>Faça login ou acesse como convidado</small>';
-        }
+    if (uidDisplay && currentUser) {
+        uidDisplay.innerHTML = isGuestUser ? 
+            `<strong>Modo Convidado</strong><br>UID: ${currentUser.uid}<br>Acesso apenas para leitura` :
+            `<strong>Usuário Autenticado</strong><br>UID: ${currentUser.uid}<br>Email: ${currentUser.email}`;
     }
 }
 
@@ -1631,34 +1139,6 @@ function showTermsView() {
     if (termsTab) termsTab.classList.add('active');
 }
 
-function showMyDataView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('mydata-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const mydataTab = document.querySelector('.nav-tab[data-view="mydata"]');
-    if (mydataTab) mydataTab.classList.add('active');
-    
-    const container = document.getElementById('user-data-container');
-    if (container) {
-        if (currentUser && !isGuestUser) {
-            container.innerHTML = `
-                <div style="background:#e8f0fe; padding:15px; border-radius:8px; margin-bottom:20px;">
-                    <h3>👤 Seus Dados</h3>
-                    <p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || 'Não informado')}</p>
-                    <p><strong>E-mail:</strong> ${escapeHtml(currentUser.email)}</p>
-                    <p><strong>UID:</strong> <code>${currentUser.uid}</code></p>
-                    <p><strong>Último login:</strong> ${new Date(currentUser.metadata.lastSignInTime).toLocaleString('pt-BR')}</p>
-                </div>
-                <p><small>Para solicitar correção ou exclusão de dados, entre em contato com nosso DPO.</small></p>
-            `;
-        } else if (isGuestUser) {
-            container.innerHTML = '<p>🎭 Modo convidado: seus dados não são salvos permanentemente. Faça login com Google para ter uma conta permanente.</p>';
-        } else {
-            container.innerHTML = '<p>🔒 Faça login com Google para visualizar seus dados pessoais.</p>';
-        }
-    }
-}
-
 function showRandomPage() {
     if (allSubcollections.length > 0) {
         openSubcollection(allSubcollections[Math.floor(Math.random() * allSubcollections.length)].uid);
@@ -1675,10 +1155,6 @@ function closeIframe() {
     const overlay = document.getElementById('iframe-overlay');
     if (overlay) {
         overlay.style.display = 'none';
-        const iframe = document.getElementById('painel-iframe');
-        if (iframe) {
-            iframe.srcdoc = '<html><body style="background:#f8f9fa"></body></html>';
-        }
         document.body.style.overflow = 'auto';
     }
 }
@@ -1688,295 +1164,6 @@ function closeDropdown() {
     if (dropdown) dropdown.classList.remove('active');
 }
 
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function wikitextToHtml(wikitext) {
-    if (!wikitext || typeof wikitext !== 'string') return '';
-    
-    let html = wikitext;
-    html = html.replace(/^======(.+?)======/gm, '<h6>$1</h6>');
-    html = html.replace(/^=====(.+?)=====/gm, '<h5>$1</h5>');
-    html = html.replace(/^====(.+?)====/gm, '<h4>$1</h4>');
-    html = html.replace(/^===(.+?)===/gm, '<h3>$1</h3>');
-    html = html.replace(/^==(.+?)==/gm, '<h2>$1</h2>');
-    html = html.replace(/^=(.+?)=/gm, '<h1>$1</h1>');
-    html = html.replace(/'''''(.*?)'''''/g, '<strong><em>$1</em></strong>');
-    html = html.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
-    html = html.replace(/''(.*?)''/g, '<em>$1</em>');
-    html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
-        const displayText = text || target;
-        return `<a href="#" class="wiki-link" data-target="${escapeHtml(target)}">${escapeHtml(displayText)}</a>`;
-    });
-    html = html.replace(/\[(https?:\/\/[^\s]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener">$2</a>');
-    html = html.replace(/\[(https?:\/\/[^\s\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-    
-    let inList = false;
-    let listType = '';
-    const lines = html.split('\n');
-    const processed = [];
-    
-    for (let line of lines) {
-        if (line.match(/^\* /)) {
-            if (!inList) { processed.push('<ul>'); inList = true; listType = 'ul'; }
-            processed.push(`<li>${line.replace(/^\* /, '')}</li>`);
-        } else if (line.match(/^# /)) {
-            if (!inList) { processed.push('<ol>'); inList = true; listType = 'ol'; }
-            processed.push(`<li>${line.replace(/^# /, '')}</li>`);
-        } else {
-            if (inList) {
-                processed.push(listType === 'ul' ? '</ul>' : '</ol>');
-                inList = false;
-                listType = '';
-            }
-            processed.push(line);
-        }
-    }
-    if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
-    html = processed.join('\n');
-    
-    const paragraphs = html.split('\n\n');
-    html = paragraphs.map(para => {
-        para = para.trim();
-        if (!para) return '';
-        if (para.startsWith('<h') || para.startsWith('<ul') || para.startsWith('<ol') || 
-            para.startsWith('<table') || para.startsWith('<blockquote')) {
-            return para;
-        }
-        return `<p>${para}</p>`;
-    }).join('\n');
-    
-    html = html.replace(/\n/g, '<br>');
-    html = html.replace(/<p><br><\/p>/g, '');
-    
-    return html;
-}
-
-// ============================================
-// FUNÇÕES DE CARREGAMENTO DE PÁGINAS
-// ============================================
-async function loadSubcollections() {
-    const container = document.getElementById('subcollections-container');
-    if (!currentUser) {
-        container.innerHTML = '<div class="loading">🔒 Faça login ou acesse como convidado</div>';
-        document.getElementById('total-count').textContent = '?';
-        document.getElementById('total-articles').textContent = '?';
-        return;
-    }
-    
-    container.innerHTML = '<div class="loading">📚 Carregando páginas...</div>';
-    
-    try {
-        const snapshot = await db.collection('documentos').get();
-        const subcollections = [];
-        let totalArticles = 0;
-        
-        for (const doc of snapshot.docs) {
-            const data = doc.data();
-            const articlesSnapshot = await db.collection('documentos').doc(doc.id).collection('inevitavel').get();
-            totalArticles += articlesSnapshot.size;
-            subcollections.push({ 
-                uid: doc.id, 
-                titulo: data.titulo || doc.id, 
-                description: data.descricao || '', 
-                articleCount: articlesSnapshot.size 
-            });
-        }
-        
-        allSubcollections = subcollections;
-        document.getElementById('total-count').textContent = subcollections.length;
-        document.getElementById('total-articles').textContent = totalArticles;
-        displaySubcollections(subcollections);
-    } catch (error) {
-        container.innerHTML = `<div class="loading" style="color:#d33;">❌ Erro: ${error.message}</div>`;
-    }
-}
-
-function displaySubcollections(subcollections) {
-    const container = document.getElementById('subcollections-container');
-    if (subcollections.length === 0) {
-        container.innerHTML = '<div class="loading">📭 Nenhuma página encontrada</div>';
-        return;
-    }
-    
-    container.innerHTML = `<div class="subcollections-grid">${subcollections.map(sub => `
-        <div class="subcollection-card" onclick="openSubcollection('${sub.uid}')">
-            <div class="subcollection-icon">📚</div>
-            <div class="subcollection-name">${escapeHtml(sub.titulo)}</div>
-            <div class="subcollection-meta"><span class="article-count">📄 ${sub.articleCount} ${sub.articleCount === 1 ? 'artigo' : 'artigos'}</span></div>
-            ${sub.description ? `<div style="font-size:0.8em; margin-top:10px; color:#666;">${escapeHtml(sub.description.substring(0, 80))}${sub.description.length > 80 ? '...' : ''}</div>` : ''}
-        </div>
-    `).join('')}</div>`;
-}
-
-window.openSubcollection = async function(uid) {
-    const articleView = document.getElementById('article-view');
-    const listView = document.getElementById('list-view');
-    const articleContent = document.getElementById('article-content');
-    
-    articleContent.innerHTML = '<div class="loading">📖 Carregando página...</div>';
-    listView.classList.remove('active');
-    articleView.classList.add('active');
-    
-    try {
-        const docRef = db.collection('documentos').doc(uid);
-        const doc = await docRef.get();
-        
-        if (!doc.exists) {
-            articleContent.innerHTML = '<div class="loading" style="color:#d33;">❌ Página não encontrada</div>';
-            return;
-        }
-        
-        const data = doc.data();
-        const articlesSnapshot = await docRef.collection('inevitavel').get();
-        const articles = [];
-        articlesSnapshot.forEach(articleDoc => {
-            articles.push({ 
-                id: articleDoc.id, 
-                titulo: articleDoc.data().titulo,
-                descricao: articleDoc.data().descricao ? articleDoc.data().descricao.substring(0, 100) + '...' : 'Sem descrição'
-            });
-        });
-        
-        articleContent.innerHTML = `
-            <h1>${escapeHtml(data.titulo || uid)}</h1>
-            <div class="article-meta">
-                <p><strong>UID:</strong> ${escapeHtml(uid)}</p>
-                <p><strong>Categoria:</strong> ${escapeHtml(data.categoria || 'Geral')}</p>
-                <p><strong>Total de artigos:</strong> ${articles.length}</p>
-            </div>
-            <div style="margin: 20px 0;">
-                <h2>📖 Sobre esta página</h2>
-                <p>${escapeHtml(data.descricao || 'Sem descrição disponível.')}</p>
-            </div>
-            <h2>📄 Artigos</h2>
-            ${articles.length === 0 ? '<p style="text-align:center; padding:30px;">Nenhum artigo ainda.</p>' : `<div class="subcollections-grid">${articles.map(article => `
-                <div class="subcollection-card" onclick="openArticle('${uid}', '${article.id}')">
-                    <div class="subcollection-icon">📄</div>
-                    <div class="subcollection-name">${escapeHtml(article.titulo)}</div>
-                    <div class="subcollection-meta">${escapeHtml(article.descricao)}</div>
-                </div>
-            `).join('')}</div>`}
-            ${!isGuestUser ? `<div style="margin-top:30px; padding:20px; background:#eaf3ff; border-radius:8px; text-align:center;">
-                <p>✏️ Quer contribuir?</p>
-                <button onclick="openPainelInIframe('${uid}')" class="btn-abrir-painel">📝 Acessar Painel (iframe)</button>
-            </div>` : '<p style="margin-top:30px; text-align:center; color:#666;">🎭 Modo convidado: faça login para editar.</p>'}
-        `;
-    } catch (error) {
-        articleContent.innerHTML = `<div class="loading" style="color:#d33;">❌ Erro: ${error.message}</div>`;
-    }
-};
-
-window.openArticle = async function(collectionUid, articleId) {
-    try {
-        const articleRef = db.collection('documentos').doc(collectionUid).collection('inevitavel').doc(articleId);
-        const article = await articleRef.get();
-        
-        if (!article.exists) {
-            alert('Artigo não encontrado');
-            return;
-        }
-        
-        const data = article.data();
-        document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
-        document.getElementById('modal-body').innerHTML = `
-            <div class="wiki-content-rendered">
-                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">
-                    👤 Criado por: ${escapeHtml(data.criadorNome || data.criadorEmail || 'Anônimo')}<br>
-                    📅 Criado em: ${data.dataCriacao ? new Date(data.dataCriacao.seconds * 1000).toLocaleString('pt-BR') : 'Data desconhecida'}
-                </div>
-                ${wikitextToHtml(data.descricao || 'Sem conteúdo.')}
-            </div>
-        `;
-        document.getElementById('modal').style.display = 'flex';
-        setTimeout(() => { 
-            document.querySelectorAll('#modal-body .wiki-link').forEach(link => { 
-                link.onclick = (e) => { e.preventDefault(); closeModal(); alert(`🔍 Buscar: ${link.getAttribute('data-target')}`); }; 
-            }); 
-        }, 100);
-    } catch (error) {
-        alert('Erro: ' + error.message);
-    }
-};
-
-// ============================================
-// FUNÇÕES DO IFRAME (PAINEL ADMIN)
-// ============================================
-function openPainelInIframe(uid) {
-    if (isGuestUser) {
-        alert('🎭 Modo convidado não permite edição.');
-        return;
-    }
-    
-    const iframe = document.getElementById('painel-iframe');
-    const panelContent = `
-        <html style="background:#f8f9fa;font-family:system-ui">
-        <head><style>
-            body { padding: 30px; max-width: 800px; margin: 0 auto; }
-            h1 { color: #36c; border-bottom: 1px solid #a2a9b1; padding-bottom: 10px; }
-            .card { background: white; border: 1px solid #eaecf0; border-radius: 8px; padding: 20px; margin: 20px 0; }
-            button { background: #36c; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-            button:hover { background: #2a5a9e; }
-        </style></head>
-        <body>
-            <h1>📊 WikiZero - Painel Administrativo</h1>
-            <div class="card">
-                <h3>📋 Página Atual</h3>
-                <p><strong>UID da Página:</strong> <code>${escapeHtml(uid)}</code></p>
-                <p><strong>Usuário:</strong> ${escapeHtml(currentUser?.displayName || 'Usuário')}</p>
-                <p><strong>Modo:</strong> ${isGuestUser ? 'Convidado' : 'Autenticado'}</p>
-            </div>
-            <div class="card">
-                <h3>🔧 Ações Disponíveis</h3>
-                <ul>
-                    <li>Gerenciar páginas</li>
-                    <li>Editar artigos</li>
-                    <li>Visualizar estatísticas</li>
-                    <li>Moderar conteúdo</li>
-                </ul>
-                <button onclick="alert('Funcionalidade em desenvolvimento!')">✏️ Criar Novo Artigo</button>
-            </div>
-            <div class="card">
-                <h3>📈 Estatísticas</h3>
-                <p>Total de Páginas: <strong>${allSubcollections.length}</strong></p>
-                <p>Total de Artigos: <strong>${document.getElementById('total-articles')?.textContent || '0'}</strong></p>
-            </div>
-            <hr>
-            <p><em>WikiZero - Enciclopédia Livre e Colaborativa</em></p>
-        </body>
-        </html>
-    `;
-    iframe.srcdoc = panelContent;
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function openWikipediaDemo() {
-    const iframe = document.getElementById('painel-iframe');
-    const demoContent = `
-        <html style="background:#f8f9fa;font-family:system-ui">
-        <head><style>body { padding: 30px; text-align: center; } h1 { color: #36c; }</style></head>
-        <body>
-            <h1>🌐 Wikipedia Demo</h1>
-            <p>Este é um painel de demonstração do WikiZero.</p>
-            <p>O painel administrativo permite gerenciar suas páginas e artigos.</p>
-            <hr>
-            <p><strong>WikiZero</strong> - A enciclopédia livre e colaborativa</p>
-        </body>
-        </html>
-    `;
-    iframe.srcdoc = demoContent;
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-// ============================================
-// FUNÇÕES DE AUTENTICAÇÃO
-// ============================================
 function generateGuestUID() {
     const hexLength = Math.floor(Math.random() * 40) + 20;
     let hex = '';
@@ -2019,12 +1206,12 @@ function updateAuthUI() {
         notLoggedDiv.style.display = 'none';
         loggedDiv.style.display = 'block';
         let name = currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Usuário');
-        if (isGuestUser) name = '👤 Convidado';
+        if (isGuestUser) name = 'Convidado';
         const initial = name ? name[0].toUpperCase() : 'U';
         dropdownAvatarSmall.textContent = initial;
         dropdownUserName.textContent = name.length > 15 ? name.substring(0, 12) + '...' : name;
         dropdownFullName.innerHTML = name + (isGuestUser ? ' <span class="temp-badge">Convidado</span>' : '');
-        dropdownEmail.textContent = isGuestUser ? '🔒 Modo convidado (somente leitura)' : (currentUser.email || 'sem email');
+        dropdownEmail.textContent = isGuestUser ? 'Modo convidado (somente leitura)' : (currentUser.email || 'sem email');
     } else {
         notLoggedDiv.style.display = 'block';
         loggedDiv.style.display = 'none';
@@ -2033,12 +1220,175 @@ function updateAuthUI() {
     }
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
+async function loadSubcollections() {
+    const container = document.getElementById('subcollections-container');
+    if (!currentUser) {
+        container.innerHTML = '<div class="loading">Faça login ou acesse como convidado</div>';
+        return;
+    }
+    
+    container.innerHTML = '<div class="loading">Carregando páginas...</div>';
+    
+    try {
+        const snapshot = await db.collection('documentos').get();
+        const subcollections = [];
+        let totalArticles = 0;
+        
+        for (const doc of snapshot.docs) {
+            const data = doc.data();
+            const articlesSnapshot = await db.collection('documentos').doc(doc.id).collection('inevitavel').get();
+            totalArticles += articlesSnapshot.size;
+            subcollections.push({ 
+                uid: doc.id, 
+                titulo: data.titulo || doc.id, 
+                description: data.descricao || '', 
+                articleCount: articlesSnapshot.size 
+            });
+        }
+        
+        allSubcollections = subcollections;
+        document.getElementById('total-count').textContent = subcollections.length;
+        document.getElementById('total-articles').textContent = totalArticles;
+        displaySubcollections(subcollections);
+    } catch (error) {
+        container.innerHTML = `<div class="loading">Erro: ${error.message}</div>`;
+    }
+}
+
+function displaySubcollections(subcollections) {
+    const container = document.getElementById('subcollections-container');
+    if (subcollections.length === 0) {
+        container.innerHTML = '<div class="loading">Nenhuma página encontrada</div>';
+        return;
+    }
+    
+    container.innerHTML = `<div class="subcollections-grid">${subcollections.map(sub => `
+        <div class="subcollection-card" onclick="openSubcollection('${sub.uid}')">
+            <div class="subcollection-icon">📚</div>
+            <div class="subcollection-name">${escapeHtml(sub.titulo)}</div>
+            <div class="subcollection-meta"><span class="article-count">📄 ${sub.articleCount} ${sub.articleCount === 1 ? 'artigo' : 'artigos'}</span></div>
+            ${sub.description ? `<div style="font-size:0.8em; margin-top:10px; color:#666;">${escapeHtml(sub.description.substring(0, 80))}${sub.description.length > 80 ? '...' : ''}</div>` : ''}
+        </div>
+    `).join('')}</div>`;
+}
+
+window.openSubcollection = async function(uid) {
+    const articleView = document.getElementById('article-view');
+    const listView = document.getElementById('list-view');
+    const articleContent = document.getElementById('article-content');
+    
+    articleContent.innerHTML = '<div class="loading">Carregando página...</div>';
+    listView.classList.remove('active');
+    articleView.classList.add('active');
+    
+    try {
+        const docRef = db.collection('documentos').doc(uid);
+        const doc = await docRef.get();
+        
+        if (!doc.exists) {
+            articleContent.innerHTML = '<div class="loading">Página não encontrada</div>';
+            return;
+        }
+        
+        const data = doc.data();
+        const articlesSnapshot = await docRef.collection('inevitavel').get();
+        const articles = [];
+        articlesSnapshot.forEach(articleDoc => {
+            articles.push({ 
+                id: articleDoc.id, 
+                titulo: articleDoc.data().titulo,
+                descricao: articleDoc.data().descricao ? articleDoc.data().descricao.substring(0, 100) + '...' : 'Sem descrição'
+            });
+        });
+        
+        articleContent.innerHTML = `
+            <h1>${escapeHtml(data.titulo || uid)}</h1>
+            <div class="article-meta">
+                <p><strong>UID:</strong> ${escapeHtml(uid)}</p>
+                <p><strong>Categoria:</strong> ${escapeHtml(data.categoria || 'Geral')}</p>
+                <p><strong>Total de artigos:</strong> ${articles.length}</p>
+            </div>
+            <div style="margin: 20px 0;">
+                <h2>Sobre esta página</h2>
+                <p>${escapeHtml(data.descricao || 'Sem descrição disponível.')}</p>
+            </div>
+            <h2>Artigos</h2>
+            ${articles.length === 0 ? '<p style="text-align:center; padding:30px;">Nenhum artigo ainda.</p>' : `<div class="subcollections-grid">${articles.map(article => `
+                <div class="subcollection-card" onclick="openArticle('${uid}', '${article.id}')">
+                    <div class="subcollection-icon">📄</div>
+                    <div class="subcollection-name">${escapeHtml(article.titulo)}</div>
+                    <div class="subcollection-meta">${escapeHtml(article.descricao)}</div>
+                </div>
+            `).join('')}</div>`}
+            ${!isGuestUser ? `<div style="margin-top:30px; padding:20px; background:#eaf3ff; border-radius:8px; text-align:center;">
+                <p>Quer contribuir?</p>
+                <button onclick="openPainelInIframe('${uid}')" class="btn-abrir-painel">Acessar Painel</button>
+            </div>` : '<p style="margin-top:30px; text-align:center; color:#666;">Modo convidado: faça login para editar.</p>'}
+        `;
+    } catch (error) {
+        articleContent.innerHTML = `<div class="loading">Erro: ${error.message}</div>`;
+    }
+};
+
+window.openArticle = async function(collectionUid, articleId) {
+    try {
+        const articleRef = db.collection('documentos').doc(collectionUid).collection('inevitavel').doc(articleId);
+        const article = await articleRef.get();
+        
+        if (!article.exists) {
+            alert('Artigo não encontrado');
+            return;
+        }
+        
+        const data = article.data();
+        document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
+        document.getElementById('modal-body').innerHTML = `
+            <div class="wiki-content-rendered">
+                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">
+                    Criado por: ${escapeHtml(data.criadorNome || data.criadorEmail || 'Anônimo')}
+                </div>
+                ${escapeHtml(data.descricao || 'Sem conteúdo.')}
+            </div>
+        `;
+        document.getElementById('modal').style.display = 'flex';
+    } catch (error) {
+        alert('Erro: ' + error.message);
+    }
+};
+
+function openPainelInIframe(uid) {
+    if (isGuestUser) {
+        alert('Modo convidado não permite edição.');
+        return;
+    }
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function openWikipediaDemo() {
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function showMyDataModal() {
+    if (!currentUser || isGuestUser) {
+        alert('Faça login com Google para visualizar seus dados.');
+        return;
+    }
+    document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
+    document.getElementById('modal-body').innerHTML = `
+        <p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || 'Não informado')}</p>
+        <p><strong>E-mail:</strong> ${escapeHtml(currentUser.email)}</p>
+        <p><strong>UID:</strong> <code>${currentUser.uid}</code></p>
+        <p><strong>Último login:</strong> ${new Date(currentUser.metadata.lastSignInTime).toLocaleString('pt-BR')}</p>
+    `;
+    document.getElementById('modal').style.display = 'flex';
+}
+
+// Event Listeners
 document.getElementById('create-subcollection-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (isGuestUser) { alert('🎭 Modo convidado: faça login para criar.'); return; }
+    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
     
     const uid = document.getElementById('sub-name').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
     const titulo = document.getElementById('sub-title').value.trim();
@@ -2049,14 +1399,14 @@ document.getElementById('create-subcollection-form')?.addEventListener('submit',
     
     const submitBtn = e.target.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    submitBtn.textContent = '⌛ Criando...';
+    submitBtn.textContent = 'Criando...';
     
     try {
         const docRef = db.collection('documentos').doc(uid);
         if ((await docRef.get()).exists) {
             alert(`A página "${uid}" já existe!`);
             submitBtn.disabled = false;
-            submitBtn.textContent = '✨ Criar Página';
+            submitBtn.textContent = 'Criar Página';
             return;
         }
         
@@ -2068,15 +1418,15 @@ document.getElementById('create-subcollection-form')?.addEventListener('submit',
             status: 'ativo'
         });
         
-        alert(`✅ Página criada!`);
+        alert(`Página criada!`);
         document.getElementById('create-subcollection-form').reset();
         loadSubcollections();
         showListView();
     } catch (error) {
-        alert('❌ Erro: ' + error.message);
+        alert('Erro: ' + error.message);
     } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = '✨ Criar Página';
+        submitBtn.textContent = 'Criar Página';
     }
 });
 
@@ -2093,40 +1443,14 @@ document.getElementById('random-btn')?.addEventListener('click', showRandomPage)
 document.getElementById('login-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); closeDropdown(); });
 document.getElementById('guest-login-btn')?.addEventListener('click', () => { createGuestUser(); if (auth.currentUser) auth.signOut().then(() => setTimeout(() => location.reload(), 500)); else location.reload(); closeDropdown(); });
 document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
-document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
 document.addEventListener('click', () => closeDropdown());
+document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openWikipediaDemo(); });
 
-function toggleDropdown() {
-    const dropdown = document.getElementById('user-dropdown');
-    if (dropdown) dropdown.classList.toggle('active');
-}
-
-document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        const view = tab.getAttribute('data-view');
-        if (view === 'list') showListView();
-        else if (view === 'create') showCreateView();
-        else if (view === 'security') showSecurityView();
-        else if (view === 'donation') showDonationView();
-        else if (view === 'privacy') showPrivacyView();
-        else if (view === 'terms') showTermsView();
-        else if (view === 'mydata') showMyDataView();
-    });
-});
-
-// Botões LGPD
-document.getElementById('export-data-btn')?.addEventListener('click', exportUserData);
-document.getElementById('delete-data-btn')?.addEventListener('click', requestAccountDeletion);
-document.getElementById('revoke-consent-btn')?.addEventListener('click', revokeConsent);
-document.getElementById('export-user-data')?.addEventListener('click', exportUserData);
-document.getElementById('request-deletion')?.addEventListener('click', requestAccountDeletion);
-document.getElementById('revoke-consent-data')?.addEventListener('click', revokeConsent);
-
-// MENU LATERAL EXPANSÍVEL
+// Menu lateral expansível
 const sideMenu = document.getElementById('sidebar-menu');
 const menuToggle = document.getElementById('menu-toggle-btn');
 let isCollapsed = false;
-
 if (menuToggle) {
     menuToggle.addEventListener('click', () => {
         isCollapsed = !isCollapsed;
@@ -2140,17 +1464,22 @@ if (menuToggle) {
     });
 }
 
-document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    openWikipediaDemo();
+// Navegação por abas
+document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const view = tab.getAttribute('data-view');
+        if (view === 'list') showListView();
+        else if (view === 'create') showCreateView();
+        else if (view === 'security') showSecurityView();
+        else if (view === 'donation') showDonationView();
+        else if (view === 'privacy') showPrivacyView();
+        else if (view === 'terms') showTermsView();
+        else if (view === 'mydata') showMyDataModal();
+    });
 });
 
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
-    if (!checkConsent()) showConsentModal();
-    
     auth.onAuthStateChanged(user => {
         if (user) {
             currentUser = user;
@@ -2177,14 +1506,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Expor funções globalmente
 window.showListView = showListView;
+window.showRandomPage = showRandomPage;
 window.showCreateView = showCreateView;
 window.showSecurityView = showSecurityView;
 window.showDonationView = showDonationView;
 window.showPrivacyView = showPrivacyView;
 window.showTermsView = showTermsView;
-window.showMyDataView = showMyDataView;
 window.showMyDataModal = showMyDataModal;
-window.showRandomPage = showRandomPage;
 window.openSubcollection = openSubcollection;
 window.openArticle = openArticle;
 window.openPainelInIframe = openPainelInIframe;
@@ -2192,15 +1520,7 @@ window.openWikipediaDemo = openWikipediaDemo;
 window.closeIframe = closeIframe;
 window.closeModal = closeModal;
 window.closeDropdown = closeDropdown;
-window.closeLgpdModal = closeLgpdModal;
-window.closeUserDataModal = closeUserDataModal;
-window.toggleDropdown = toggleDropdown;
 </script>
 
-<iframe 
-    src="https://wazzimagiygg.com/admin/checkuser/universalcheckuser" 
-    style="width: 300px; height: 150px; border: none; position: fixed; bottom: 10px; right: 10px; z-index: 9999;"
-    title="Registrador de Logs">
-</iframe>
 </body>
 </html>
