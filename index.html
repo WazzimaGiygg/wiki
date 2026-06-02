@@ -301,7 +301,6 @@
             margin-bottom: -1px;
         }
 
-        /* LAYOUT COM MENU LATERAL */
         .main-wrapper {
             display: flex;
             max-width: 1600px;
@@ -309,7 +308,6 @@
             position: relative;
         }
 
-        /* MENU LATERAL EXPANSÍVEL - ESTILO WIKIPÉDIA */
         .sidebar-menu {
             position: sticky;
             top: 120px;
@@ -917,7 +915,7 @@
         <div class="menu-section">
             <div class="menu-section-title"><span class="material-icons">construction</span><span>Ferramentas</span></div>
             <a class="menu-item" id="menu-open-iframe"><span class="material-icons">admin_panel_settings</span><span class="menu-item-text">Painel Administrativo</span></a>
-            <a class="menu-item" onclick="openPainelAdmin()"><span class="material-icons">open_in_new</span><span class="menu-item-text">Abrir Painel em Nova Aba</span></a>
+            <a class="menu-item" onclick="openGlobalPainel()"><span class="material-icons">open_in_new</span><span class="menu-item-text">Abrir Painel Global</span></a>
         </div>
         <div class="menu-footer">
             <p>WikiZero v2.0</p>
@@ -989,7 +987,7 @@
                 <div class="article-content">
                     <h1>💝 Doações</h1>
                     <div class="highlight" style="background-color:#d4edda; border-left-color:#28a745;">
-                        <p><strong>🎉 Boa notícia!</strong> A WikiZero é <strong>100% gratuita</strong> e permanecerá assim para sempre!</p>
+                        <p><strong>🎉 Boa notícia!</strong> A WikiZero é <strong>100% gratuita</a> e permanecerá assim para sempre!</p>
                     </div>
                 </div>
             </div>
@@ -1050,17 +1048,17 @@
     <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
-<!-- IFRAME OVERLAY CORRIGIDO - Apontando para a URL correta -->
+<!-- IFRAME OVERLAY -->
 <div id="iframe-overlay" class="iframe-overlay">
     <div class="iframe-container">
         <div class="iframe-header">
-            <h3>📝 Painel Administrativo - WikiZero</h3>
+            <h3 id="iframe-title">📝 Painel Administrativo - WikiZero</h3>
             <div class="iframe-header-buttons">
                 <button class="iframe-btn" onclick="reloadIframe()" title="Recarregar">🔄</button>
                 <button class="close-iframe" onclick="closeIframe()">✕</button>
             </div>
         </div>
-        <iframe id="painel-iframe" src="https://wiki.wazzimagiygg.com/pages/"></iframe>
+        <iframe id="painel-iframe" src="about:blank"></iframe>
     </div>
 </div>
 
@@ -1096,6 +1094,7 @@ const auth = firebase.auth();
 let currentUser = null;
 let isGuestUser = false;
 let allSubcollections = [];
+let currentEditingPageUid = null;
 
 function escapeHtml(text) {
     if (!text) return '';
@@ -1180,22 +1179,78 @@ function closeIframe() {
     if (overlay) {
         overlay.style.display = 'none';
         document.body.style.overflow = 'auto';
+        const iframe = document.getElementById('painel-iframe');
+        iframe.src = 'about:blank';
+        currentEditingPageUid = null;
     }
 }
 
 function reloadIframe() {
     const iframe = document.getElementById('painel-iframe');
-    iframe.src = iframe.src;
+    if (iframe.src && iframe.src !== 'about:blank') {
+        iframe.src = iframe.src;
+    }
 }
 
-function openPainelAdmin() {
+// Função para abrir o painel de edição da página específica
+function openPageEditor(pageUid, pageTitle) {
+    if (isGuestUser) {
+        alert('🔒 Modo convidado não permite edição. Faça login com Google para editar páginas.');
+        return;
+    }
+    
+    if (!pageUid) {
+        alert('Erro: ID da página não identificado.');
+        return;
+    }
+    
+    currentEditingPageUid = pageUid;
+    
+    // Tenta abrir o editor específico da página
+    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?edit=${pageUid}`;
+    const iframe = document.getElementById('painel-iframe');
+    const iframeTitle = document.getElementById('iframe-title');
+    
+    iframeTitle.innerHTML = `📝 Editando: ${escapeHtml(pageTitle || pageUid)} - WikiZero`;
+    iframe.src = editorUrl;
+    
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Fallback: se o iframe não carregar em 5 segundos, oferece abrir em nova aba
+    setTimeout(() => {
+        try {
+            if (iframe.contentWindow.document.readyState !== 'complete') {
+                const openNewTab = confirm(`O editor está demorando para carregar.\n\nDeseja abrir em uma nova aba para editar a página "${pageTitle || pageUid}"?`);
+                if (openNewTab) {
+                    window.open(editorUrl, '_blank');
+                    closeIframe();
+                }
+            }
+        } catch(e) {
+            // Erro de CORS - oferece abrir em nova aba
+            const openNewTab = confirm(`O editor não pode ser exibido no iframe devido a restrições de segurança.\n\nDeseja abrir em uma nova aba para editar a página "${pageTitle || pageUid}"?`);
+            if (openNewTab) {
+                window.open(editorUrl, '_blank');
+                closeIframe();
+            }
+        }
+    }, 5000);
+}
+
+// Função para abrir o painel global (sem página específica)
+function openGlobalPainel() {
     if (isGuestUser) {
         alert('🔒 Modo convidado não permite acesso ao painel administrativo. Faça login com Google para editar.');
         return;
     }
     
     const iframe = document.getElementById('painel-iframe');
+    const iframeTitle = document.getElementById('iframe-title');
+    
+    iframeTitle.innerHTML = '📝 Painel Administrativo - WikiZero';
     iframe.src = 'https://wiki.wazzimagiygg.com/pages/';
+    
     document.getElementById('iframe-overlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
@@ -1309,6 +1364,9 @@ function displaySubcollections(subcollections) {
             <div class="subcollection-name">${escapeHtml(sub.titulo)}</div>
             <div class="subcollection-meta"><span class="article-count">📄 ${sub.articleCount} ${sub.articleCount === 1 ? 'artigo' : 'artigos'}</span></div>
             ${sub.description ? `<div style="font-size:0.8em; margin-top:10px; color:#666;">${escapeHtml(sub.description.substring(0, 80))}${sub.description.length > 80 ? '...' : ''}</div>` : ''}
+            <div style="margin-top: 10px;">
+                <button class="btn-abrir-painel" style="font-size: 0.7em; padding: 5px 10px;" onclick="event.stopPropagation(); openPageEditor('${sub.uid}', '${escapeHtml(sub.titulo)}')">✏️ Editar Página</button>
+            </div>
         </div>
     `).join('')}</div>`;
 }
@@ -1359,17 +1417,57 @@ window.openSubcollection = async function(uid) {
                     <div class="subcollection-icon">📄</div>
                     <div class="subcollection-name">${escapeHtml(article.titulo)}</div>
                     <div class="subcollection-meta">${escapeHtml(article.descricao)}</div>
+                    <div style="margin-top: 10px;">
+                        <button class="btn-abrir-painel" style="font-size: 0.7em; padding: 5px 10px;" onclick="event.stopPropagation(); openArticleEditor('${uid}', '${article.id}', '${escapeHtml(article.titulo)}')">✏️ Editar Artigo</button>
+                    </div>
                 </div>
             `).join('')}</div>`}
             ${!isGuestUser ? `<div style="margin-top:30px; padding:20px; background:#eaf3ff; border-radius:8px; text-align:center;">
-                <p>Quer contribuir?</p>
-                <button onclick="openPainelAdmin()" class="btn-abrir-painel">📝 Acessar Painel Administrativo</button>
+                <p>Quer contribuir com esta página?</p>
+                <button onclick="openPageEditor('${uid}', '${escapeHtml(data.titulo || uid)}')" class="btn-abrir-painel">📝 Editar Página (${escapeHtml(uid)})</button>
+                <button onclick="openArticleCreator('${uid}')" class="btn-abrir-painel" style="margin-left: 10px; background-color: #28a745;">➕ Criar Novo Artigo</button>
             </div>` : '<p style="margin-top:30px; text-align:center; color:#666;">Modo convidado: faça login para editar.</p>'}
         `;
     } catch (error) {
         articleContent.innerHTML = `<div class="loading">Erro: ${error.message}</div>`;
     }
 };
+
+// Função para abrir editor de artigo específico
+function openArticleEditor(pageUid, articleId, articleTitle) {
+    if (isGuestUser) {
+        alert('🔒 Modo convidado não permite edição. Faça login com Google para editar artigos.');
+        return;
+    }
+    
+    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?edit=${pageUid}&article=${articleId}`;
+    const iframe = document.getElementById('painel-iframe');
+    const iframeTitle = document.getElementById('iframe-title');
+    
+    iframeTitle.innerHTML = `📝 Editando Artigo: ${escapeHtml(articleTitle || articleId)} - WikiZero`;
+    iframe.src = editorUrl;
+    
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Função para criar novo artigo
+function openArticleCreator(pageUid) {
+    if (isGuestUser) {
+        alert('🔒 Modo convidado não permite criação. Faça login com Google para criar artigos.');
+        return;
+    }
+    
+    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?new=true&page=${pageUid}`;
+    const iframe = document.getElementById('painel-iframe');
+    const iframeTitle = document.getElementById('iframe-title');
+    
+    iframeTitle.innerHTML = `📝 Criando Novo Artigo - WikiZero`;
+    iframe.src = editorUrl;
+    
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
 
 window.openArticle = async function(collectionUid, articleId) {
     try {
@@ -1390,6 +1488,9 @@ window.openArticle = async function(collectionUid, articleId) {
                 </div>
                 ${escapeHtml(data.descricao || 'Sem conteúdo.')}
             </div>
+            ${!isGuestUser ? `<div style="margin-top: 20px; text-align: center;">
+                <button onclick="closeModal(); openArticleEditor('${collectionUid}', '${articleId}', '${escapeHtml(data.titulo)}')" class="btn-abrir-painel">✏️ Editar Este Artigo</button>
+            </div>` : ''}
         `;
         document.getElementById('modal').style.display = 'flex';
     } catch (error) {
@@ -1445,10 +1546,17 @@ document.getElementById('create-subcollection-form')?.addEventListener('submit',
             status: 'ativo'
         });
         
-        alert(`Página criada!`);
+        alert(`Página criada! Agora você pode editar o conteúdo.`);
         document.getElementById('create-subcollection-form').reset();
         loadSubcollections();
-        showListView();
+        
+        // Perguntar se quer editar agora
+        const editNow = confirm(`Deseja editar o conteúdo da página "${titulo}" agora?`);
+        if (editNow) {
+            openPageEditor(uid, titulo);
+        } else {
+            showListView();
+        }
     } catch (error) {
         alert('Erro: ' + error.message);
     } finally {
@@ -1472,7 +1580,7 @@ document.getElementById('guest-login-btn')?.addEventListener('click', () => { cr
 document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
 document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
 document.addEventListener('click', () => closeDropdown());
-document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openPainelAdmin(); });
+document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openGlobalPainel(); });
 
 // Menu lateral expansível
 const sideMenu = document.getElementById('sidebar-menu');
@@ -1542,7 +1650,10 @@ window.showTermsView = showTermsView;
 window.showMyDataModal = showMyDataModal;
 window.openSubcollection = openSubcollection;
 window.openArticle = openArticle;
-window.openPainelAdmin = openPainelAdmin;
+window.openPageEditor = openPageEditor;
+window.openArticleEditor = openArticleEditor;
+window.openArticleCreator = openArticleCreator;
+window.openGlobalPainel = openGlobalPainel;
 window.closeIframe = closeIframe;
 window.reloadIframe = reloadIframe;
 window.closeModal = closeModal;
