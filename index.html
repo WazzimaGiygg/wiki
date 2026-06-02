@@ -581,7 +581,7 @@
         }
 
         .editor-container {
-            width: 90%;
+            width: 95%;
             height: 90%;
             background-color: white;
             border-radius: 8px;
@@ -675,6 +675,7 @@
         .editor-field textarea {
             min-height: 200px;
             resize: vertical;
+            font-family: monospace;
         }
 
         .article-list {
@@ -703,6 +704,39 @@
             color: #dc3545;
             cursor: pointer;
             font-size: 18px;
+        }
+
+        /* Guia de formatação */
+        .format-guide {
+            background-color: #fff8e7;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .format-guide h4 {
+            color: #b8860b;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .format-guide table {
+            width: 100%;
+            font-size: 11px;
+        }
+
+        .format-guide td {
+            padding: 4px;
+            border-bottom: 1px solid #ffe4b5;
+        }
+
+        .format-guide code {
+            background: #fff;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 11px;
         }
 
         .footer {
@@ -1039,7 +1073,7 @@
     <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
-<!-- EDITOR MODAL INTEGRADO -->
+<!-- EDITOR MODAL INTEGRADO COM GUIA DE FORMATAÇÃO -->
 <div id="editor-modal" class="editor-modal">
     <div class="editor-container">
         <div class="editor-header">
@@ -1052,8 +1086,27 @@
         <div class="editor-body">
             <div class="editor-sidebar">
                 <h4>📄 Artigos desta página</h4>
-                <div id="editor-article-list" style="max-height: 400px; overflow-y: auto;"></div>
+                <div id="editor-article-list" style="max-height: 300px; overflow-y: auto;"></div>
                 <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
+                
+                <!-- GUIA DE FORMATAÇÃO -->
+                <div class="format-guide">
+                    <h4>📝 Guia Rápido de Formatação</h4>
+                    <table>
+                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
+                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
+                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
+                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
+                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
+                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
+                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
+                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
+                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
+                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
+                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
+                        <tr><td><code>&lt;pre&gt;...&lt;/pre&gt;</code></td><td>→</td><td>Bloco de código</td></tr>
+                    </table>
+                </div>
             </div>
             <div class="editor-main">
                 <div class="editor-field">
@@ -1062,11 +1115,24 @@
                 </div>
                 <div class="editor-field">
                     <label>Conteúdo (Wiki Markdown)</label>
-                    <textarea id="editor-article-content" placeholder="Use **negrito**, *itálico*, = título =, == subtítulo ==, [[link]]"></textarea>
+                    <textarea id="editor-article-content" placeholder="Exemplo:
+= Título Principal =
+== Subtítulo ==
+**Texto em negrito** e *texto em itálico*
+
+* Item 1
+* Item 2
+
+[[Link para outra página]]
+[Exemplo de link externo](https://exemplo.com)"></textarea>
                 </div>
                 <div class="editor-field">
-                    <label>Descrição curta</label>
-                    <textarea id="editor-article-description" rows="2" placeholder="Uma breve descrição do artigo"></textarea>
+                    <label>Descrição curta (opcional)</label>
+                    <textarea id="editor-article-description" rows="2" placeholder="Uma breve descrição do artigo que aparecerá na lista"></textarea>
+                </div>
+                <div class="editor-field">
+                    <label>Pré-visualização</label>
+                    <div id="editor-preview" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; background: #fafafa; max-height: 200px; overflow-y: auto;"></div>
                 </div>
             </div>
         </div>
@@ -1110,6 +1176,91 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// ============================================
+// FUNÇÃO DE FORMATAÇÃO WIKI PARA HTML (CORRIGIDA)
+// ============================================
+function wikitextToHtml(wikitext) {
+    if (!wikitext || typeof wikitext !== 'string') return '';
+    
+    let html = wikitext;
+    
+    // Títulos
+    html = html.replace(/^======(.+?)======/gm, '<h6>$1</h6>');
+    html = html.replace(/^=====(.+?)=====/gm, '<h5>$1</h5>');
+    html = html.replace(/^====(.+?)====/gm, '<h4>$1</h4>');
+    html = html.replace(/^===(.+?)===/gm, '<h3>$1</h3>');
+    html = html.replace(/^==(.+?)==/gm, '<h2>$1</h2>');
+    html = html.replace(/^=(.+?)=/gm, '<h1>$1</h1>');
+    
+    // Formatação de texto
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+    html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    
+    // Links internos [[Página]] ou [[Página|Texto]]
+    html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
+        const displayText = text || target;
+        return `<a href="#" class="wiki-link" data-target="${escapeHtml(target)}" onclick="return false;">${escapeHtml(displayText)}</a>`;
+    });
+    
+    // Links externos [url texto] ou [url]
+    html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>');
+    html = html.replace(/\[(https?:\/\/[^\s\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+    
+    // Listas
+    let inList = false;
+    let listType = '';
+    const lines = html.split('\n');
+    const processed = [];
+    
+    for (let line of lines) {
+        if (line.match(/^\* /)) {
+            if (!inList) { processed.push('<ul>'); inList = true; listType = 'ul'; }
+            processed.push(`<li>${line.replace(/^\* /, '')}</li>`);
+        } else if (line.match(/^# /)) {
+            if (!inList) { processed.push('<ol>'); inList = true; listType = 'ol'; }
+            processed.push(`<li>${line.replace(/^# /, '')}</li>`);
+        } else {
+            if (inList) {
+                processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+                inList = false;
+                listType = '';
+            }
+            processed.push(line);
+        }
+    }
+    if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+    html = processed.join('\n');
+    
+    // Citações em bloco
+    html = html.replace(/^&gt;(.+)$/gm, '<blockquote>$1</blockquote>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    
+    // Código inline
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // Parágrafos
+    const paragraphs = html.split('\n\n');
+    html = paragraphs.map(para => {
+        para = para.trim();
+        if (!para) return '';
+        if (para.startsWith('<h') || para.startsWith('<ul') || para.startsWith('<ol') || 
+            para.startsWith('<table') || para.startsWith('<blockquote') || para.startsWith('<pre')) {
+            return para;
+        }
+        return `<p>${para}</p>`;
+    }).join('\n');
+    
+    // Quebras de linha
+    html = html.replace(/\n/g, '<br>');
+    html = html.replace(/<p><br><\/p>/g, '');
+    
+    return html;
 }
 
 function showListView() {
@@ -1317,11 +1468,18 @@ window.openArticle = async function(collectionUid, articleId) {
         const article = await articleRef.get();
         if (!article.exists) { alert('Artigo não encontrado'); return; }
         const data = article.data();
+        
+        // Converter o conteúdo wiki para HTML formatado
+        const formattedContent = wikitextToHtml(data.descricao || 'Sem conteúdo.');
+        
         document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
         document.getElementById('modal-body').innerHTML = `
             <div class="wiki-content-rendered">
-                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">Criado por: ${escapeHtml(data.criadorNome || 'Anônimo')}</div>
-                ${escapeHtml(data.descricao || 'Sem conteúdo.')}
+                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">
+                    📅 Criado: ${data.dataCriacao ? new Date(data.dataCriacao.seconds * 1000).toLocaleString('pt-BR') : 'Data desconhecida'}
+                    ${data.criadorNome ? `<br>👤 Criado por: ${escapeHtml(data.criadorNome)}` : ''}
+                </div>
+                ${formattedContent}
             </div>
             ${!isGuestUser ? `<div style="margin-top:20px; text-align:center;"><button onclick="closeModal(); openEditor('${collectionUid}', '${articleId}')" class="btn-abrir-painel">✏️ Editar</button></div>` : ''}
         `;
@@ -1336,31 +1494,39 @@ async function openEditor(pageUid, articleId) {
     if (isGuestUser) { alert('Faça login para editar.'); return; }
     currentEditingPageUid = pageUid;
     
-    // Carregar lista de artigos
     await loadArticleList(pageUid);
     
     if (articleId === 'novo') {
-        // Criar novo artigo
         currentEditingArticleId = null;
         document.getElementById('editor-article-title').value = '';
         document.getElementById('editor-article-content').value = '';
         document.getElementById('editor-article-description').value = '';
         document.getElementById('editor-title').innerHTML = `📝 Criando novo artigo em ${escapeHtml(pageUid)}`;
+        document.getElementById('editor-preview').innerHTML = '<em>Pré-visualização aparecerá aqui</em>';
     } else if (articleId) {
-        // Editar artigo existente
         currentEditingArticleId = articleId;
         await loadArticleData(pageUid, articleId);
         document.getElementById('editor-title').innerHTML = `📝 Editando artigo em ${escapeHtml(pageUid)}`;
     } else {
-        // Editar página (meta dados)
         currentEditingArticleId = null;
         document.getElementById('editor-article-title').value = '';
         document.getElementById('editor-article-content').value = '';
         document.getElementById('editor-article-description').value = '';
         document.getElementById('editor-title').innerHTML = `📝 Editando página: ${escapeHtml(pageUid)}`;
+        document.getElementById('editor-preview').innerHTML = '<em>Pré-visualização aparecerá aqui</em>';
     }
     
     document.getElementById('editor-modal').style.display = 'flex';
+    
+    // Adicionar evento de pré-visualização ao vivo
+    const contentTextarea = document.getElementById('editor-article-content');
+    const updatePreview = () => {
+        const content = contentTextarea.value;
+        const previewHtml = wikitextToHtml(content);
+        document.getElementById('editor-preview').innerHTML = previewHtml || '<em>Sem conteúdo para pré-visualizar</em>';
+    };
+    contentTextarea.oninput = updatePreview;
+    updatePreview();
 }
 
 async function loadArticleList(pageUid) {
@@ -1393,6 +1559,9 @@ async function loadArticleData(pageUid, articleId) {
             document.getElementById('editor-article-title').value = data.titulo || '';
             document.getElementById('editor-article-content').value = data.descricao || '';
             document.getElementById('editor-article-description').value = data.resumo || '';
+            // Atualizar pré-visualização
+            const previewHtml = wikitextToHtml(data.descricao || '');
+            document.getElementById('editor-preview').innerHTML = previewHtml || '<em>Sem conteúdo</em>';
         }
     } catch (error) {
         alert('Erro ao carregar: ' + error.message);
@@ -1414,17 +1583,16 @@ async function saveArticle() {
     
     try {
         if (currentEditingArticleId) {
-            // Atualizar artigo existente
             await db.collection('documentos').doc(currentEditingPageUid).collection('inevitavel').doc(currentEditingArticleId).update({
                 titulo: title,
                 descricao: content,
                 resumo: description,
                 ultimaEdicao: firebase.firestore.FieldValue.serverTimestamp(),
-                editorId: currentUser.uid
+                editorId: currentUser.uid,
+                editorNome: currentUser.displayName
             });
             alert('✅ Artigo atualizado!');
         } else if (title) {
-            // Criar novo artigo
             const newId = title.toLowerCase().replace(/[^a-z0-9_]/g, '_') + '_' + Date.now();
             await db.collection('documentos').doc(currentEditingPageUid).collection('inevitavel').doc(newId).set({
                 titulo: title,
@@ -1444,15 +1612,10 @@ async function saveArticle() {
             return;
         }
         
-        // Recarregar lista
         await loadArticleList(currentEditingPageUid);
         
-        // Se estava em modo de edição de artigo, fechar modal
-        if (confirm('Salvo com sucesso! Deseja continuar editando?')) {
-            // Mantém aberto
-        } else {
+        if (!confirm('Salvo com sucesso! Deseja continuar editando?')) {
             document.getElementById('editor-modal').style.display = 'none';
-            // Recarregar visualização da página
             await openSubcollection(currentEditingPageUid);
         }
     } catch (error) {
@@ -1469,12 +1632,12 @@ async function deleteArticle(pageUid, articleId) {
             await db.collection('documentos').doc(pageUid).collection('inevitavel').doc(articleId).delete();
             alert('Artigo excluído!');
             await loadArticleList(pageUid);
-            // Se o artigo excluído era o que estava sendo editado, limpar formulário
             if (currentEditingArticleId === articleId) {
                 currentEditingArticleId = null;
                 document.getElementById('editor-article-title').value = '';
                 document.getElementById('editor-article-content').value = '';
                 document.getElementById('editor-article-description').value = '';
+                document.getElementById('editor-preview').innerHTML = '<em>Sem conteúdo</em>';
             }
         } catch (error) {
             alert('Erro: ' + error.message);
