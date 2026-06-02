@@ -69,15 +69,10 @@
             transform: translateY(-1px);
         }
 
-        .toolbar-btn.active {
-            background: #27ae60;
-        }
-
         .toolbar-btn i {
             font-size: 18px;
         }
 
-        /* Selects */
         .toolbar-select {
             background: #34495e;
             color: white;
@@ -173,24 +168,26 @@
             background: #e9ecef;
         }
 
-        .editor-textarea, .editor-preview {
+        /* Editor de código fonte (textarea) */
+        .editor-source {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border: none;
+            resize: none;
+            outline: none;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        /* Pré-visualização */
+        .editor-preview {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-        }
-
-        .editor-textarea {
-            width: 100%;
-            height: 100%;
-            border: none;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
-        }
-
-        .editor-preview {
             background: white;
             display: none;
         }
@@ -199,31 +196,33 @@
             display: block;
         }
 
-        .editor-preview-content {
+        .preview-content {
             line-height: 1.8;
         }
 
-        .editor-preview-content h1 {
+        .preview-content h1 {
             font-size: 2em;
             border-bottom: 1px solid #ddd;
             margin-bottom: 15px;
+            font-weight: normal;
         }
 
-        .editor-preview-content h2 {
+        .preview-content h2 {
             font-size: 1.5em;
             margin: 20px 0 10px;
+            border-bottom: 1px solid #eee;
         }
 
-        .editor-preview-content h3 {
+        .preview-content h3 {
             font-size: 1.2em;
             margin: 15px 0 10px;
         }
 
-        .editor-preview-content ul, .editor-preview-content ol {
+        .preview-content ul, .preview-content ol {
             margin: 10px 0 10px 30px;
         }
 
-        .editor-preview-content blockquote {
+        .preview-content blockquote {
             border-left: 4px solid #667eea;
             padding-left: 20px;
             margin: 15px 0;
@@ -231,18 +230,34 @@
             font-style: italic;
         }
 
-        .editor-preview-content code {
+        .preview-content code {
             background: #f4f4f4;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: monospace;
         }
 
-        .editor-preview-content pre {
+        .preview-content pre {
             background: #f4f4f4;
             padding: 15px;
             border-radius: 8px;
             overflow-x: auto;
+        }
+
+        .preview-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .preview-content th, .preview-content td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .preview-content th {
+            background: #f2f2f2;
         }
 
         /* Barra de status */
@@ -256,11 +271,11 @@
             justify-content: space-between;
         }
 
-        /* Botões de ação */
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            flex-direction: column;
         }
 
         .btn-primary {
@@ -313,24 +328,23 @@
         <!-- Barra de Ferramentas -->
         <div class="toolbar">
             <div class="toolbar-group">
-                <select id="font-size" class="toolbar-select">
-                    <option value="h1">Título 1 (h1)</option>
-                    <option value="h2">Título 2 (h2)</option>
-                    <option value="h3">Título 3 (h3)</option>
-                    <option value="h4">Título 4 (h4)</option>
-                    <option value="p">Parágrafo</option>
-                </select>
+                <button class="toolbar-btn" id="btn-h1" title="Título 1">
+                    <i class="material-icons">title</i> H1
+                </button>
+                <button class="toolbar-btn" id="btn-h2" title="Título 2">
+                    <i class="material-icons">title</i> H2
+                </button>
+                <button class="toolbar-btn" id="btn-h3" title="Título 3">
+                    <i class="material-icons">title</i> H3
+                </button>
             </div>
 
             <div class="toolbar-group">
-                <button class="toolbar-btn" id="btn-bold" title="Negrito (Ctrl+B)">
+                <button class="toolbar-btn" id="btn-bold" title="Negrito">
                     <i class="material-icons">format_bold</i>
                 </button>
-                <button class="toolbar-btn" id="btn-italic" title="Itálico (Ctrl+I)">
+                <button class="toolbar-btn" id="btn-italic" title="Itálico">
                     <i class="material-icons">format_italic</i>
-                </button>
-                <button class="toolbar-btn" id="btn-underline" title="Sublinhado (Ctrl+U)">
-                    <i class="material-icons">format_underline</i>
                 </button>
                 <button class="toolbar-btn" id="btn-strike" title="Tachado">
                     <i class="material-icons">strikethrough_s</i>
@@ -353,7 +367,7 @@
                 <button class="toolbar-btn" id="btn-image" title="Inserir imagem">
                     <i class="material-icons">image</i>
                 </button>
-                <button class="toolbar-btn" id="btn-code" title="Código">
+                <button class="toolbar-btn" id="btn-code" title="Código inline">
                     <i class="material-icons">code</i>
                 </button>
                 <button class="toolbar-btn" id="btn-quote" title="Citação">
@@ -362,23 +376,8 @@
             </div>
 
             <div class="toolbar-group">
-                <button class="toolbar-btn" id="btn-table" title="Inserir tabela">
-                    <i class="material-icons">table_chart</i>
-                </button>
                 <button class="toolbar-btn" id="btn-hr" title="Linha horizontal">
                     <i class="material-icons">horizontal_rule</i>
-                </button>
-            </div>
-
-            <div class="toolbar-group">
-                <button class="toolbar-btn" id="btn-clear" title="Limpar formatação">
-                    <i class="material-icons">format_clear</i>
-                </button>
-                <button class="toolbar-btn" id="btn-undo" title="Desfazer (Ctrl+Z)">
-                    <i class="material-icons">undo</i>
-                </button>
-                <button class="toolbar-btn" id="btn-redo" title="Refazer (Ctrl+Y)">
-                    <i class="material-icons">redo</i>
                 </button>
             </div>
         </div>
@@ -386,21 +385,21 @@
         <div class="editor-main">
             <!-- Barra lateral com exemplos -->
             <div class="editor-sidebar">
-                <h3>📝 Guia Rápido</h3>
+                <h3>📝 Guia de Formatação</h3>
                 <div class="format-example">
                     <p><strong>Clique para inserir:</strong></p>
-                    <code onclick="insertText('= Título =')">= Título Principal =</code>
-                    <code onclick="insertText('== Subtítulo ==')">== Subtítulo ==</code>
-                    <code onclick="insertText('=== Seção ===')">=== Seção ===</code>
-                    <code onclick="insertText('**texto em negrito**')">**negrito**</code>
-                    <code onclick="insertText('*texto em itálico*')">*itálico*</code>
-                    <code onclick="insertText('[[Nome da Página]]')">[[Link interno]]</code>
-                    <code onclick="insertText('[https://exemplo.com Texto]')">[Link externo]</code>
-                    <code onclick="insertText('* Item 1\n* Item 2')">Lista com marcadores</code>
-                    <code onclick="insertText('# Item 1\n# Item 2')">Lista numerada</code>
-                    <code onclick="insertText('&gt; Texto da citação')">Citação em bloco</code>
-                    <code onclick="insertText('`código inline`')">Código inline</code>
-                    <code onclick="insertText('<pre>\n// código em bloco\n</pre>')">Bloco de código</code>
+                    <code onclick="insertAtCursor('= Título =')">= Título Principal =</code>
+                    <code onclick="insertAtCursor('== Subtítulo ==')">== Subtítulo ==</code>
+                    <code onclick="insertAtCursor('=== Seção ===')">=== Seção ===</code>
+                    <code onclick="insertAtCursor('**texto em negrito**')">**negrito**</code>
+                    <code onclick="insertAtCursor('*texto em itálico*')">*itálico*</code>
+                    <code onclick="insertAtCursor('~~texto tachado~~')">~~tachado~~</code>
+                    <code onclick="insertAtCursor('[[Nome da Página]]')">[[Link interno]]</code>
+                    <code onclick="insertAtCursor('[https://exemplo.com Texto]')">[Link externo]</code>
+                    <code onclick="insertAtCursor('* Item 1\n* Item 2')">Lista com marcadores</code>
+                    <code onclick="insertAtCursor('# Item 1\n# Item 2')">Lista numerada</code>
+                    <code onclick="insertAtCursor('> Texto da citação')">Citação em bloco</code>
+                    <code onclick="insertAtCursor('`código inline`')">Código inline</code>
                 </div>
                 <div class="action-buttons">
                     <button class="btn-primary" onclick="copyToClipboard()">📋 Copiar Conteúdo</button>
@@ -411,30 +410,48 @@
             <!-- Área de conteúdo -->
             <div class="editor-content-area">
                 <div class="editor-tabs">
-                    <div class="editor-tab active" data-tab="edit">✏️ Editar</div>
+                    <div class="editor-tab active" data-tab="source">📝 Código Fonte (Wiki)</div>
                     <div class="editor-tab" data-tab="preview">👁️ Pré-visualizar</div>
                 </div>
                 
-                <div class="editor-textarea" id="editor-textarea" contenteditable="true">
-                    <h1>Exemplo de Artigo</h1>
-                    <p>Este é um <strong>exemplo</strong> de artigo usando o <em>editor de texto</em> do WikiZero.</p>
-                    <h2>Começando</h2>
-                    <p>Você pode formatar o texto usando os botões da barra de ferramentas ou digitando os códigos diretamente.</p>
-                    <ul>
-                        <li>Item 1</li>
-                        <li>Item 2</li>
-                    </ul>
-                    <blockquote>Citação em destaque</blockquote>
-                </div>
+                <!-- Editor de código fonte (mostra o código wiki) -->
+                <textarea id="editor-source" class="editor-source" placeholder="Digite o código Wiki aqui...
+
+Exemplos:
+= Título Principal =
+== Subtítulo ==
+**texto em negrito**
+*texto em itálico*
+* Lista com marcadores
+# Lista numerada
+[[Link interno]]
+[Link externo](https://exemplo.com)">= Exemplo de Artigo =
+
+Este é um exemplo de **artigo** usando o *editor de texto* do WikiZero.
+
+== Começando ==
+Você pode formatar o texto usando os botões da barra de ferramentas ou digitando os códigos diretamente.
+
+=== Lista de exemplos ===
+* Item 1 - **negrito**
+* Item 2 - *itálico*
+* Item 3 - ~~tachado~~
+
+=== Citação ===
+> Esta é uma citação em bloco.
+
+=== Link ===
+[[Página Principal]]</textarea>
                 
+                <!-- Pré-visualização (mostra o HTML renderizado) -->
                 <div class="editor-preview" id="editor-preview">
-                    <div class="editor-preview-content" id="preview-content"></div>
+                    <div class="preview-content" id="preview-content"></div>
                 </div>
                 
                 <div class="status-bar">
                     <span id="word-count">0 palavras</span>
                     <span id="char-count">0 caracteres</span>
-                    <span>Ctrl+B = Negrito | Ctrl+I = Itálico | Ctrl+U = Sublinhado</span>
+                    <span>Use os botões da barra de ferramentas para formatar</span>
                 </div>
             </div>
         </div>
@@ -442,175 +459,172 @@
 
     <script>
         // Elementos
-        const editor = document.getElementById('editor-textarea');
-        const preview = document.getElementById('editor-preview');
+        const editorSource = document.getElementById('editor-source');
+        const previewDiv = document.getElementById('editor-preview');
         const previewContent = document.getElementById('preview-content');
 
         // ============================================
-        // FUNÇÕES DE FORMATAÇÃO
+        // FUNÇÕES DE FORMATAÇÃO WIKI PARA HTML
         // ============================================
         
-        function getSelectedText() {
-            const selection = window.getSelection();
-            return selection.toString();
-        }
-
-        function replaceSelection(html) {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
+        function wikitextToHtml(wikitext) {
+            if (!wikitext || typeof wikitext !== 'string') return '';
             
-            const range = selection.getRangeAt(0);
-            range.deleteContents();
+            let html = wikitext;
             
-            const fragment = range.createContextualFragment(html);
-            range.insertNode(fragment);
-            range.collapse(false);
+            // Títulos
+            html = html.replace(/^======(.+?)======/gm, '<h6>$1</h6>');
+            html = html.replace(/^=====(.+?)=====/gm, '<h5>$1</h5>');
+            html = html.replace(/^====(.+?)====/gm, '<h4>$1</h4>');
+            html = html.replace(/^===(.+?)===/gm, '<h3>$1</h3>');
+            html = html.replace(/^==(.+?)==/gm, '<h2>$1</h2>');
+            html = html.replace(/^=(.+?)=/gm, '<h1>$1</h1>');
             
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
-
-        function wrapSelection(startTag, endTag) {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
+            // Formatação de texto
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
             
-            const selectedText = selection.toString();
-            if (selectedText) {
-                replaceSelection(`${startTag}${selectedText}${endTag}`);
-            } else {
-                insertText(`${startTag}texto${endTag}`);
+            // Links internos [[Página]] ou [[Página|Texto]]
+            html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
+                const displayText = text || target;
+                return `<a href="#" class="wiki-link">${escapeHtml(displayText)}</a>`;
+            });
+            
+            // Links externos [url texto] ou [url]
+            html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>');
+            html = html.replace(/\[(https?:\/\/[^\s\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+            
+            // Links externos no formato markdown [texto](url)
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+            
+            // Imagens
+            html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%">');
+            
+            // Listas
+            let inList = false;
+            let listType = '';
+            const lines = html.split('\n');
+            const processed = [];
+            
+            for (let line of lines) {
+                if (line.match(/^\* /)) {
+                    if (!inList) { processed.push('<ul>'); inList = true; listType = 'ul'; }
+                    processed.push(`<li>${line.replace(/^\* /, '')}</li>`);
+                } else if (line.match(/^# /)) {
+                    if (!inList) { processed.push('<ol>'); inList = true; listType = 'ol'; }
+                    processed.push(`<li>${line.replace(/^# /, '')}</li>`);
+                } else {
+                    if (inList) {
+                        processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+                        inList = false;
+                        listType = '';
+                    }
+                    processed.push(line);
+                }
             }
+            if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
+            html = processed.join('\n');
+            
+            // Citações em bloco
+            html = html.replace(/^&gt;(.+)$/gm, '<blockquote>$1</blockquote>');
+            html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            
+            // Código inline
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // Linha horizontal
+            html = html.replace(/^---$/gm, '<hr>');
+            html = html.replace(/^\*\*\*$/gm, '<hr>');
+            
+            // Parágrafos
+            const paragraphs = html.split('\n\n');
+            html = paragraphs.map(para => {
+                para = para.trim();
+                if (!para) return '';
+                if (para.startsWith('<h') || para.startsWith('<ul') || para.startsWith('<ol') || 
+                    para.startsWith('<table') || para.startsWith('<blockquote') || para.startsWith('<pre') ||
+                    para.startsWith('<hr')) {
+                    return para;
+                }
+                return `<p>${para}</p>`;
+            }).join('\n');
+            
+            return html;
         }
 
-        function insertText(text) {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // FUNÇÕES PARA INSERIR TEXTO NO EDITOR
+        // ============================================
+        
+        function insertAtCursor(text) {
+            const start = editorSource.selectionStart;
+            const end = editorSource.selectionEnd;
+            const content = editorSource.value;
             
-            const range = selection.getRangeAt(0);
-            range.deleteContents();
+            editorSource.value = content.substring(0, start) + text + content.substring(end);
+            editorSource.selectionStart = editorSource.selectionEnd = start + text.length;
+            editorSource.focus();
             
-            const textNode = document.createTextNode(text);
-            range.insertNode(textNode);
-            range.collapse(false);
+            updatePreview();
+            updateStats();
+        }
+        
+        function wrapSelection(startTag, endTag) {
+            const start = editorSource.selectionStart;
+            const end = editorSource.selectionEnd;
+            const selectedText = editorSource.value.substring(start, end);
             
-            selection.removeAllRanges();
-            selection.addRange(range);
+            if (selectedText) {
+                const newText = startTag + selectedText + endTag;
+                editorSource.value = editorSource.value.substring(0, start) + newText + editorSource.value.substring(end);
+                editorSource.selectionStart = start;
+                editorSource.selectionEnd = start + newText.length;
+            } else {
+                insertAtCursor(startTag + 'texto' + endTag);
+            }
+            editorSource.focus();
+            updatePreview();
+            updateStats();
         }
 
         // ============================================
         // EVENTOS DA BARRA DE FERRAMENTAS
         // ============================================
         
-        // Negrito
-        document.getElementById('btn-bold').addEventListener('click', () => {
-            document.execCommand('bold', false, null);
-        });
+        document.getElementById('btn-h1').addEventListener('click', () => wrapSelection('= ', ' ='));
+        document.getElementById('btn-h2').addEventListener('click', () => wrapSelection('== ', ' =='));
+        document.getElementById('btn-h3').addEventListener('click', () => wrapSelection('=== ', ' ==='));
+        document.getElementById('btn-bold').addEventListener('click', () => wrapSelection('**', '**'));
+        document.getElementById('btn-italic').addEventListener('click', () => wrapSelection('*', '*'));
+        document.getElementById('btn-strike').addEventListener('click', () => wrapSelection('~~', '~~'));
+        document.getElementById('btn-list-ul').addEventListener('click', () => insertAtCursor('* Item\n'));
+        document.getElementById('btn-list-ol').addEventListener('click', () => insertAtCursor('# Item\n'));
+        document.getElementById('btn-code').addEventListener('click', () => wrapSelection('`', '`'));
+        document.getElementById('btn-quote').addEventListener('click', () => wrapSelection('> ', ''));
+        document.getElementById('btn-hr').addEventListener('click', () => insertAtCursor('\n---\n'));
         
-        // Itálico
-        document.getElementById('btn-italic').addEventListener('click', () => {
-            document.execCommand('italic', false, null);
-        });
-        
-        // Sublinhado
-        document.getElementById('btn-underline').addEventListener('click', () => {
-            document.execCommand('underline', false, null);
-        });
-        
-        // Tachado
-        document.getElementById('btn-strike').addEventListener('click', () => {
-            document.execCommand('strikeThrough', false, null);
-        });
-        
-        // Lista não ordenada
-        document.getElementById('btn-list-ul').addEventListener('click', () => {
-            document.execCommand('insertUnorderedList', false, null);
-        });
-        
-        // Lista ordenada
-        document.getElementById('btn-list-ol').addEventListener('click', () => {
-            document.execCommand('insertOrderedList', false, null);
-        });
-        
-        // Citação
-        document.getElementById('btn-quote').addEventListener('click', () => {
-            document.execCommand('formatBlock', false, 'blockquote');
-        });
-        
-        // Linha horizontal
-        document.getElementById('btn-hr').addEventListener('click', () => {
-            document.execCommand('insertHorizontalRule', false, null);
-        });
-        
-        // Limpar formatação
-        document.getElementById('btn-clear').addEventListener('click', () => {
-            document.execCommand('removeFormat', false, null);
-        });
-        
-        // Desfazer
-        document.getElementById('btn-undo').addEventListener('click', () => {
-            document.execCommand('undo', false, null);
-        });
-        
-        // Refazer
-        document.getElementById('btn-redo').addEventListener('click', () => {
-            document.execCommand('redo', false, null);
-        });
-        
-        // Link
         document.getElementById('btn-link').addEventListener('click', () => {
             const url = prompt('Digite a URL:', 'https://');
             if (url) {
-                const selectedText = getSelectedText();
-                if (selectedText) {
-                    replaceSelection(`<a href="${url}" target="_blank">${selectedText}</a>`);
-                } else {
-                    insertText(`[${url} ${url}]`);
-                }
+                const text = prompt('Digite o texto do link:', 'Clique aqui');
+                insertAtCursor(`[${url} ${text || url}]`);
             }
         });
         
-        // Imagem
         document.getElementById('btn-image').addEventListener('click', () => {
             const url = prompt('Digite a URL da imagem:', 'https://');
             if (url) {
-                insertText(`<img src="${url}" alt="imagem" style="max-width:100%">`);
-            }
-        });
-        
-        // Código
-        document.getElementById('btn-code').addEventListener('click', () => {
-            wrapSelection('<code>', '</code>');
-        });
-        
-        // Tabela
-        document.getElementById('btn-table').addEventListener('click', () => {
-            const rows = prompt('Número de linhas:', '3');
-            const cols = prompt('Número de colunas:', '3');
-            if (rows && cols) {
-                let table = '<table border="1" style="border-collapse:collapse; width:100%">';
-                for (let i = 0; i < rows; i++) {
-                    table += '<tr>';
-                    for (let j = 0; j < cols; j++) {
-                        if (i === 0) {
-                            table += `<th style="padding:8px; text-align:left">Cabeçalho ${j+1}</th>`;
-                        } else {
-                            table += `<td style="padding:8px">Célula ${i+1},${j+1}</td>`;
-                        }
-                    }
-                    table += '</tr>';
-                }
-                table += '</table><br>';
-                insertText(table);
-            }
-        });
-        
-        // Tamanho da fonte / Título
-        document.getElementById('font-size').addEventListener('change', (e) => {
-            const value = e.target.value;
-            if (value === 'p') {
-                document.execCommand('formatBlock', false, 'p');
-            } else {
-                document.execCommand('formatBlock', false, value);
+                const alt = prompt('Digite o texto alternativo:', 'imagem');
+                insertAtCursor(`![${alt || 'imagem'}](${url})`);
             }
         });
         
@@ -619,52 +633,17 @@
         // ============================================
         
         function updatePreview() {
-            const content = editor.innerHTML;
-            // Converter formatação wiki para HTML na pré-visualização
-            let html = content;
-            
-            // Títulos
-            html = html.replace(/^= ([^=]+) =$/gm, '<h1>$1</h1>');
-            html = html.replace(/^== ([^=]+) ==$/gm, '<h2>$1</h2>');
-            html = html.replace(/^=== ([^=]+) ===$/gm, '<h3>$1</h3>');
-            html = html.replace(/^==== ([^=]+) ====$/gm, '<h4>$1</h4>');
-            
-            // Formatação de texto
-            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
-            
-            // Links
-            html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, '<a href="#">$1</a>');
-            html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank">$2</a>');
-            
-            // Listas
-            html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
-            html = html.replace(/^# (.+)$/gm, '<li>$1</li>');
-            
-            // Citações
-            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-            html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-            
-            // Código
-            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-            
+            const source = editorSource.value;
+            const html = wikitextToHtml(source);
             previewContent.innerHTML = html || '<em>Sem conteúdo para pré-visualizar</em>';
         }
-        
-        // Atualizar pré-visualização ao editar
-        editor.addEventListener('input', () => {
-            updatePreview();
-            updateStats();
-        });
         
         // ============================================
         // ESTATÍSTICAS
         // ============================================
         
         function updateStats() {
-            const text = editor.innerText || '';
+            const text = editorSource.value;
             const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
             const chars = text.length;
             
@@ -672,17 +651,20 @@
             document.getElementById('char-count').textContent = `${chars} caracteres`;
         }
         
+        // Atualizar ao digitar
+        editorSource.addEventListener('input', () => {
+            updatePreview();
+            updateStats();
+        });
+        
         // ============================================
         // FUNÇÕES AUXILIARES
         // ============================================
         
         function copyToClipboard() {
-            const html = editor.innerHTML;
-            const text = editor.innerText;
-            
-            // Copiar como texto wiki
+            const text = editorSource.value;
             navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Conteúdo copiado para a área de transferência!');
+                alert('✅ Código copiado para a área de transferência!');
             }).catch(() => {
                 alert('❌ Erro ao copiar');
             });
@@ -690,14 +672,15 @@
         
         function clearAll() {
             if (confirm('Tem certeza que deseja limpar todo o conteúdo?')) {
-                editor.innerHTML = '';
+                editorSource.value = '';
                 updatePreview();
                 updateStats();
+                editorSource.focus();
             }
         }
         
         // ============================================
-        // TABS (Editar / Pré-visualizar)
+        // TABS (Código Fonte / Pré-visualizar)
         // ============================================
         
         document.querySelectorAll('.editor-tab').forEach(tab => {
@@ -707,61 +690,33 @@
                 document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 
-                if (target === 'edit') {
-                    editor.style.display = 'block';
-                    preview.classList.remove('active');
+                if (target === 'source') {
+                    editorSource.style.display = 'block';
+                    previewDiv.classList.remove('active');
                 } else {
-                    editor.style.display = 'none';
-                    preview.classList.add('active');
+                    editorSource.style.display = 'none';
+                    previewDiv.classList.add('active');
                     updatePreview();
                 }
             });
         });
         
-        // ============================================
-        // ATALHOS DE TECLADO
-        // ============================================
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
-                    case 'b':
-                        e.preventDefault();
-                        document.execCommand('bold', false, null);
-                        break;
-                    case 'i':
-                        e.preventDefault();
-                        document.execCommand('italic', false, null);
-                        break;
-                    case 'u':
-                        e.preventDefault();
-                        document.execCommand('underline', false, null);
-                        break;
-                    case 'z':
-                        e.preventDefault();
-                        document.execCommand('undo', false, null);
-                        break;
-                    case 'y':
-                        e.preventDefault();
-                        document.execCommand('redo', false, null);
-                        break;
-                }
-            }
-        });
-        
-        // Inicializar estatísticas
+        // Inicializar
+        updatePreview();
         updateStats();
         
-        // Exportar funções para uso externo
+        // Exportar funções
         window.getWikiContent = function() {
-            return editor.innerHTML;
+            return editorSource.value;
         };
         
         window.setWikiContent = function(content) {
-            editor.innerHTML = content;
+            editorSource.value = content;
             updatePreview();
             updateStats();
         };
+        
+        window.insertAtCursor = insertAtCursor;
     </script>
 </body>
 </html>
