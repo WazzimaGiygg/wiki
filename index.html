@@ -611,13 +611,32 @@
             color: white;
         }
 
+        .iframe-header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .iframe-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 8px;
+            transition: opacity 0.2s;
+        }
+
+        .iframe-btn:hover {
+            opacity: 0.7;
+        }
+
         .close-iframe {
             background: none;
             border: none;
             color: white;
             font-size: 24px;
             cursor: pointer;
-            padding: 0 10px;
+            padding: 0 8px;
         }
 
         .close-iframe:hover {
@@ -898,7 +917,7 @@
         <div class="menu-section">
             <div class="menu-section-title"><span class="material-icons">construction</span><span>Ferramentas</span></div>
             <a class="menu-item" id="menu-open-iframe"><span class="material-icons">admin_panel_settings</span><span class="menu-item-text">Painel Administrativo</span></a>
-            <a class="menu-item" onclick="openWikipediaDemo()"><span class="material-icons">open_in_new</span><span class="menu-item-text">Wikipedia Demo</span></a>
+            <a class="menu-item" onclick="openPainelAdmin()"><span class="material-icons">open_in_new</span><span class="menu-item-text">Abrir Painel em Nova Aba</span></a>
         </div>
         <div class="menu-footer">
             <p>WikiZero v2.0</p>
@@ -1031,13 +1050,17 @@
     <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
+<!-- IFRAME OVERLAY CORRIGIDO - Apontando para a URL correta -->
 <div id="iframe-overlay" class="iframe-overlay">
     <div class="iframe-container">
         <div class="iframe-header">
             <h3>📝 Painel Administrativo - WikiZero</h3>
-            <button class="close-iframe" onclick="closeIframe()">✕</button>
+            <div class="iframe-header-buttons">
+                <button class="iframe-btn" onclick="reloadIframe()" title="Recarregar">🔄</button>
+                <button class="close-iframe" onclick="closeIframe()">✕</button>
+            </div>
         </div>
-        <iframe id="painel-iframe" srcdoc="<html style='background:#f8f9fa'><body style='padding:30px'><h1>📊 Painel Administrativo</h1><p>Bem-vindo ao painel administrativo da WikiZero!</p></body></html>"></iframe>
+        <iframe id="painel-iframe" src="https://wiki.wazzimagiygg.com/pages/"></iframe>
     </div>
 </div>
 
@@ -1158,6 +1181,23 @@ function closeIframe() {
         overlay.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
+}
+
+function reloadIframe() {
+    const iframe = document.getElementById('painel-iframe');
+    iframe.src = iframe.src;
+}
+
+function openPainelAdmin() {
+    if (isGuestUser) {
+        alert('🔒 Modo convidado não permite acesso ao painel administrativo. Faça login com Google para editar.');
+        return;
+    }
+    
+    const iframe = document.getElementById('painel-iframe');
+    iframe.src = 'https://wiki.wazzimagiygg.com/pages/';
+    document.getElementById('iframe-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
 
 function closeDropdown() {
@@ -1323,7 +1363,7 @@ window.openSubcollection = async function(uid) {
             `).join('')}</div>`}
             ${!isGuestUser ? `<div style="margin-top:30px; padding:20px; background:#eaf3ff; border-radius:8px; text-align:center;">
                 <p>Quer contribuir?</p>
-                <button onclick="openPainelInIframe('${uid}')" class="btn-abrir-painel">Acessar Painel</button>
+                <button onclick="openPainelAdmin()" class="btn-abrir-painel">📝 Acessar Painel Administrativo</button>
             </div>` : '<p style="margin-top:30px; text-align:center; color:#666;">Modo convidado: faça login para editar.</p>'}
         `;
     } catch (error) {
@@ -1356,20 +1396,6 @@ window.openArticle = async function(collectionUid, articleId) {
         alert('Erro: ' + error.message);
     }
 };
-
-function openPainelInIframe(uid) {
-    if (isGuestUser) {
-        alert('Modo convidado não permite edição.');
-        return;
-    }
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function openWikipediaDemo() {
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
 
 function showMyDataModal() {
     if (!currentUser || isGuestUser) {
@@ -1446,7 +1472,7 @@ document.getElementById('guest-login-btn')?.addEventListener('click', () => { cr
 document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
 document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
 document.addEventListener('click', () => closeDropdown());
-document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openWikipediaDemo(); });
+document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openPainelAdmin(); });
 
 // Menu lateral expansível
 const sideMenu = document.getElementById('sidebar-menu');
@@ -1516,9 +1542,9 @@ window.showTermsView = showTermsView;
 window.showMyDataModal = showMyDataModal;
 window.openSubcollection = openSubcollection;
 window.openArticle = openArticle;
-window.openPainelInIframe = openPainelInIframe;
-window.openWikipediaDemo = openWikipediaDemo;
+window.openPainelAdmin = openPainelAdmin;
 window.closeIframe = closeIframe;
+window.reloadIframe = reloadIframe;
 window.closeModal = closeModal;
 window.closeDropdown = closeDropdown;
 </script>
