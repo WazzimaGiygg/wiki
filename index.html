@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WikiZero - Enciclopédia Livre</title>
     <link rel="icon" href="https://wiki.wazzimagiygg.com/Favicom.png" type="image/x-icon">
@@ -45,6 +44,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
         }
 
         .logo-img {
@@ -535,9 +535,7 @@
         .wiki-content-rendered h2 { font-size: 1.5em; }
         .wiki-content-rendered h3 { font-size: 1.2em; margin: 1.2em 0 0.3em 0; }
         .wiki-content-rendered p { margin: 0.5em 0; }
-        .wiki-content-rendered ul, .wiki-content-rendered ol { 
-            margin: 0.5em 0 0.5em 2em; 
-        }
+        .wiki-content-rendered ul, .wiki-content-rendered ol { margin: 0.5em 0 0.5em 2em; }
         .wiki-content-rendered pre {
             background: #f8f9fa;
             border: 1px solid #eaecf0;
@@ -549,14 +547,6 @@
             padding-left: 16px;
             margin: 1em 0;
             color: #54595d;
-        }
-        .wiki-content-rendered table {
-            border-collapse: collapse;
-            margin: 1em 0;
-        }
-        .wiki-content-rendered th, .wiki-content-rendered td {
-            border: 1px solid #a2a9b1;
-            padding: 8px 12px;
         }
 
         .btn-abrir-painel {
@@ -576,75 +566,143 @@
             background-color: #2a5a9e;
         }
 
-        .iframe-overlay {
+        /* Editor Modal */
+        .editor-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            z-index: 2000;
+            background-color: rgba(0,0,0,0.95);
+            z-index: 10000;
             justify-content: center;
             align-items: center;
         }
 
-        .iframe-container {
-            width: 95%;
-            height: 95%;
+        .editor-container {
+            width: 90%;
+            height: 90%;
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
-            position: relative;
             display: flex;
             flex-direction: column;
         }
 
-        .iframe-header {
+        .editor-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #343a40;
+            padding: 15px 20px;
+            background-color: #2c3e50;
             color: white;
         }
 
-        .iframe-header-buttons {
+        .editor-header h3 {
+            margin: 0;
+        }
+
+        .editor-header-buttons {
             display: flex;
             gap: 10px;
         }
 
-        .iframe-btn {
-            background: none;
-            border: none;
+        .editor-btn {
+            padding: 8px 16px;
+            background-color: #36c;
             color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0 8px;
-            transition: opacity 0.2s;
-        }
-
-        .iframe-btn:hover {
-            opacity: 0.7;
-        }
-
-        .close-iframe {
-            background: none;
             border: none;
-            color: white;
-            font-size: 24px;
+            border-radius: 4px;
             cursor: pointer;
-            padding: 0 8px;
         }
 
-        .close-iframe:hover {
-            color: #ff4444;
+        .editor-btn:hover {
+            background-color: #2a5a9e;
         }
 
-        iframe {
-            width: 100%;
+        .editor-btn-danger {
+            background-color: #dc3545;
+        }
+
+        .editor-btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .editor-body {
             flex: 1;
-            border: none;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .editor-sidebar {
+            width: 30%;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .editor-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .editor-field {
+            margin-bottom: 15px;
+        }
+
+        .editor-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .editor-field input, .editor-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .editor-field textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .article-list {
+            list-style: none;
+        }
+
+        .article-list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .article-list-item:hover {
+            background-color: #eaf3ff;
+        }
+
+        .article-list-item.active {
+            background-color: #eaf3ff;
+            border-left: 3px solid #36c;
+        }
+
+        .delete-article-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 18px;
         }
 
         .footer {
@@ -773,14 +831,6 @@
             color: #d33;
         }
 
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 15px 20px;
-            border-top: 1px solid #eaecf0;
-        }
-
         .highlight {
             background-color: #e8f0fe;
             padding: 15px;
@@ -823,6 +873,13 @@
             .search-input {
                 width: 100%;
             }
+            .editor-body {
+                flex-direction: column;
+            }
+            .editor-sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
         }
     </style>
 </head>
@@ -830,10 +887,8 @@
 
 <div class="wikipedia-header">
     <div class="header-top">
-        <div class="logo-area">
-            <img src="https://wiki.wazzimagiygg.com/Favicom.png" 
-                 alt="Logo WikiZero" 
-                 class="logo-img">
+        <div class="logo-area" onclick="showListView()">
+            <img src="https://wiki.wazzimagiygg.com/Favicom.png" alt="Logo WikiZero" class="logo-img">
             <div class="wiki-title">
                 <h1>WikiZero</h1>
                 <p>A enciclopédia livre e colaborativa</p>
@@ -857,9 +912,7 @@
                     <div style="text-align: center; color: #999; font-size: 12px; margin: 5px 0;">ou</div>
                     <button id="guest-login-btn" class="temp-login-btn">🎭 Acesso Convidado (Leitura)</button>
                     <div class="guest-info">🔒 Acesso temporário apenas para leitura</div>
-                    <div class="dropdown-footer">
-                        Faça login com Google para criar e editar páginas
-                    </div>
+                    <div class="dropdown-footer">Faça login com Google para criar e editar páginas</div>
                 </div>
                 <div id="dropdown-logged" style="display: none;">
                     <div class="dropdown-header">
@@ -895,9 +948,7 @@
 <div class="main-wrapper">
     <div class="sidebar-menu" id="sidebar-menu">
         <div class="menu-toggle-btn" id="menu-toggle-btn">◀</div>
-        <div class="menu-header">
-            <h3>📖 Navegação</h3>
-        </div>
+        <div class="menu-header"><h3>📖 Navegação</h3></div>
         <div class="menu-section">
             <div class="menu-section-title"><span class="material-icons">home</span><span>Principal</span></div>
             <a class="menu-item" onclick="showListView()"><span class="material-icons">dashboard</span><span class="menu-item-text">Página principal</span></a>
@@ -912,25 +963,14 @@
             <a class="menu-item" onclick="showTermsView()"><span class="material-icons">description</span><span class="menu-item-text">Termos de Uso</span></a>
             <a class="menu-item" onclick="showMyDataModal()"><span class="material-icons">badge</span><span class="menu-item-text">Meus dados</span></a>
         </div>
-        <div class="menu-section">
-            <div class="menu-section-title"><span class="material-icons">construction</span><span>Ferramentas</span></div>
-            <a class="menu-item" id="menu-open-iframe"><span class="material-icons">admin_panel_settings</span><span class="menu-item-text">Painel Administrativo</span></a>
-            <a class="menu-item" onclick="openGlobalPainel()"><span class="material-icons">open_in_new</span><span class="menu-item-text">Abrir Painel Global</span></a>
-        </div>
-        <div class="menu-footer">
-            <p>WikiZero v2.0</p>
-            <p>📜 Conteúdo livre</p>
-            <p>🔒 LGPD compliant</p>
-        </div>
+        <div class="menu-footer"><p>WikiZero v3.0</p><p>📜 Conteúdo livre</p><p>🔒 LGPD compliant</p></div>
     </div>
 
     <div class="main-container">
         <div class="content-area">
             <div id="list-view" class="article-view active">
                 <h1 class="page-title">Páginas Wiki</h1>
-                <div id="subcollections-container">
-                    <div class="loading">Carregando páginas...</div>
-                </div>
+                <div id="subcollections-container"><div class="loading">Carregando páginas...</div></div>
                 <div style="margin-top: 20px; text-align: center;">
                     <span>📊 Total de páginas: <strong id="total-count">0</strong></span>
                     <span style="margin-left: 20px;">📄 Total de artigos: <strong id="total-articles">0</strong></span>
@@ -968,68 +1008,22 @@
 
             <div id="security-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="article-content">
-                    <h1>🔐 Segurança da Conta</h1>
-                    <div class="highlight">
-                        <p><strong>🔒 Tipos de Acesso:</strong></p>
-                        <ul>
-                            <li><strong>Login com Google:</strong> Acesso completo com capacidade de criar e editar páginas</li>
-                            <li><strong>Acesso Convidado:</strong> Acesso anônimo gerado automaticamente, apenas leitura</li>
-                        </ul>
-                    </div>
-                    <div id="user-uid-display" class="article-meta"></div>
-                    <div class="info-footer">© 2026 WikiZero - Sua segurança é prioridade</div>
-                </div>
+                <div class="article-content"><h1>🔐 Segurança da Conta</h1><div class="highlight"><p><strong>🔒 Tipos de Acesso:</strong></p><ul><li><strong>Login com Google:</strong> Acesso completo</li><li><strong>Acesso Convidado:</strong> Apenas leitura</li></ul></div><div id="user-uid-display" class="article-meta"></div></div>
             </div>
 
             <div id="donation-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="article-content">
-                    <h1>💝 Doações</h1>
-                    <div class="highlight" style="background-color:#d4edda; border-left-color:#28a745;">
-                        <p><strong>🎉 Boa notícia!</strong> A WikiZero é <strong>100% gratuita</a> e permanecerá assim para sempre!</p>
-                    </div>
-                </div>
+                <div class="article-content"><h1>💝 Doações</h1><div class="highlight"><p><strong>🎉 A WikiZero é 100% gratuita!</strong></p></div></div>
             </div>
 
             <div id="privacy-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="article-content">
-                    <h1>Política de Privacidade - LGPD</h1>
-                    <p><em>Última atualização: 19 de maio de 2026</em></p>
-                    <p>A WikiZero está em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong>.</p>
-                    <h2>1. Dados Coletados</h2>
-                    <ul>
-                        <li>Nome e e-mail (via Google)</li>
-                        <li>UID (identificador único)</li>
-                        <li>Conteúdo criado (páginas e artigos)</li>
-                        <li>Histórico de edições</li>
-                    </ul>
-                    <h2>2. Seus Direitos</h2>
-                    <ul>
-                        <li>Acessar seus dados</li>
-                        <li>Corrigir dados incompletos</li>
-                        <li>Solicitar exclusão</li>
-                        <li>Exportar seus dados</li>
-                    </ul>
-                    <h2>3. Encarregado (DPO)</h2>
-                    <div class="highlight">
-                        <p><strong>E-mail do DPO:</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a></p>
-                        <p><strong>Ou use o sistema de Tickets</strong> <a href="https://support.wazzimagiygg.com/">https://support.wazzimagiygg.com/</a></p>
-                    </div>
-                </div>
+                <div class="article-content"><h1>Política de Privacidade - LGPD</h1><p>Em conformidade com a Lei 13.709/2018.</p><div class="highlight"><p><strong>DPO:</strong> <a href="mailto:wazzimagiygg@gmail.com">wazzimagiygg@gmail.com</a></p></div></div>
             </div>
 
             <div id="terms-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
-                <div class="article-content">
-                    <h1>📜 Termos de Uso - WikiZero</h1>
-                    <p><em>Última atualização: 19 de maio de 2026</em></p>
-                    <h2>1. Aceitação dos Termos</h2>
-                    <p>Ao utilizar a WikiZero, você concorda com estes Termos de Uso.</p>
-                    <h2>2. Conduta do Usuário</h2>
-                    <p>É proibido publicar conteúdo ilegal, difamatório, ofensivo ou que viole direitos autorais.</p>
-                </div>
+                <div class="article-content"><h1>📜 Termos de Uso</h1><p>Ao utilizar a WikiZero, você concorda com estes Termos.</p></div>
             </div>
 
             <div id="mydata-view" class="article-view">
@@ -1041,33 +1035,47 @@
 </div>
 
 <div class="footer">
-    <p>WikiZero - Enciclopédia livre | 
-       <a href="#" onclick="showPrivacyView(); return false;">🔒 Política de Privacidade (LGPD)</a> | 
-       <a href="#" onclick="showTermsView(); return false;">📜 Termos de Uso</a>
-    </p>
+    <p>WikiZero - Enciclopédia livre | <a href="#" onclick="showPrivacyView(); return false;">🔒 Privacidade (LGPD)</a> | <a href="#" onclick="showTermsView(); return false;">📜 Termos</a></p>
     <p>© 2026 WikiZero - Em conformidade com a Lei 13.709/2018 (LGPD)</p>
 </div>
 
-<!-- IFRAME OVERLAY -->
-<div id="iframe-overlay" class="iframe-overlay">
-    <div class="iframe-container">
-        <div class="iframe-header">
-            <h3 id="iframe-title">📝 Painel Administrativo - WikiZero</h3>
-            <div class="iframe-header-buttons">
-                <button class="iframe-btn" onclick="reloadIframe()" title="Recarregar">🔄</button>
-                <button class="close-iframe" onclick="closeIframe()">✕</button>
+<!-- EDITOR MODAL INTEGRADO -->
+<div id="editor-modal" class="editor-modal">
+    <div class="editor-container">
+        <div class="editor-header">
+            <h3 id="editor-title">📝 Editor de Conteúdo</h3>
+            <div class="editor-header-buttons">
+                <button id="editor-save-btn" class="editor-btn">💾 Salvar</button>
+                <button id="editor-close-btn" class="editor-btn editor-btn-danger">❌ Fechar</button>
             </div>
         </div>
-        <iframe id="painel-iframe" src="about:blank"></iframe>
+        <div class="editor-body">
+            <div class="editor-sidebar">
+                <h4>📄 Artigos desta página</h4>
+                <div id="editor-article-list" style="max-height: 400px; overflow-y: auto;"></div>
+                <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
+            </div>
+            <div class="editor-main">
+                <div class="editor-field">
+                    <label>Título do Artigo</label>
+                    <input type="text" id="editor-article-title" placeholder="Título do artigo">
+                </div>
+                <div class="editor-field">
+                    <label>Conteúdo (Wiki Markdown)</label>
+                    <textarea id="editor-article-content" placeholder="Use **negrito**, *itálico*, = título =, == subtítulo ==, [[link]]"></textarea>
+                </div>
+                <div class="editor-field">
+                    <label>Descrição curta</label>
+                    <textarea id="editor-article-description" rows="2" placeholder="Uma breve descrição do artigo"></textarea>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div id="modal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modal-title">Aviso</h3>
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-        </div>
+        <div class="modal-header"><h3 id="modal-title">Aviso</h3><span class="close-modal" onclick="closeModal()">&times;</span></div>
         <div id="modal-body"></div>
     </div>
 </div>
@@ -1095,6 +1103,7 @@ let currentUser = null;
 let isGuestUser = false;
 let allSubcollections = [];
 let currentEditingPageUid = null;
+let currentEditingArticleId = null;
 
 function escapeHtml(text) {
     if (!text) return '';
@@ -1112,10 +1121,7 @@ function showListView() {
 }
 
 function showCreateView() {
-    if (isGuestUser) { 
-        alert('Modo convidado permite apenas leitura. Faça login para criar páginas.');
-        return;
-    }
+    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
     document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
     document.getElementById('create-view').classList.add('active');
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1129,12 +1135,9 @@ function showSecurityView() {
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     const securityTab = document.querySelector('.nav-tab[data-view="security"]');
     if (securityTab) securityTab.classList.add('active');
-    
     const uidDisplay = document.getElementById('user-uid-display');
     if (uidDisplay && currentUser) {
-        uidDisplay.innerHTML = isGuestUser ? 
-            `<strong>Modo Convidado</strong><br>UID: ${currentUser.uid}<br>Acesso apenas para leitura` :
-            `<strong>Usuário Autenticado</strong><br>UID: ${currentUser.uid}<br>Email: ${currentUser.email}`;
+        uidDisplay.innerHTML = isGuestUser ? `<strong>Modo Convidado</strong><br>UID: ${currentUser.uid}` : `<strong>Usuário</strong><br>${currentUser.email}`;
     }
 }
 
@@ -1165,95 +1168,10 @@ function showTermsView() {
 function showRandomPage() {
     if (allSubcollections.length > 0) {
         openSubcollection(allSubcollections[Math.floor(Math.random() * allSubcollections.length)].uid);
-    } else {
-        alert('Nenhuma página disponível.');
-    }
+    } else { alert('Nenhuma página disponível.'); }
 }
 
-function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-}
-
-function closeIframe() {
-    const overlay = document.getElementById('iframe-overlay');
-    if (overlay) {
-        overlay.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        const iframe = document.getElementById('painel-iframe');
-        iframe.src = 'about:blank';
-        currentEditingPageUid = null;
-    }
-}
-
-function reloadIframe() {
-    const iframe = document.getElementById('painel-iframe');
-    if (iframe.src && iframe.src !== 'about:blank') {
-        iframe.src = iframe.src;
-    }
-}
-
-// Função para abrir o painel de edição da página específica
-function openPageEditor(pageUid, pageTitle) {
-    if (isGuestUser) {
-        alert('🔒 Modo convidado não permite edição. Faça login com Google para editar páginas.');
-        return;
-    }
-    
-    if (!pageUid) {
-        alert('Erro: ID da página não identificado.');
-        return;
-    }
-    
-    currentEditingPageUid = pageUid;
-    
-    // Tenta abrir o editor específico da página
-    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?edit=${pageUid}`;
-    const iframe = document.getElementById('painel-iframe');
-    const iframeTitle = document.getElementById('iframe-title');
-    
-    iframeTitle.innerHTML = `📝 Editando: ${escapeHtml(pageTitle || pageUid)} - WikiZero`;
-    iframe.src = editorUrl;
-    
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    
-    // Fallback: se o iframe não carregar em 5 segundos, oferece abrir em nova aba
-    setTimeout(() => {
-        try {
-            if (iframe.contentWindow.document.readyState !== 'complete') {
-                const openNewTab = confirm(`O editor está demorando para carregar.\n\nDeseja abrir em uma nova aba para editar a página "${pageTitle || pageUid}"?`);
-                if (openNewTab) {
-                    window.open(editorUrl, '_blank');
-                    closeIframe();
-                }
-            }
-        } catch(e) {
-            // Erro de CORS - oferece abrir em nova aba
-            const openNewTab = confirm(`O editor não pode ser exibido no iframe devido a restrições de segurança.\n\nDeseja abrir em uma nova aba para editar a página "${pageTitle || pageUid}"?`);
-            if (openNewTab) {
-                window.open(editorUrl, '_blank');
-                closeIframe();
-            }
-        }
-    }, 5000);
-}
-
-// Função para abrir o painel global (sem página específica)
-function openGlobalPainel() {
-    if (isGuestUser) {
-        alert('🔒 Modo convidado não permite acesso ao painel administrativo. Faça login com Google para editar.');
-        return;
-    }
-    
-    const iframe = document.getElementById('painel-iframe');
-    const iframeTitle = document.getElementById('iframe-title');
-    
-    iframeTitle.innerHTML = '📝 Painel Administrativo - WikiZero';
-    iframe.src = 'https://wiki.wazzimagiygg.com/pages/';
-    
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
 function closeDropdown() {
     const dropdown = document.getElementById('user-dropdown');
@@ -1261,16 +1179,15 @@ function closeDropdown() {
 }
 
 function generateGuestUID() {
-    const hexLength = Math.floor(Math.random() * 40) + 20;
     let hex = '';
-    for (let i = 0; i < hexLength; i++) hex += Math.floor(Math.random() * 16).toString(16);
+    for (let i = 0; i < 32; i++) hex += Math.floor(Math.random() * 16).toString(16);
     return 'convid_' + hex;
 }
 
 function createGuestUser() {
     const guestUID = generateGuestUID();
     const expiry = Date.now() + (24 * 60 * 60 * 1000);
-    const guestUser = { uid: guestUID, displayName: 'Convidado', email: `${guestUID}@guest.wikizero.local`, isTemp: true, isGuest: true };
+    const guestUser = { uid: guestUID, displayName: 'Convidado', email: `${guestUID}@guest.wikizero.local`, isGuest: true };
     localStorage.setItem('wikizero_guest_user', JSON.stringify(guestUser));
     localStorage.setItem('wikizero_guest_expiry', expiry.toString());
     return guestUser;
@@ -1305,9 +1222,9 @@ function updateAuthUI() {
         if (isGuestUser) name = 'Convidado';
         const initial = name ? name[0].toUpperCase() : 'U';
         dropdownAvatarSmall.textContent = initial;
-        dropdownUserName.textContent = name.length > 15 ? name.substring(0, 12) + '...' : name;
+        dropdownUserName.textContent = name.length > 15 ? name.substring(0,12)+'...' : name;
         dropdownFullName.innerHTML = name + (isGuestUser ? ' <span class="temp-badge">Convidado</span>' : '');
-        dropdownEmail.textContent = isGuestUser ? 'Modo convidado (somente leitura)' : (currentUser.email || 'sem email');
+        dropdownEmail.textContent = isGuestUser ? 'Modo convidado (leitura)' : (currentUser.email || 'sem email');
     } else {
         notLoggedDiv.style.display = 'block';
         loggedDiv.style.display = 'none';
@@ -1318,30 +1235,19 @@ function updateAuthUI() {
 
 async function loadSubcollections() {
     const container = document.getElementById('subcollections-container');
-    if (!currentUser) {
-        container.innerHTML = '<div class="loading">Faça login ou acesse como convidado</div>';
-        return;
-    }
-    
-    container.innerHTML = '<div class="loading">Carregando páginas...</div>';
+    if (!currentUser) { container.innerHTML = '<div class="loading">Faça login</div>'; return; }
+    container.innerHTML = '<div class="loading">Carregando...</div>';
     
     try {
         const snapshot = await db.collection('documentos').get();
         const subcollections = [];
         let totalArticles = 0;
-        
         for (const doc of snapshot.docs) {
             const data = doc.data();
             const articlesSnapshot = await db.collection('documentos').doc(doc.id).collection('inevitavel').get();
             totalArticles += articlesSnapshot.size;
-            subcollections.push({ 
-                uid: doc.id, 
-                titulo: data.titulo || doc.id, 
-                description: data.descricao || '', 
-                articleCount: articlesSnapshot.size 
-            });
+            subcollections.push({ uid: doc.id, titulo: data.titulo || doc.id, description: data.descricao || '', articleCount: articlesSnapshot.size });
         }
-        
         allSubcollections = subcollections;
         document.getElementById('total-count').textContent = subcollections.length;
         document.getElementById('total-articles').textContent = totalArticles;
@@ -1353,20 +1259,14 @@ async function loadSubcollections() {
 
 function displaySubcollections(subcollections) {
     const container = document.getElementById('subcollections-container');
-    if (subcollections.length === 0) {
-        container.innerHTML = '<div class="loading">Nenhuma página encontrada</div>';
-        return;
-    }
-    
+    if (subcollections.length === 0) { container.innerHTML = '<div class="loading">Nenhuma página</div>'; return; }
     container.innerHTML = `<div class="subcollections-grid">${subcollections.map(sub => `
         <div class="subcollection-card" onclick="openSubcollection('${sub.uid}')">
             <div class="subcollection-icon">📚</div>
             <div class="subcollection-name">${escapeHtml(sub.titulo)}</div>
             <div class="subcollection-meta"><span class="article-count">📄 ${sub.articleCount} ${sub.articleCount === 1 ? 'artigo' : 'artigos'}</span></div>
-            ${sub.description ? `<div style="font-size:0.8em; margin-top:10px; color:#666;">${escapeHtml(sub.description.substring(0, 80))}${sub.description.length > 80 ? '...' : ''}</div>` : ''}
-            <div style="margin-top: 10px;">
-                <button class="btn-abrir-painel" style="font-size: 0.7em; padding: 5px 10px;" onclick="event.stopPropagation(); openPageEditor('${sub.uid}', '${escapeHtml(sub.titulo)}')">✏️ Editar Página</button>
-            </div>
+            ${sub.description ? `<div style="font-size:0.8em; margin-top:10px; color:#666;">${escapeHtml(sub.description.substring(0,80))}${sub.description.length>80?'...':''}</div>` : ''}
+            <div style="margin-top: 10px;"><button class="btn-abrir-painel" style="font-size:0.7em; padding:5px 10px;" onclick="event.stopPropagation(); openEditor('${sub.uid}', null)">✏️ Editar Página</button></div>
         </div>
     `).join('')}</div>`;
 }
@@ -1375,231 +1275,281 @@ window.openSubcollection = async function(uid) {
     const articleView = document.getElementById('article-view');
     const listView = document.getElementById('list-view');
     const articleContent = document.getElementById('article-content');
-    
-    articleContent.innerHTML = '<div class="loading">Carregando página...</div>';
+    articleContent.innerHTML = '<div class="loading">Carregando...</div>';
     listView.classList.remove('active');
     articleView.classList.add('active');
     
     try {
         const docRef = db.collection('documentos').doc(uid);
         const doc = await docRef.get();
-        
-        if (!doc.exists) {
-            articleContent.innerHTML = '<div class="loading">Página não encontrada</div>';
-            return;
-        }
-        
+        if (!doc.exists) { articleContent.innerHTML = '<div class="loading">Página não encontrada</div>'; return; }
         const data = doc.data();
         const articlesSnapshot = await docRef.collection('inevitavel').get();
         const articles = [];
         articlesSnapshot.forEach(articleDoc => {
-            articles.push({ 
-                id: articleDoc.id, 
-                titulo: articleDoc.data().titulo,
-                descricao: articleDoc.data().descricao ? articleDoc.data().descricao.substring(0, 100) + '...' : 'Sem descrição'
-            });
+            articles.push({ id: articleDoc.id, titulo: articleDoc.data().titulo, descricao: articleDoc.data().descricao ? articleDoc.data().descricao.substring(0,100)+'...' : 'Sem descrição' });
         });
         
         articleContent.innerHTML = `
             <h1>${escapeHtml(data.titulo || uid)}</h1>
-            <div class="article-meta">
-                <p><strong>UID:</strong> ${escapeHtml(uid)}</p>
-                <p><strong>Categoria:</strong> ${escapeHtml(data.categoria || 'Geral')}</p>
-                <p><strong>Total de artigos:</strong> ${articles.length}</p>
-            </div>
-            <div style="margin: 20px 0;">
-                <h2>Sobre esta página</h2>
-                <p>${escapeHtml(data.descricao || 'Sem descrição disponível.')}</p>
-            </div>
+            <div class="article-meta"><p><strong>UID:</strong> ${escapeHtml(uid)}</p><p><strong>Categoria:</strong> ${escapeHtml(data.categoria || 'Geral')}</p><p><strong>Artigos:</strong> ${articles.length}</p></div>
+            <div style="margin:20px 0;"><h2>Sobre</h2><p>${escapeHtml(data.descricao || 'Sem descrição.')}</p></div>
             <h2>Artigos</h2>
-            ${articles.length === 0 ? '<p style="text-align:center; padding:30px;">Nenhum artigo ainda.</p>' : `<div class="subcollections-grid">${articles.map(article => `
+            ${articles.length === 0 ? '<p style="text-align:center;padding:30px;">Nenhum artigo.</p>' : `<div class="subcollections-grid">${articles.map(article => `
                 <div class="subcollection-card" onclick="openArticle('${uid}', '${article.id}')">
                     <div class="subcollection-icon">📄</div>
                     <div class="subcollection-name">${escapeHtml(article.titulo)}</div>
                     <div class="subcollection-meta">${escapeHtml(article.descricao)}</div>
-                    <div style="margin-top: 10px;">
-                        <button class="btn-abrir-painel" style="font-size: 0.7em; padding: 5px 10px;" onclick="event.stopPropagation(); openArticleEditor('${uid}', '${article.id}', '${escapeHtml(article.titulo)}')">✏️ Editar Artigo</button>
-                    </div>
+                    <div style="margin-top:10px;"><button class="btn-abrir-painel" style="font-size:0.7em; padding:5px 10px;" onclick="event.stopPropagation(); openEditor('${uid}', '${article.id}')">✏️ Editar</button></div>
                 </div>
             `).join('')}</div>`}
             ${!isGuestUser ? `<div style="margin-top:30px; padding:20px; background:#eaf3ff; border-radius:8px; text-align:center;">
-                <p>Quer contribuir com esta página?</p>
-                <button onclick="openPageEditor('${uid}', '${escapeHtml(data.titulo || uid)}')" class="btn-abrir-painel">📝 Editar Página (${escapeHtml(uid)})</button>
-                <button onclick="openArticleCreator('${uid}')" class="btn-abrir-painel" style="margin-left: 10px; background-color: #28a745;">➕ Criar Novo Artigo</button>
+                <button onclick="openEditor('${uid}', null)" class="btn-abrir-painel">📝 Editar Página</button>
+                <button onclick="openEditor('${uid}', 'novo')" class="btn-abrir-painel" style="margin-left:10px; background-color:#28a745;">➕ Novo Artigo</button>
             </div>` : '<p style="margin-top:30px; text-align:center; color:#666;">Modo convidado: faça login para editar.</p>'}
         `;
-    } catch (error) {
-        articleContent.innerHTML = `<div class="loading">Erro: ${error.message}</div>`;
-    }
+    } catch (error) { articleContent.innerHTML = `<div class="loading">Erro: ${error.message}</div>`; }
 };
-
-// Função para abrir editor de artigo específico
-function openArticleEditor(pageUid, articleId, articleTitle) {
-    if (isGuestUser) {
-        alert('🔒 Modo convidado não permite edição. Faça login com Google para editar artigos.');
-        return;
-    }
-    
-    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?edit=${pageUid}&article=${articleId}`;
-    const iframe = document.getElementById('painel-iframe');
-    const iframeTitle = document.getElementById('iframe-title');
-    
-    iframeTitle.innerHTML = `📝 Editando Artigo: ${escapeHtml(articleTitle || articleId)} - WikiZero`;
-    iframe.src = editorUrl;
-    
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-// Função para criar novo artigo
-function openArticleCreator(pageUid) {
-    if (isGuestUser) {
-        alert('🔒 Modo convidado não permite criação. Faça login com Google para criar artigos.');
-        return;
-    }
-    
-    const editorUrl = `https://wiki.wazzimagiygg.com/pages/?new=true&page=${pageUid}`;
-    const iframe = document.getElementById('painel-iframe');
-    const iframeTitle = document.getElementById('iframe-title');
-    
-    iframeTitle.innerHTML = `📝 Criando Novo Artigo - WikiZero`;
-    iframe.src = editorUrl;
-    
-    document.getElementById('iframe-overlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
 
 window.openArticle = async function(collectionUid, articleId) {
     try {
         const articleRef = db.collection('documentos').doc(collectionUid).collection('inevitavel').doc(articleId);
         const article = await articleRef.get();
-        
-        if (!article.exists) {
-            alert('Artigo não encontrado');
-            return;
-        }
-        
+        if (!article.exists) { alert('Artigo não encontrado'); return; }
         const data = article.data();
         document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
         document.getElementById('modal-body').innerHTML = `
             <div class="wiki-content-rendered">
-                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">
-                    Criado por: ${escapeHtml(data.criadorNome || data.criadorEmail || 'Anônimo')}
-                </div>
+                <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">Criado por: ${escapeHtml(data.criadorNome || 'Anônimo')}</div>
                 ${escapeHtml(data.descricao || 'Sem conteúdo.')}
             </div>
-            ${!isGuestUser ? `<div style="margin-top: 20px; text-align: center;">
-                <button onclick="closeModal(); openArticleEditor('${collectionUid}', '${articleId}', '${escapeHtml(data.titulo)}')" class="btn-abrir-painel">✏️ Editar Este Artigo</button>
-            </div>` : ''}
+            ${!isGuestUser ? `<div style="margin-top:20px; text-align:center;"><button onclick="closeModal(); openEditor('${collectionUid}', '${articleId}')" class="btn-abrir-painel">✏️ Editar</button></div>` : ''}
         `;
         document.getElementById('modal').style.display = 'flex';
-    } catch (error) {
-        alert('Erro: ' + error.message);
-    }
+    } catch (error) { alert('Erro: ' + error.message); }
 };
 
-function showMyDataModal() {
-    if (!currentUser || isGuestUser) {
-        alert('Faça login com Google para visualizar seus dados.');
-        return;
+// ============================================
+// EDITOR INTEGRADO
+// ============================================
+async function openEditor(pageUid, articleId) {
+    if (isGuestUser) { alert('Faça login para editar.'); return; }
+    currentEditingPageUid = pageUid;
+    
+    // Carregar lista de artigos
+    await loadArticleList(pageUid);
+    
+    if (articleId === 'novo') {
+        // Criar novo artigo
+        currentEditingArticleId = null;
+        document.getElementById('editor-article-title').value = '';
+        document.getElementById('editor-article-content').value = '';
+        document.getElementById('editor-article-description').value = '';
+        document.getElementById('editor-title').innerHTML = `📝 Criando novo artigo em ${escapeHtml(pageUid)}`;
+    } else if (articleId) {
+        // Editar artigo existente
+        currentEditingArticleId = articleId;
+        await loadArticleData(pageUid, articleId);
+        document.getElementById('editor-title').innerHTML = `📝 Editando artigo em ${escapeHtml(pageUid)}`;
+    } else {
+        // Editar página (meta dados)
+        currentEditingArticleId = null;
+        document.getElementById('editor-article-title').value = '';
+        document.getElementById('editor-article-content').value = '';
+        document.getElementById('editor-article-description').value = '';
+        document.getElementById('editor-title').innerHTML = `📝 Editando página: ${escapeHtml(pageUid)}`;
     }
+    
+    document.getElementById('editor-modal').style.display = 'flex';
+}
+
+async function loadArticleList(pageUid) {
+    const container = document.getElementById('editor-article-list');
+    try {
+        const snapshot = await db.collection('documentos').doc(pageUid).collection('inevitavel').get();
+        const articles = [];
+        snapshot.forEach(doc => articles.push({ id: doc.id, titulo: doc.data().titulo }));
+        
+        if (articles.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">Nenhum artigo ainda</p>';
+        } else {
+            container.innerHTML = articles.map(art => `
+                <div class="article-list-item" onclick="openEditor('${pageUid}', '${art.id}')">
+                    <span>📄 ${escapeHtml(art.titulo)}</span>
+                    <span class="delete-article-btn" onclick="event.stopPropagation(); deleteArticle('${pageUid}', '${art.id}')">🗑️</span>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        container.innerHTML = `<p>Erro: ${error.message}</p>`;
+    }
+}
+
+async function loadArticleData(pageUid, articleId) {
+    try {
+        const doc = await db.collection('documentos').doc(pageUid).collection('inevitavel').doc(articleId).get();
+        if (doc.exists) {
+            const data = doc.data();
+            document.getElementById('editor-article-title').value = data.titulo || '';
+            document.getElementById('editor-article-content').value = data.descricao || '';
+            document.getElementById('editor-article-description').value = data.resumo || '';
+        }
+    } catch (error) {
+        alert('Erro ao carregar: ' + error.message);
+    }
+}
+
+async function saveArticle() {
+    if (!currentEditingPageUid) { alert('Erro: página não identificada'); return; }
+    
+    const title = document.getElementById('editor-article-title').value.trim();
+    const content = document.getElementById('editor-article-content').value;
+    const description = document.getElementById('editor-article-description').value;
+    
+    if (!title && currentEditingArticleId !== null) { alert('Digite um título'); return; }
+    
+    const saveBtn = document.getElementById('editor-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = '💾 Salvando...';
+    
+    try {
+        if (currentEditingArticleId) {
+            // Atualizar artigo existente
+            await db.collection('documentos').doc(currentEditingPageUid).collection('inevitavel').doc(currentEditingArticleId).update({
+                titulo: title,
+                descricao: content,
+                resumo: description,
+                ultimaEdicao: firebase.firestore.FieldValue.serverTimestamp(),
+                editorId: currentUser.uid
+            });
+            alert('✅ Artigo atualizado!');
+        } else if (title) {
+            // Criar novo artigo
+            const newId = title.toLowerCase().replace(/[^a-z0-9_]/g, '_') + '_' + Date.now();
+            await db.collection('documentos').doc(currentEditingPageUid).collection('inevitavel').doc(newId).set({
+                titulo: title,
+                descricao: content,
+                resumo: description,
+                criadorEmail: currentUser.email,
+                criadorNome: currentUser.displayName,
+                criadorUid: currentUser.uid,
+                dataCriacao: firebase.firestore.FieldValue.serverTimestamp(),
+                ultimaEdicao: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert('✅ Novo artigo criado!');
+        } else {
+            alert('Digite um título para o artigo');
+            saveBtn.disabled = false;
+            saveBtn.textContent = '💾 Salvar';
+            return;
+        }
+        
+        // Recarregar lista
+        await loadArticleList(currentEditingPageUid);
+        
+        // Se estava em modo de edição de artigo, fechar modal
+        if (confirm('Salvo com sucesso! Deseja continuar editando?')) {
+            // Mantém aberto
+        } else {
+            document.getElementById('editor-modal').style.display = 'none';
+            // Recarregar visualização da página
+            await openSubcollection(currentEditingPageUid);
+        }
+    } catch (error) {
+        alert('Erro: ' + error.message);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = '💾 Salvar';
+    }
+}
+
+async function deleteArticle(pageUid, articleId) {
+    if (confirm('Tem certeza que deseja excluir este artigo permanentemente?')) {
+        try {
+            await db.collection('documentos').doc(pageUid).collection('inevitavel').doc(articleId).delete();
+            alert('Artigo excluído!');
+            await loadArticleList(pageUid);
+            // Se o artigo excluído era o que estava sendo editado, limpar formulário
+            if (currentEditingArticleId === articleId) {
+                currentEditingArticleId = null;
+                document.getElementById('editor-article-title').value = '';
+                document.getElementById('editor-article-content').value = '';
+                document.getElementById('editor-article-description').value = '';
+            }
+        } catch (error) {
+            alert('Erro: ' + error.message);
+        }
+    }
+}
+
+function closeEditor() {
+    document.getElementById('editor-modal').style.display = 'none';
+    currentEditingPageUid = null;
+    currentEditingArticleId = null;
+}
+
+function showMyDataModal() {
+    if (!currentUser || isGuestUser) { alert('Faça login.'); return; }
     document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
-    document.getElementById('modal-body').innerHTML = `
-        <p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || 'Não informado')}</p>
-        <p><strong>E-mail:</strong> ${escapeHtml(currentUser.email)}</p>
-        <p><strong>UID:</strong> <code>${currentUser.uid}</code></p>
-        <p><strong>Último login:</strong> ${new Date(currentUser.metadata.lastSignInTime).toLocaleString('pt-BR')}</p>
-    `;
+    document.getElementById('modal-body').innerHTML = `<p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || '-')}</p><p><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p><p><strong>UID:</strong> <code>${currentUser.uid}</code></p>`;
     document.getElementById('modal').style.display = 'flex';
 }
 
 // Event Listeners
 document.getElementById('create-subcollection-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
-    
+    if (isGuestUser) { alert('Faça login para criar.'); return; }
     const uid = document.getElementById('sub-name').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
     const titulo = document.getElementById('sub-title').value.trim();
     const descricao = document.getElementById('sub-description').value.trim();
     const categoria = document.getElementById('sub-category').value.trim() || 'Geral';
-    
     if (!uid || !titulo) { alert('Preencha os campos.'); return; }
-    
     const submitBtn = e.target.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Criando...';
-    
+    submitBtn.disabled = true; submitBtn.textContent = 'Criando...';
     try {
         const docRef = db.collection('documentos').doc(uid);
-        if ((await docRef.get()).exists) {
-            alert(`A página "${uid}" já existe!`);
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Criar Página';
-            return;
-        }
-        
-        await docRef.set({
-            uid, titulo, descricao, categoria,
-            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-            criadoPor: currentUser.uid,
-            criadoPorNome: currentUser.displayName || 'Usuário',
-            status: 'ativo'
-        });
-        
-        alert(`Página criada! Agora você pode editar o conteúdo.`);
+        if ((await docRef.get()).exists) { alert(`Página "${uid}" já existe!`); submitBtn.disabled = false; submitBtn.textContent = 'Criar Página'; return; }
+        await docRef.set({ uid, titulo, descricao, categoria, criadoEm: firebase.firestore.FieldValue.serverTimestamp(), criadoPor: currentUser.uid, criadoPorNome: currentUser.displayName || 'Usuário', status: 'ativo' });
+        alert(`✅ Página "${titulo}" criada!`);
         document.getElementById('create-subcollection-form').reset();
         loadSubcollections();
-        
-        // Perguntar se quer editar agora
-        const editNow = confirm(`Deseja editar o conteúdo da página "${titulo}" agora?`);
-        if (editNow) {
-            openPageEditor(uid, titulo);
-        } else {
-            showListView();
-        }
-    } catch (error) {
-        alert('Erro: ' + error.message);
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Criar Página';
-    }
+        const editNow = confirm(`Deseja adicionar conteúdo à página "${titulo}" agora?`);
+        if (editNow) { openEditor(uid, 'novo'); } else { showListView(); }
+    } catch (error) { alert('Erro: ' + error.message); }
+    finally { submitBtn.disabled = false; submitBtn.textContent = 'Criar Página'; }
 });
 
 document.getElementById('search-btn')?.addEventListener('click', () => {
     const term = document.getElementById('search-input').value.toLowerCase().trim();
     if (!term) displaySubcollections(allSubcollections);
-    else displaySubcollections(allSubcollections.filter(sub => 
-        sub.titulo.toLowerCase().includes(term) || 
-        (sub.description && sub.description.toLowerCase().includes(term))
-    ));
+    else displaySubcollections(allSubcollections.filter(sub => sub.titulo.toLowerCase().includes(term) || (sub.description && sub.description.toLowerCase().includes(term))));
 });
 
 document.getElementById('random-btn')?.addEventListener('click', showRandomPage);
 document.getElementById('login-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); closeDropdown(); });
-document.getElementById('guest-login-btn')?.addEventListener('click', () => { createGuestUser(); if (auth.currentUser) auth.signOut().then(() => setTimeout(() => location.reload(), 500)); else location.reload(); closeDropdown(); });
+document.getElementById('guest-login-btn')?.addEventListener('click', () => { createGuestUser(); location.reload(); closeDropdown(); });
 document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
 document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
 document.addEventListener('click', () => closeDropdown());
-document.getElementById('menu-open-iframe')?.addEventListener('click', (e) => { e.preventDefault(); openGlobalPainel(); });
 
-// Menu lateral expansível
+// Editor eventos
+document.getElementById('editor-save-btn')?.addEventListener('click', saveArticle);
+document.getElementById('editor-close-btn')?.addEventListener('click', closeEditor);
+document.getElementById('editor-new-article-btn')?.addEventListener('click', () => { if (currentEditingPageUid) openEditor(currentEditingPageUid, 'novo'); });
+
+// Menu lateral
 const sideMenu = document.getElementById('sidebar-menu');
 const menuToggle = document.getElementById('menu-toggle-btn');
 let isCollapsed = false;
 if (menuToggle) {
     menuToggle.addEventListener('click', () => {
         isCollapsed = !isCollapsed;
-        if (isCollapsed) {
-            sideMenu.classList.add('collapsed');
-            menuToggle.innerHTML = '▶';
-        } else {
-            sideMenu.classList.remove('collapsed');
-            menuToggle.innerHTML = '◀';
-        }
+        if (isCollapsed) { sideMenu.classList.add('collapsed'); menuToggle.innerHTML = '▶'; }
+        else { sideMenu.classList.remove('collapsed'); menuToggle.innerHTML = '◀'; }
     });
 }
 
-// Navegação por abas
+// Abas
 document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         const view = tab.getAttribute('data-view');
@@ -1616,30 +1566,15 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     auth.onAuthStateChanged(user => {
-        if (user) {
-            currentUser = user;
-            isGuestUser = false;
-            clearGuestUser();
-            updateAuthUI();
-            loadSubcollections();
-        } else {
+        if (user) { currentUser = user; isGuestUser = false; clearGuestUser(); updateAuthUI(); loadSubcollections(); }
+        else {
             const guestUser = getStoredGuestUser();
-            if (guestUser) {
-                currentUser = guestUser;
-                isGuestUser = true;
-                updateAuthUI();
-                loadSubcollections();
-            } else {
-                currentUser = null;
-                isGuestUser = false;
-                updateAuthUI();
-                loadSubcollections();
-            }
+            if (guestUser) { currentUser = guestUser; isGuestUser = true; updateAuthUI(); loadSubcollections(); }
+            else { currentUser = null; isGuestUser = false; updateAuthUI(); loadSubcollections(); }
         }
     });
 });
 
-// Expor funções globalmente
 window.showListView = showListView;
 window.showRandomPage = showRandomPage;
 window.showCreateView = showCreateView;
@@ -1650,14 +1585,11 @@ window.showTermsView = showTermsView;
 window.showMyDataModal = showMyDataModal;
 window.openSubcollection = openSubcollection;
 window.openArticle = openArticle;
-window.openPageEditor = openPageEditor;
-window.openArticleEditor = openArticleEditor;
-window.openArticleCreator = openArticleCreator;
-window.openGlobalPainel = openGlobalPainel;
-window.closeIframe = closeIframe;
-window.reloadIframe = reloadIframe;
+window.openEditor = openEditor;
+window.closeEditor = closeEditor;
 window.closeModal = closeModal;
 window.closeDropdown = closeDropdown;
+window.deleteArticle = deleteArticle;
 </script>
 
 </body>
