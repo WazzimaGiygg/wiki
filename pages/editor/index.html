@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor WikiZero - Formatação de Artigos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .editor-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: #2c3e50;
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 4px;
+            padding: 0 8px;
+            border-right: 1px solid #466089;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            background: #34495e;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toolbar-btn:hover {
+            background: #3d5a73;
+            transform: translateY(-1px);
+        }
+
+        .toolbar-btn.active {
+            background: #27ae60;
+        }
+
+        .toolbar-btn i {
+            font-size: 18px;
+        }
+
+        /* Selects */
+        .toolbar-select {
+            background: #34495e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .toolbar-select:hover {
+            background: #3d5a73;
+        }
+
+        /* Área de edição */
+        .editor-main {
+            display: flex;
+            height: 600px;
+        }
+
+        .editor-sidebar {
+            width: 280px;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .editor-sidebar h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .format-example {
+            margin-bottom: 20px;
+        }
+
+        .format-example p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .format-example code {
+            display: block;
+            background: #e9ecef;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .format-example code:hover {
+            background: #dee2e6;
+            transform: translateX(3px);
+        }
+
+        .editor-content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .editor-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .editor-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .editor-tab:hover:not(.active) {
+            color: #333;
+            background: #e9ecef;
+        }
+
+        .editor-textarea, .editor-preview {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .editor-preview {
+            background: white;
+            display: none;
+        }
+
+        .editor-preview.active {
+            display: block;
+        }
+
+        .editor-preview-content {
+            line-height: 1.8;
+        }
+
+        .editor-preview-content h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .editor-preview-content h2 {
+            font-size: 1.5em;
+            margin: 20px 0 10px;
+        }
+
+        .editor-preview-content h3 {
+            font-size: 1.2em;
+            margin: 15px 0 10px;
+        }
+
+        .editor-preview-content ul, .editor-preview-content ol {
+            margin: 10px 0 10px 30px;
+        }
+
+        .editor-preview-content blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 15px 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        .editor-preview-content code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .editor-preview-content pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /* Barra de status */
+        .status-bar {
+            background: #f8f9fa;
+            padding: 8px 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Botões de ação */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #219a52;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .toolbar-group {
+                border-right: none;
+                margin-bottom: 5px;
+            }
+            .editor-main {
+                flex-direction: column;
+            }
+            .editor-sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Barra de Ferramentas -->
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <select id="font-size" class="toolbar-select">
+                    <option value="h1">Título 1 (h1)</option>
+                    <option value="h2">Título 2 (h2)</option>
+                    <option value="h3">Título 3 (h3)</option>
+                    <option value="h4">Título 4 (h4)</option>
+                    <option value="p">Parágrafo</option>
+                </select>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="btn-bold" title="Negrito (Ctrl+B)">
+                    <i class="material-icons">format_bold</i>
+                </button>
+                <button class="toolbar-btn" id="btn-italic" title="Itálico (Ctrl+I)">
+                    <i class="material-icons">format_italic</i>
+                </button>
+                <button class="toolbar-btn" id="btn-underline" title="Sublinhado (Ctrl+U)">
+                    <i class="material-icons">format_underline</i>
+                </button>
+                <button class="toolbar-btn" id="btn-strike" title="Tachado">
+                    <i class="material-icons">strikethrough_s</i>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="btn-list-ul" title="Lista com marcadores">
+                    <i class="material-icons">format_list_bulleted</i>
+                </button>
+                <button class="toolbar-btn" id="btn-list-ol" title="Lista numerada">
+                    <i class="material-icons">format_list_numbered</i>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="btn-link" title="Inserir link">
+                    <i class="material-icons">insert_link</i>
+                </button>
+                <button class="toolbar-btn" id="btn-image" title="Inserir imagem">
+                    <i class="material-icons">image</i>
+                </button>
+                <button class="toolbar-btn" id="btn-code" title="Código">
+                    <i class="material-icons">code</i>
+                </button>
+                <button class="toolbar-btn" id="btn-quote" title="Citação">
+                    <i class="material-icons">format_quote</i>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="btn-table" title="Inserir tabela">
+                    <i class="material-icons">table_chart</i>
+                </button>
+                <button class="toolbar-btn" id="btn-hr" title="Linha horizontal">
+                    <i class="material-icons">horizontal_rule</i>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="btn-clear" title="Limpar formatação">
+                    <i class="material-icons">format_clear</i>
+                </button>
+                <button class="toolbar-btn" id="btn-undo" title="Desfazer (Ctrl+Z)">
+                    <i class="material-icons">undo</i>
+                </button>
+                <button class="toolbar-btn" id="btn-redo" title="Refazer (Ctrl+Y)">
+                    <i class="material-icons">redo</i>
+                </button>
+            </div>
+        </div>
+
+        <div class="editor-main">
+            <!-- Barra lateral com exemplos -->
+            <div class="editor-sidebar">
+                <h3>📝 Guia Rápido</h3>
+                <div class="format-example">
+                    <p><strong>Clique para inserir:</strong></p>
+                    <code onclick="insertText('= Título =')">= Título Principal =</code>
+                    <code onclick="insertText('== Subtítulo ==')">== Subtítulo ==</code>
+                    <code onclick="insertText('=== Seção ===')">=== Seção ===</code>
+                    <code onclick="insertText('**texto em negrito**')">**negrito**</code>
+                    <code onclick="insertText('*texto em itálico*')">*itálico*</code>
+                    <code onclick="insertText('[[Nome da Página]]')">[[Link interno]]</code>
+                    <code onclick="insertText('[https://exemplo.com Texto]')">[Link externo]</code>
+                    <code onclick="insertText('* Item 1\n* Item 2')">Lista com marcadores</code>
+                    <code onclick="insertText('# Item 1\n# Item 2')">Lista numerada</code>
+                    <code onclick="insertText('&gt; Texto da citação')">Citação em bloco</code>
+                    <code onclick="insertText('`código inline`')">Código inline</code>
+                    <code onclick="insertText('<pre>\n// código em bloco\n</pre>')">Bloco de código</code>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="copyToClipboard()">📋 Copiar Conteúdo</button>
+                    <button class="btn-secondary" onclick="clearAll()">🗑️ Limpar Tudo</button>
+                </div>
+            </div>
+
+            <!-- Área de conteúdo -->
+            <div class="editor-content-area">
+                <div class="editor-tabs">
+                    <div class="editor-tab active" data-tab="edit">✏️ Editar</div>
+                    <div class="editor-tab" data-tab="preview">👁️ Pré-visualizar</div>
+                </div>
+                
+                <div class="editor-textarea" id="editor-textarea" contenteditable="true">
+                    <h1>Exemplo de Artigo</h1>
+                    <p>Este é um <strong>exemplo</strong> de artigo usando o <em>editor de texto</em> do WikiZero.</p>
+                    <h2>Começando</h2>
+                    <p>Você pode formatar o texto usando os botões da barra de ferramentas ou digitando os códigos diretamente.</p>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                    </ul>
+                    <blockquote>Citação em destaque</blockquote>
+                </div>
+                
+                <div class="editor-preview" id="editor-preview">
+                    <div class="editor-preview-content" id="preview-content"></div>
+                </div>
+                
+                <div class="status-bar">
+                    <span id="word-count">0 palavras</span>
+                    <span id="char-count">0 caracteres</span>
+                    <span>Ctrl+B = Negrito | Ctrl+I = Itálico | Ctrl+U = Sublinhado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos
+        const editor = document.getElementById('editor-textarea');
+        const preview = document.getElementById('editor-preview');
+        const previewContent = document.getElementById('preview-content');
+
+        // ============================================
+        // FUNÇÕES DE FORMATAÇÃO
+        // ============================================
+        
+        function getSelectedText() {
+            const selection = window.getSelection();
+            return selection.toString();
+        }
+
+        function replaceSelection(html) {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            
+            const fragment = range.createContextualFragment(html);
+            range.insertNode(fragment);
+            range.collapse(false);
+            
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        function wrapSelection(startTag, endTag) {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            
+            const selectedText = selection.toString();
+            if (selectedText) {
+                replaceSelection(`${startTag}${selectedText}${endTag}`);
+            } else {
+                insertText(`${startTag}texto${endTag}`);
+            }
+        }
+
+        function insertText(text) {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            
+            const textNode = document.createTextNode(text);
+            range.insertNode(textNode);
+            range.collapse(false);
+            
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        // ============================================
+        // EVENTOS DA BARRA DE FERRAMENTAS
+        // ============================================
+        
+        // Negrito
+        document.getElementById('btn-bold').addEventListener('click', () => {
+            document.execCommand('bold', false, null);
+        });
+        
+        // Itálico
+        document.getElementById('btn-italic').addEventListener('click', () => {
+            document.execCommand('italic', false, null);
+        });
+        
+        // Sublinhado
+        document.getElementById('btn-underline').addEventListener('click', () => {
+            document.execCommand('underline', false, null);
+        });
+        
+        // Tachado
+        document.getElementById('btn-strike').addEventListener('click', () => {
+            document.execCommand('strikeThrough', false, null);
+        });
+        
+        // Lista não ordenada
+        document.getElementById('btn-list-ul').addEventListener('click', () => {
+            document.execCommand('insertUnorderedList', false, null);
+        });
+        
+        // Lista ordenada
+        document.getElementById('btn-list-ol').addEventListener('click', () => {
+            document.execCommand('insertOrderedList', false, null);
+        });
+        
+        // Citação
+        document.getElementById('btn-quote').addEventListener('click', () => {
+            document.execCommand('formatBlock', false, 'blockquote');
+        });
+        
+        // Linha horizontal
+        document.getElementById('btn-hr').addEventListener('click', () => {
+            document.execCommand('insertHorizontalRule', false, null);
+        });
+        
+        // Limpar formatação
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            document.execCommand('removeFormat', false, null);
+        });
+        
+        // Desfazer
+        document.getElementById('btn-undo').addEventListener('click', () => {
+            document.execCommand('undo', false, null);
+        });
+        
+        // Refazer
+        document.getElementById('btn-redo').addEventListener('click', () => {
+            document.execCommand('redo', false, null);
+        });
+        
+        // Link
+        document.getElementById('btn-link').addEventListener('click', () => {
+            const url = prompt('Digite a URL:', 'https://');
+            if (url) {
+                const selectedText = getSelectedText();
+                if (selectedText) {
+                    replaceSelection(`<a href="${url}" target="_blank">${selectedText}</a>`);
+                } else {
+                    insertText(`[${url} ${url}]`);
+                }
+            }
+        });
+        
+        // Imagem
+        document.getElementById('btn-image').addEventListener('click', () => {
+            const url = prompt('Digite a URL da imagem:', 'https://');
+            if (url) {
+                insertText(`<img src="${url}" alt="imagem" style="max-width:100%">`);
+            }
+        });
+        
+        // Código
+        document.getElementById('btn-code').addEventListener('click', () => {
+            wrapSelection('<code>', '</code>');
+        });
+        
+        // Tabela
+        document.getElementById('btn-table').addEventListener('click', () => {
+            const rows = prompt('Número de linhas:', '3');
+            const cols = prompt('Número de colunas:', '3');
+            if (rows && cols) {
+                let table = '<table border="1" style="border-collapse:collapse; width:100%">';
+                for (let i = 0; i < rows; i++) {
+                    table += '<tr>';
+                    for (let j = 0; j < cols; j++) {
+                        if (i === 0) {
+                            table += `<th style="padding:8px; text-align:left">Cabeçalho ${j+1}</th>`;
+                        } else {
+                            table += `<td style="padding:8px">Célula ${i+1},${j+1}</td>`;
+                        }
+                    }
+                    table += '</tr>';
+                }
+                table += '</table><br>';
+                insertText(table);
+            }
+        });
+        
+        // Tamanho da fonte / Título
+        document.getElementById('font-size').addEventListener('change', (e) => {
+            const value = e.target.value;
+            if (value === 'p') {
+                document.execCommand('formatBlock', false, 'p');
+            } else {
+                document.execCommand('formatBlock', false, value);
+            }
+        });
+        
+        // ============================================
+        // PRÉ-VISUALIZAÇÃO
+        // ============================================
+        
+        function updatePreview() {
+            const content = editor.innerHTML;
+            // Converter formatação wiki para HTML na pré-visualização
+            let html = content;
+            
+            // Títulos
+            html = html.replace(/^= ([^=]+) =$/gm, '<h1>$1</h1>');
+            html = html.replace(/^== ([^=]+) ==$/gm, '<h2>$1</h2>');
+            html = html.replace(/^=== ([^=]+) ===$/gm, '<h3>$1</h3>');
+            html = html.replace(/^==== ([^=]+) ====$/gm, '<h4>$1</h4>');
+            
+            // Formatação de texto
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+            
+            // Links
+            html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, '<a href="#">$1</a>');
+            html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank">$2</a>');
+            
+            // Listas
+            html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/^# (.+)$/gm, '<li>$1</li>');
+            
+            // Citações
+            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+            html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            
+            // Código
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            previewContent.innerHTML = html || '<em>Sem conteúdo para pré-visualizar</em>';
+        }
+        
+        // Atualizar pré-visualização ao editar
+        editor.addEventListener('input', () => {
+            updatePreview();
+            updateStats();
+        });
+        
+        // ============================================
+        // ESTATÍSTICAS
+        // ============================================
+        
+        function updateStats() {
+            const text = editor.innerText || '';
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const chars = text.length;
+            
+            document.getElementById('word-count').textContent = `${words} palavras`;
+            document.getElementById('char-count').textContent = `${chars} caracteres`;
+        }
+        
+        // ============================================
+        // FUNÇÕES AUXILIARES
+        // ============================================
+        
+        function copyToClipboard() {
+            const html = editor.innerHTML;
+            const text = editor.innerText;
+            
+            // Copiar como texto wiki
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Conteúdo copiado para a área de transferência!');
+            }).catch(() => {
+                alert('❌ Erro ao copiar');
+            });
+        }
+        
+        function clearAll() {
+            if (confirm('Tem certeza que deseja limpar todo o conteúdo?')) {
+                editor.innerHTML = '';
+                updatePreview();
+                updateStats();
+            }
+        }
+        
+        // ============================================
+        // TABS (Editar / Pré-visualizar)
+        // ============================================
+        
+        document.querySelectorAll('.editor-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                
+                document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (target === 'edit') {
+                    editor.style.display = 'block';
+                    preview.classList.remove('active');
+                } else {
+                    editor.style.display = 'none';
+                    preview.classList.add('active');
+                    updatePreview();
+                }
+            });
+        });
+        
+        // ============================================
+        // ATALHOS DE TECLADO
+        // ============================================
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'b':
+                        e.preventDefault();
+                        document.execCommand('bold', false, null);
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        document.execCommand('italic', false, null);
+                        break;
+                    case 'u':
+                        e.preventDefault();
+                        document.execCommand('underline', false, null);
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        document.execCommand('undo', false, null);
+                        break;
+                    case 'y':
+                        e.preventDefault();
+                        document.execCommand('redo', false, null);
+                        break;
+                }
+            }
+        });
+        
+        // Inicializar estatísticas
+        updateStats();
+        
+        // Exportar funções para uso externo
+        window.getWikiContent = function() {
+            return editor.innerHTML;
+        };
+        
+        window.setWikiContent = function(content) {
+            editor.innerHTML = content;
+            updatePreview();
+            updateStats();
+        };
+    </script>
+</body>
+</html>
