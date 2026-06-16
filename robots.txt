@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://wiki.wazzimagiygg.com/sitemap.xml
+
+Disallow: /login/
+Disallow: /admin/
+Disallow: /editor/
+Disallow: /edit/
