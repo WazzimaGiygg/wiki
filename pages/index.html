@@ -19,6 +19,78 @@
             color: #202122;
         }
 
+        /* BANNED OVERLAY */
+        .banned-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .banned-overlay.show {
+            display: flex;
+        }
+
+        .banned-box {
+            background: #1a1a1a;
+            border: 2px solid #dc3545;
+            border-radius: 16px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+
+        .banned-box .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .banned-box h2 {
+            color: #dc3545;
+            margin-bottom: 15px;
+        }
+
+        .banned-box p {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .banned-box .btn-logout-banned {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .banned-box .btn-logout-banned:hover {
+            background: #c0392b;
+        }
+
+        .banned-box .ban-details {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #888;
+        }
+
         /* Estilos do formulário de login */
         .login-container {
             display: flex;
@@ -561,6 +633,20 @@
 </head>
 <body>
 
+<!-- BANNED OVERLAY -->
+<div id="bannedOverlay" class="banned-overlay">
+    <div class="banned-box">
+        <div class="icon">🚫</div>
+        <h2>⚠️ Conta Banida</h2>
+        <p>Sua conta foi banida permanentemente da WikiZero.</p>
+        <div id="banDetails" class="ban-details">
+            Motivo: Violação das políticas de uso
+        </div>
+        <p style="font-size: 14px; color: #666;">Se você acredita que isso é um erro, entre em contato com o suporte.</p>
+        <button class="btn-logout-banned" onclick="logoutBanned()">🚪 Sair da conta</button>
+    </div>
+</div>
+
 <!-- MODAL LGPD DE CONSENTIMENTO -->
 <div id="lgpd-modal" class="modal">
     <div class="modal-content">
@@ -925,6 +1011,99 @@
     const CONSENT_STORAGE_KEY = 'wikizero_lgpd_consent';
     const CONSENT_VERSION_KEY = 'wikizero_consent_version';
     
+    let firebaseInitialized = false;
+    let currentUser = null;
+    let isBanned = false;
+    let todosArtigos = [];
+    let paginaAtual = 1;
+    let db, auth;
+    const itensPorPagina = 6;
+    
+    // ============================================
+    // FUNÇÃO PARA VERIFICAR SE USUÁRIO ESTÁ BANIDO
+    // ============================================
+    async function checkIfUserIsBanned(user) {
+        if (!user) return false;
+        
+        try {
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (userDoc.exists) {
+                const data = userDoc.data();
+                return data.isBanned === true || data.isBan === true;
+            }
+        } catch (error) {
+            console.log("Erro ao verificar banimento:", error);
+        }
+        
+        return false;
+    }
+
+    // ============================================
+    // FUNÇÃO PARA USUÁRIO BANIDO
+    // ============================================
+    function showBannedScreen(reason = 'Violação das políticas de uso') {
+        const overlay = document.getElementById('bannedOverlay');
+        const details = document.getElementById('banDetails');
+        details.textContent = `Motivo: ${reason}`;
+        overlay.classList.add('show');
+        
+        // Esconde o conteúdo principal
+        document.querySelector('.header-logged-in').style.opacity = '0.3';
+        document.querySelector('.header-logged-in').style.pointerEvents = 'none';
+        document.querySelector('.main-container').style.opacity = '0.3';
+        document.querySelector('.main-container').style.pointerEvents = 'none';
+        document.querySelector('.footer-lgpd').style.opacity = '0.3';
+        document.querySelector('.footer-lgpd').style.pointerEvents = 'none';
+        document.getElementById('login-section').style.opacity = '0.3';
+        document.getElementById('login-section').style.pointerEvents = 'none';
+    }
+
+    function logoutBanned() {
+        auth.signOut().then(() => {
+            location.reload();
+        });
+    }
+
+    // ============================================
+    // FUNÇÃO PARA REGISTRAR USUÁRIO (PRESERVANDO BAN)
+    // ============================================
+    async function registerUser(user) {
+        try {
+            const uid = user.uid;
+            
+            // Verifica se o usuário já existe para preservar o status de ban
+            const userDoc = await db.collection('users').doc(uid).get();
+            const existingData = userDoc.exists ? userDoc.data() : {};
+            
+            const userData = {
+                uid: uid,
+                email: user.email || '',
+                name: user.displayName || 'Usuário',
+                profilePictureUrl: user.photoURL || '',
+                isAdmin: existingData.isAdmin || false,
+                isBan: existingData.isBan || false,
+                isBanned: existingData.isBanned || false,
+                isTeacher: false,
+                isTeatcher: false,
+                createdAt: existingData.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // Registra na coleção 'users'
+            await db.collection('users').doc(uid).set(userData, { merge: true });
+            
+            // Registra na coleção 'usuários'
+            await db.collection('usuários').doc(uid).set(userData, { merge: true });
+
+            console.log(`Usuário ${uid} registrado com sucesso! isBanned: ${userData.isBanned}`);
+            return userData;
+        } catch (error) {
+            console.error('Erro ao registrar usuário:', error);
+            return null;
+        }
+    }
+
     // ============================================
     // FUNÇÕES DE FORMATAÇÃO
     // ============================================
@@ -1058,6 +1237,10 @@
     // ============================================
     
     async function showUserDataModal() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         const modal = document.getElementById('userdata-modal');
         const body = document.getElementById('userdata-body');
         
@@ -1118,6 +1301,10 @@
     }
     
     async function exportUserData() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         if (!currentUser) {
             alert('Faça login para exportar seus dados.');
             return;
@@ -1164,6 +1351,10 @@
     }
     
     async function requestAccountDeletion() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         if (!currentUser) {
             alert('Faça login para solicitar exclusão.');
             return;
@@ -1198,6 +1389,10 @@
     }
     
     async function revokeConsent() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         const confirm = confirm(
             '⚠️ ATENÇÃO: Ao revogar seu consentimento:\n\n' +
             '- Você não poderá mais criar ou editar conteúdo\n' +
@@ -1228,6 +1423,10 @@
     // ============================================
     
     function showPrivacyModal() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         document.getElementById('privacy-modal').style.display = 'flex';
     }
     
@@ -1236,6 +1435,10 @@
     }
     
     function showTermsModal() {
+        if (isBanned) {
+            alert('Sua conta está banida. Acesso negado.');
+            return;
+        }
         const modal = document.getElementById('privacy-modal');
         const body = document.getElementById('userdata-body');
         if (body) {
@@ -1269,13 +1472,6 @@
     // ============================================
     // CONFIGURAÇÃO DO FIREBASE
     // ============================================
-    
-    let firebaseInitialized = false;
-    let currentUser = null;
-    let todosArtigos = [];
-    let paginaAtual = 1;
-    let db, auth;
-    const itensPorPagina = 6;
     
     const firebaseConfig = {
         apiKey: "AIzaSyB9GkSqTIZ0kbVsba_WOdQeVAETrF9qna0",
@@ -1366,6 +1562,7 @@
         }
         
         function exibirPainel(painelId) {
+            if (isBanned) return;
             const paineis = ['detalhes-artigo', 'editor-artigo', 'novo-artigo', 'busca-avancada-pane'];
             paineis.forEach(id => {
                 const el = document.getElementById(id);
@@ -1382,6 +1579,7 @@
         }
         
         function exibirPaginaAtual() {
+            if (isBanned) return;
             artigosList.innerHTML = '';
             const inicio = (paginaAtual - 1) * itensPorPagina;
             const artigosPagina = todosArtigos.slice(inicio, inicio + itensPorPagina);
@@ -1423,7 +1621,7 @@
         }
         
         async function buscarArtigos() {
-            if (!currentUser) return;
+            if (isBanned || !currentUser) return;
             
             artigosList.innerHTML = '<div class="loading">Carregando artigos...</div>';
             const ordenacao = ordenarPorSelect?.value || 'data-desc';
@@ -1476,6 +1674,7 @@
         }
         
         async function carregarDetalhesArtigo(id, materia) {
+            if (isBanned) return;
             exibirPainel('detalhes-artigo');
             
             const dataCriacao = materia.dataCriacao && materia.dataCriacao.seconds 
@@ -1512,6 +1711,10 @@
         }
         
         function abrirEditor(id, materia) {
+            if (isBanned) {
+                alert('Sua conta está banida. Não é possível editar.');
+                return;
+            }
             exibirPainel('editor-artigo');
             document.getElementById('edit-titulo').value = materia.titulo || '';
             document.getElementById('edit-descricao').value = materia.descricao || '';
@@ -1521,6 +1724,10 @@
         
         formEdicaoArtigo?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (isBanned) {
+                alert('Sua conta está banida. Não é possível editar.');
+                return;
+            }
             const docId = document.getElementById('editor-artigo').dataset.docId;
             const user = auth.currentUser;
             if (!user) return showMessage('Faça login para editar', true);
@@ -1545,6 +1752,10 @@
         
         formNovoArtigo?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (isBanned) {
+                alert('Sua conta está banida. Não é possível criar artigos.');
+                return;
+            }
             const user = auth.currentUser;
             if (!user) return showMessage('Faça login para criar', true);
             
@@ -1573,6 +1784,7 @@
         });
         
         async function buscarAvancada() {
+            if (isBanned) return;
             const tituloBusca = document.getElementById('busca-titulo')?.value.toLowerCase().trim() || '';
             const conteudoBusca = document.getElementById('busca-conteudo')?.value.toLowerCase().trim() || '';
             const setorBusca = document.getElementById('busca-setor')?.value.toLowerCase().trim() || '';
@@ -1633,6 +1845,10 @@
         });
         
         async function removerArtigo(id) {
+            if (isBanned) {
+                alert('Sua conta está banida. Não é possível remover.');
+                return;
+            }
             if (confirm('Tem certeza que deseja remover este artigo? Esta ação é irreversível!')) {
                 try {
                     const artigosRef = getArtigosSubCollection(parentDocId);
@@ -1651,6 +1867,21 @@
         auth.onAuthStateChanged(async (user) => {
             currentUser = user;
             if (user) {
+                // Registra o usuário no Firestore
+                await registerUser(user);
+                
+                // VERIFICA BANIMENTO PRIMEIRO
+                isBanned = await checkIfUserIsBanned(user);
+                
+                if (isBanned) {
+                    // Usuário banido - mostra tela de bloqueio
+                    showBannedScreen('Sua conta foi banida por violação das políticas de uso.');
+                    // Não carrega o conteúdo
+                    loginSection.style.display = 'none';
+                    loggedInContainer.style.display = 'none';
+                    return;
+                }
+                
                 if (userEmailInfo) userEmailInfo.textContent = user.email || user.displayName || 'Usuário';
                 if (uidInfoElement) uidInfoElement.textContent = `📌 ID: ${user.uid.substring(0, 15)}...`;
                 loginSection.style.display = 'none';
@@ -1663,6 +1894,19 @@
                 exibirPainel('detalhes-artigo');
                 buscarArtigos();
             } else {
+                // Remove overlay de banido
+                document.getElementById('bannedOverlay').classList.remove('show');
+                document.querySelector('.header-logged-in').style.opacity = '1';
+                document.querySelector('.header-logged-in').style.pointerEvents = 'auto';
+                document.querySelector('.main-container').style.opacity = '1';
+                document.querySelector('.main-container').style.pointerEvents = 'auto';
+                document.querySelector('.footer-lgpd').style.opacity = '1';
+                document.querySelector('.footer-lgpd').style.pointerEvents = 'auto';
+                document.getElementById('login-section').style.opacity = '1';
+                document.getElementById('login-section').style.pointerEvents = 'auto';
+                
+                currentUser = null;
+                isBanned = false;
                 loginSection.style.display = 'flex';
                 loggedInContainer.style.display = 'none';
             }
@@ -1670,9 +1914,28 @@
         
         googleLoginBtn?.addEventListener('click', () => auth.signInWithPopup(googleProvider));
         logoutButton?.addEventListener('click', () => auth.signOut());
-        artigosBtn?.addEventListener('click', () => { buscarArtigos(); exibirPainel('detalhes-artigo'); });
-        criarArtigoBtn?.addEventListener('click', () => exibirPainel('novo-artigo'));
-        buscaAvancadaBtn?.addEventListener('click', () => exibirPainel('busca-avancada-pane'));
+        artigosBtn?.addEventListener('click', () => { 
+            if (isBanned) {
+                alert('Sua conta está banida. Acesso negado.');
+                return;
+            }
+            buscarArtigos(); 
+            exibirPainel('detalhes-artigo'); 
+        });
+        criarArtigoBtn?.addEventListener('click', () => {
+            if (isBanned) {
+                alert('Sua conta está banida. Não é possível criar artigos.');
+                return;
+            }
+            exibirPainel('novo-artigo');
+        });
+        buscaAvancadaBtn?.addEventListener('click', () => {
+            if (isBanned) {
+                alert('Sua conta está banida. Acesso negado.');
+                return;
+            }
+            exibirPainel('busca-avancada-pane');
+        });
         mydataBtn?.addEventListener('click', () => showUserDataModal());
         privacyTab?.addEventListener('click', () => showPrivacyModal());
         aplicarFiltrosBtn?.addEventListener('click', () => buscarArtigos());
