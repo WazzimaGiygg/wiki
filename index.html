@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
+        /* ===== TODOS OS ESTILOS EXISTENTES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -629,7 +630,6 @@
             background-color: #c82333;
         }
 
-        /* Botão do editor auxiliar */
         .btn-helper {
             display: inline-flex;
             align-items: center;
@@ -736,7 +736,6 @@
             font-size: 18px;
         }
 
-        /* Guia de formatação */
         .format-guide {
             background-color: #fff8e7;
             border: 1px solid #ffd700;
@@ -1184,7 +1183,6 @@
     </div>
 </div>
 
-    
 <!-- footer.html -->
 <div class="footer">
     <div class="footer-links">
@@ -1203,7 +1201,6 @@
         <a href="https://wazzimagiygg.com/produtos" target="_blank" style="color:#ffb347;">🛍️ Produtos WazzimaGiygg</a>
     </div>
 </div>
-
 
 <!-- EDITOR MODAL INTEGRADO COM GUIA DE FORMATAÇÃO E BOTÃO PARA AUXILIAR -->
 <div id="editor-modal" class="editor-modal">
@@ -1224,26 +1221,24 @@
                 <div id="editor-article-list" style="max-height: 250px; overflow-y: auto;"></div>
                 <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
                 
-                <!-- Botão para abrir o editor auxiliar -->
                 <button id="open-helper-editor" class="btn-helper">
                     <i class="material-icons">open_in_new</i> Editor Avançado (Nova Aba)
                 </button>
                 
-                <!-- GUIA DE FORMATAÇÃO -->
                 <div class="format-guide">
                     <h4>📝 Guia Rápido de Formatação</h4>
                     <table style="width:100%; font-size:11px;">
-                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td</tr>
-                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td</tr>
-                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td</tr>
-                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td</tr>
-                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td</tr>
-                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td</tr>
-                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td</tr>
-                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td</tr>
-                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td</tr>
-                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td</tr>
-                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td</tr>
+                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
+                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
+                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
+                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
+                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
+                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
+                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
+                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
+                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
+                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
+                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
                     </table>
                 </div>
             </div>
@@ -1290,7 +1285,9 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-// Configuração Firebase
+// ============================================================
+// FIREBASE CONFIG
+// ============================================================
 const firebaseConfig = {
     apiKey: "AIzaSyB9GkSqTIZ0kbVsba_WOdQeVAETrF9qna0",
     authDomain: "wzzm-ce3fc.firebaseapp.com",
@@ -1311,14 +1308,199 @@ let allSubcollections = [];
 let currentEditingPageUid = null;
 let currentEditingArticleId = null;
 
-// ============================================
+// ============================================================
+// SISTEMA DE REDIRECIONAMENTO UNIFICADO
+// ============================================================
+
+// URL do login unificado
+const LOGIN_URL = 'https://painel.wazzimagiygg.com/login.html';
+
+// Obtém a URL atual para usar como parâmetro uid
+function getCurrentPageUrl() {
+    return window.location.href;
+}
+
+// Redireciona para o login com o parâmetro uid
+function redirectToLogin() {
+    const currentUrl = getCurrentPageUrl();
+    const loginWithReturn = `${LOGIN_URL}?uid=${encodeURIComponent(currentUrl)}`;
+    console.log('🔄 Redirecionando para login unificado:', loginWithReturn);
+    window.location.href = loginWithReturn;
+}
+
+// ============================================================
+// SISTEMA DE AUTENTICAÇÃO ENTRE DOMÍNIOS
+// ============================================================
+
+// Verifica se há um token de autenticação na URL (retorno do login)
+function checkAuthToken() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('auth_token');
+    const userData = params.get('user_data');
+    
+    if (token && userData) {
+        try {
+            const user = JSON.parse(decodeURIComponent(userData));
+            console.log('🔑 Token de autenticação recebido:', user);
+            
+            localStorage.setItem('wikizero_auth_user', JSON.stringify(user));
+            localStorage.setItem('wikizero_auth_token', token);
+            localStorage.setItem('wikizero_auth_expiry', (Date.now() + 3600000).toString());
+            
+            const newUrl = window.location.pathname + window.location.hash;
+            window.history.replaceState({}, document.title, newUrl);
+            
+            applyUserSessionWithVerification(user);
+            return true;
+        } catch (e) {
+            console.error('Erro ao processar token:', e);
+        }
+    }
+    return false;
+}
+
+// Verifica se há uma sessão salva no localStorage
+function checkStoredSession() {
+    try {
+        const token = localStorage.getItem('wikizero_auth_token');
+        const userData = localStorage.getItem('wikizero_auth_user');
+        const expiry = localStorage.getItem('wikizero_auth_expiry');
+        
+        if (token && userData && expiry && Date.now() < parseInt(expiry)) {
+            const user = JSON.parse(userData);
+            console.log('📂 Sessão restaurada do localStorage:', user);
+            applyUserSessionWithVerification(user);
+            return true;
+        }
+    } catch (e) {
+        console.error('Erro ao restaurar sessão:', e);
+    }
+    return false;
+}
+
+// Aplica a sessão do usuário com verificação
+async function applyUserSessionWithVerification(user) {
+    if (!user || !user.uid) return false;
+    
+    try {
+        currentUser = {
+            uid: user.uid,
+            displayName: user.displayName || 'Usuário',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            isGuest: user.isGuest || false
+        };
+        
+        // Verifica banimento
+        isBanned = await checkIfUserIsBanned(currentUser);
+        
+        console.log('✅ Usuário aplicado:', currentUser.displayName);
+        console.log('🚫 Está banido?', isBanned);
+        
+        if (isBanned) {
+            showBannedScreen('Sua conta foi banida.');
+            updateAuthUI();
+            return true;
+        }
+        
+        updateAuthUI();
+        loadSubcollections();
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Erro ao aplicar sessão:', error);
+        return false;
+    }
+}
+
+// ============================================================
+// FUNÇÃO PARA CARREGAR USUÁRIO DO FIREBASE
+// ============================================================
+async function loadFirebaseUser(user) {
+    if (!user) {
+        currentUser = null;
+        isGuestUser = false;
+        isBanned = false;
+        updateAuthUI();
+        
+        // Remove overlay de banido
+        document.getElementById('bannedOverlay').classList.remove('show');
+        document.querySelector('.main-wrapper').style.opacity = '1';
+        document.querySelector('.main-wrapper').style.pointerEvents = 'auto';
+        document.querySelector('.wikipedia-header').style.opacity = '1';
+        document.querySelector('.wikipedia-header').style.pointerEvents = 'auto';
+        document.querySelector('.footer').style.opacity = '1';
+        document.querySelector('.footer').style.pointerEvents = 'auto';
+        
+        const guestUser = getStoredGuestUser();
+        if (guestUser) {
+            currentUser = guestUser;
+            isGuestUser = true;
+            updateAuthUI();
+            loadSubcollections();
+        } else {
+            loadSubcollections();
+        }
+        return;
+    }
+    
+    try {
+        currentUser = {
+            uid: user.uid,
+            displayName: user.displayName || 'Usuário',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            isGuest: false
+        };
+        
+        await registerUser(user);
+        
+        isBanned = await checkIfUserIsBanned(user);
+        
+        if (isBanned) {
+            showBannedScreen('Sua conta foi banida por violação das políticas de uso.');
+            updateAuthUI();
+            document.querySelector('.main-wrapper').style.opacity = '0.3';
+            document.querySelector('.main-wrapper').style.pointerEvents = 'none';
+            document.querySelector('.wikipedia-header').style.opacity = '0.3';
+            document.querySelector('.wikipedia-header').style.pointerEvents = 'none';
+            document.querySelector('.footer').style.opacity = '0.3';
+            document.querySelector('.footer').style.pointerEvents = 'none';
+            return;
+        }
+        
+        updateAuthUI();
+        
+        const userData = {
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            isGuest: false
+        };
+        localStorage.setItem('wikizero_auth_user', JSON.stringify(userData));
+        localStorage.setItem('wikizero_auth_token', 'firebase_' + Date.now());
+        localStorage.setItem('wikizero_auth_expiry', (Date.now() + 3600000).toString());
+        
+        loadSubcollections();
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar usuário Firebase:', error);
+        currentUser = null;
+        isGuestUser = false;
+        isBanned = false;
+        updateAuthUI();
+        loadSubcollections();
+    }
+}
+
+// ============================================================
 // FUNÇÃO PARA REGISTRAR USUÁRIO
-// ============================================
+// ============================================================
 async function registerUser(user) {
     try {
         const uid = user.uid;
         
-        // Verifica se o usuário já existe para preservar o status de ban
         const userDoc = await db.collection('users').doc(uid).get();
         const existingData = userDoc.exists ? userDoc.data() : {};
         
@@ -1337,10 +1519,7 @@ async function registerUser(user) {
             lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        // Registra na coleção 'users'
         await db.collection('users').doc(uid).set(userData, { merge: true });
-        
-        // Registra na coleção 'usuários'
         await db.collection('usuários').doc(uid).set(userData, { merge: true });
 
         console.log(`Usuário ${uid} registrado com sucesso! isBanned: ${userData.isBanned}`);
@@ -1351,9 +1530,9 @@ async function registerUser(user) {
     }
 }
 
-// ============================================
+// ============================================================
 // FUNÇÃO PARA VERIFICAR SE USUÁRIO ESTÁ BANIDO
-// ============================================
+// ============================================================
 async function checkIfUserIsBanned(user) {
     if (!user) return false;
     
@@ -1370,9 +1549,9 @@ async function checkIfUserIsBanned(user) {
     return false;
 }
 
-// ============================================
+// ============================================================
 // FUNÇÃO PARA USUÁRIO BANIDO
-// ============================================
+// ============================================================
 function showBannedScreen(reason = 'Violação das políticas de uso') {
     const overlay = document.getElementById('bannedOverlay');
     const details = document.getElementById('banDetails');
@@ -1381,20 +1560,22 @@ function showBannedScreen(reason = 'Violação das políticas de uso') {
 }
 
 function logoutBanned() {
+    localStorage.removeItem('wikizero_auth_user');
+    localStorage.removeItem('wikizero_auth_token');
+    localStorage.removeItem('wikizero_auth_expiry');
     auth.signOut().then(() => {
         location.reload();
     });
 }
 
-// ============================================
+// ============================================================
 // FUNÇÃO DE FORMATAÇÃO WIKI PARA HTML
-// ============================================
+// ============================================================
 function wikitextToHtml(wikitext) {
     if (!wikitext || typeof wikitext !== 'string') return '';
     
     let html = wikitext;
     
-    // Títulos
     html = html.replace(/^======(.+?)======/gm, '<h6>$1</h6>');
     html = html.replace(/^=====(.+?)=====/gm, '<h5>$1</h5>');
     html = html.replace(/^====(.+?)====/gm, '<h4>$1</h4>');
@@ -1402,23 +1583,19 @@ function wikitextToHtml(wikitext) {
     html = html.replace(/^==(.+?)==/gm, '<h2>$1</h2>');
     html = html.replace(/^=(.+?)=/gm, '<h1>$1</h1>');
     
-    // Formatação de texto
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
     html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
     
-    // Links internos [[Página]] ou [[Página|Texto]]
     html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
         const displayText = text || target;
         return `<a href="#" class="wiki-link">${escapeHtml(displayText)}</a>`;
     });
     
-    // Links externos [url texto] ou [url]
     html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>');
     html = html.replace(/\[(https?:\/\/[^\s\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
     
-    // Listas
     let inList = false;
     let listType = '';
     const lines = html.split('\n');
@@ -1443,14 +1620,11 @@ function wikitextToHtml(wikitext) {
     if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
     html = processed.join('\n');
     
-    // Citações em bloco
     html = html.replace(/^&gt;(.+)$/gm, '<blockquote>$1</blockquote>');
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
     
-    // Código inline
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
     
-    // Parágrafos
     const paragraphs = html.split('\n\n');
     html = paragraphs.map(para => {
         para = para.trim();
@@ -1489,7 +1663,11 @@ function showCreateView() {
         alert('Sua conta está banida. Não é possível criar páginas.');
         return;
     }
-    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
+    if (isGuestUser) { 
+        alert('Modo convidado: faça login para criar.');
+        redirectToLogin();
+        return; 
+    }
     document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
     document.getElementById('create-view').classList.add('active');
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1723,15 +1901,19 @@ window.openArticle = async function(collectionUid, articleId) {
     } catch (error) { alert('Erro: ' + error.message); }
 };
 
-// ============================================
+// ============================================================
 // EDITOR INTEGRADO
-// ============================================
+// ============================================================
 async function openEditor(pageUid, articleId) {
     if (isBanned) {
         alert('Sua conta está banida. Não é possível editar.');
         return;
     }
-    if (isGuestUser) { alert('Faça login para editar.'); return; }
+    if (isGuestUser) { 
+        alert('Faça login para editar.');
+        redirectToLogin();
+        return; 
+    }
     currentEditingPageUid = pageUid;
     
     await loadArticleList(pageUid);
@@ -1897,10 +2079,6 @@ function closeEditor() {
     currentEditingArticleId = null;
 }
 
-// ============================================
-// FUNÇÃO PARA ABRIR O EDITOR AUXILIAR
-// ============================================
-
 function openHelperEditor() {
     if (isBanned) {
         alert('Sua conta está banida. Acesso negado.');
@@ -1912,13 +2090,20 @@ function openHelperEditor() {
 function showMyDataModal() {
     if (!currentUser || isGuestUser || isBanned) { 
         if (isBanned) alert('Sua conta está banida.');
-        else alert('Faça login.');
+        else {
+            alert('Faça login.');
+            redirectToLogin();
+        }
         return; 
     }
     document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
     document.getElementById('modal-body').innerHTML = `<p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || '-')}</p><p><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p><p><strong>UID:</strong> <code>${currentUser.uid}</code></p>`;
     document.getElementById('modal').style.display = 'flex';
 }
+
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
 
 // Event Listeners
 document.getElementById('create-subcollection-form')?.addEventListener('submit', async (e) => {
@@ -1927,7 +2112,11 @@ document.getElementById('create-subcollection-form')?.addEventListener('submit',
         alert('Sua conta está banida. Não é possível criar páginas.');
         return;
     }
-    if (isGuestUser) { alert('Faça login para criar.'); return; }
+    if (isGuestUser) { 
+        alert('Faça login para criar.');
+        redirectToLogin();
+        return; 
+    }
     const uid = document.getElementById('sub-name').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
     const titulo = document.getElementById('sub-title').value.trim();
     const descricao = document.getElementById('sub-description').value.trim();
@@ -1959,16 +2148,36 @@ document.getElementById('search-btn')?.addEventListener('click', () => {
 });
 
 document.getElementById('random-btn')?.addEventListener('click', showRandomPage);
+
+// Botão de login - Redireciona para login unificado
 document.getElementById('login-dropdown-btn')?.addEventListener('click', () => { 
-    clearGuestUser(); 
-    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (result) => {
-        await registerUser(result.user);
-    }); 
+    clearGuestUser();
+    redirectToLogin();
     closeDropdown(); 
 });
-document.getElementById('guest-login-btn')?.addEventListener('click', () => { createGuestUser(); location.reload(); closeDropdown(); });
-document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
-document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
+
+// Guest Login - Redireciona para login unificado
+document.getElementById('guest-login-btn')?.addEventListener('click', () => { 
+    redirectToLogin();
+    closeDropdown(); 
+});
+
+document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { 
+    clearGuestUser();
+    localStorage.removeItem('wikizero_auth_user');
+    localStorage.removeItem('wikizero_auth_token');
+    localStorage.removeItem('wikizero_auth_expiry');
+    if (auth.currentUser) auth.signOut(); 
+    else location.reload(); 
+    closeDropdown(); 
+});
+
+document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { 
+    e.stopPropagation(); 
+    const dropdown = document.getElementById('user-dropdown'); 
+    if (dropdown) dropdown.classList.toggle('active'); 
+});
+
 document.addEventListener('click', () => closeDropdown());
 
 // Editor eventos
@@ -2008,64 +2217,35 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
     });
 });
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    auth.onAuthStateChanged(async user => {
+// ============================================================
+// INICIALIZAÇÃO - VERIFICA SESSÃO
+// ============================================================
+
+// PASSO 1: Verifica token na URL (retorno do login)
+const hasToken = checkAuthToken();
+
+// PASSO 2: Se não tem token, verifica sessão no localStorage
+if (!hasToken) {
+    const hasSession = checkStoredSession();
+    
+    // PASSO 3: Se não tem sessão, verifica Firebase Auth
+    if (!hasSession) {
+        auth.onAuthStateChanged(async (user) => {
+            await loadFirebaseUser(user);
+        });
+    }
+} else {
+    // Se já tem token, registra listener para manter sincronizado
+    auth.onAuthStateChanged(async (user) => {
         if (user) {
-            currentUser = user; 
-            isGuestUser = false; 
-            clearGuestUser();
-            
-            // Registra o usuário no Firestore
-            await registerUser(user);
-            
-            // VERIFICA BANIMENTO PRIMEIRO
-            isBanned = await checkIfUserIsBanned(user);
-            
-            if (isBanned) {
-                // Usuário banido - mostra tela de bloqueio
-                showBannedScreen('Sua conta foi banida por violação das políticas de uso.');
-                updateAuthUI();
-                // Esconde o conteúdo
-                document.querySelector('.main-wrapper').style.opacity = '0.3';
-                document.querySelector('.main-wrapper').style.pointerEvents = 'none';
-                document.querySelector('.wikipedia-header').style.opacity = '0.3';
-                document.querySelector('.wikipedia-header').style.pointerEvents = 'none';
-                document.querySelector('.footer').style.opacity = '0.3';
-                document.querySelector('.footer').style.pointerEvents = 'none';
-                return;
-            }
-            
-            updateAuthUI(); 
-            loadSubcollections();
-        } else {
-            currentUser = null; 
-            isGuestUser = false;
-            isBanned = false;
-            updateAuthUI(); 
-            
-            // Remove overlay de banido
-            document.getElementById('bannedOverlay').classList.remove('show');
-            document.querySelector('.main-wrapper').style.opacity = '1';
-            document.querySelector('.main-wrapper').style.pointerEvents = 'auto';
-            document.querySelector('.wikipedia-header').style.opacity = '1';
-            document.querySelector('.wikipedia-header').style.pointerEvents = 'auto';
-            document.querySelector('.footer').style.opacity = '1';
-            document.querySelector('.footer').style.pointerEvents = 'auto';
-            
-            const guestUser = getStoredGuestUser();
-            if (guestUser) { 
-                currentUser = guestUser; 
-                isGuestUser = true; 
-                updateAuthUI(); 
-                loadSubcollections(); 
-            } else { 
-                loadSubcollections(); 
+            if (!currentUser || currentUser.uid !== user.uid) {
+                await loadFirebaseUser(user);
             }
         }
     });
-});
+}
 
+// Funções globais expostas
 window.showListView = showListView;
 window.showRandomPage = showRandomPage;
 window.showCreateView = showCreateView;
@@ -2083,8 +2263,9 @@ window.closeDropdown = closeDropdown;
 window.deleteArticle = deleteArticle;
 window.openHelperEditor = openHelperEditor;
 window.logoutBanned = logoutBanned;
+window.redirectToLogin = redirectToLogin;
 </script>
-        <!-- Iframe do verificador/logs (mantido como você tinha) -->
+<!-- Iframe do verificador/logs -->
 <script src="https://gspotfverwazzimagiygg.wazzimagiygg.com/D6FefD0De/EfdFeF1ExcE0C/De0Var6H6f/QXdv0/dddcefb.js"></script>
 </body>
 </html>
