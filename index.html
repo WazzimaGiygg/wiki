@@ -8,6 +8,7 @@
     <link rel="icon" href="https://gspotfverwazzimagiygg.wazzimagiygg.com/wiki/Favicom.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,291 +17,346 @@
         }
 
         body {
-            font-family: 'Noto Sans', 'Times New Roman', Times, serif;
+            font-family: 'Lato', 'Noto Sans', 'Times New Roman', Times, serif;
             background-color: #f6f6f6;
             color: #202122;
         }
 
-        .wikipedia-header {
-            background-color: #ffffff;
-            padding: 20px 40px 10px 40px;
-            border-bottom: 1px solid #a7d7f9;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        /* ===== HEADER PADRONIZADO WAZZIMAGIYGG ===== */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 12px 24px;
             position: sticky;
             top: 0;
-            z-index: 500;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
         }
-
-        .header-top {
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 15px;
+            gap: 12px;
         }
-
-        .logo-area {
+        .logo-area-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             cursor: pointer;
         }
-
-        .logo-img {
-            height: 50px;
-            width: auto;
+        .logo-area-header img {
+            height: 36px;
             border-radius: 8px;
         }
-
-        .wiki-title h1 {
-            font-size: 1.8em;
-            font-weight: normal;
-            font-family: 'Times New Roman', serif;
-            margin: 0;
+        .logo-area-header h1 {
+            font-size: 1.1em;
+            font-weight: 600;
         }
-
-        .wiki-title p {
-            color: #54595d;
-            font-size: 0.85em;
-            margin: 0;
+        .logo-area-header small {
+            font-size: 0.65em;
+            opacity: 0.7;
+            display: block;
+            font-weight: 300;
         }
-
-        .search-area {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-input {
-            padding: 8px 15px;
-            border: 1px solid #a2a9b1;
-            border-radius: 2px;
-            width: 300px;
-            font-size: 14px;
-        }
-
-        .search-btn, .random-btn {
-            padding: 8px 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #a2a9b1;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .search-btn:hover, .random-btn:hover {
-            background-color: #e9ecef;
-            border-color: #72777d;
-        }
-
-        .user-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .user-dropdown-trigger {
+        .user-info-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 6px 12px;
-            background: #f8f9fa;
-            border: 1px solid #a2a9b1;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s;
+            gap: 16px;
+            flex-wrap: wrap;
         }
-
-        .user-dropdown-trigger:hover {
-            background-color: #e9ecef;
-            border-color: #72777d;
-        }
-
-        .user-avatar-small {
-            width: 32px;
-            height: 32px;
+        .user-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #36c, #00a86b);
-            color: white;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .user-name-small {
-            font-size: 14px;
-            color: #202122;
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .dropdown-arrow {
-            font-size: 12px;
-            color: #666;
+            font-weight: 700;
+            font-size: 1em;
+            color: white;
+            cursor: pointer;
             transition: transform 0.2s;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-avatar:hover { transform: scale(1.05); }
+        .user-name { font-weight: 500; font-size: 0.85em; }
+        .user-email { font-size: 0.7em; opacity: 0.7; }
+        .btn-logout {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.2); }
+        .btn-login {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-login:hover { background: rgba(255,255,255,0.25); }
+        .badge-admin {
+            background: #e94560;
+            color: white;
+            font-size: 0.55em;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-banned {
+            background: #dc3545;
+            color: white;
+            font-size: 0.55em;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .user-dropdown.active .dropdown-arrow {
-            transform: rotate(180deg);
+        /* NOTIFICATION BELL */
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 30px;
+            transition: background 0.2s;
+        }
+        .notification-bell:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .notification-bell .material-icons {
+            font-size: 20px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #e94560;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 9px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1a1a2e;
         }
 
-        .dropdown-menu {
+        .notification-dropdown {
             position: absolute;
             top: calc(100% + 8px);
             right: 0;
-            width: 300px;
+            width: 340px;
+            max-height: 350px;
+            overflow-y: auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            border: 1px solid #eaecf0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.2s;
-            z-index: 1000;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 200;
+            color: #1a1a2e;
         }
-
-        .user-dropdown.active .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .notification-dropdown.show {
+            display: block;
         }
-
-        .dropdown-header {
-            padding: 16px;
-            border-bottom: 1px solid #eaecf0;
+        .notification-dropdown-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
         }
-
-        .dropdown-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #36c, #00a86b);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .dropdown-user-info {
-            flex: 1;
-        }
-
-        .dropdown-user-name {
+        .notification-dropdown-header h3 {
+            font-size: 13px;
             font-weight: 600;
-            font-size: 14px;
-            color: #202122;
-            word-break: break-all;
+            color: #1a1a2e;
         }
-
-        .dropdown-user-email {
+        .notification-dropdown-header button {
+            background: none;
+            border: none;
+            color: #4a6cf7;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .notification-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+        .notification-item.unread {
+            background: #eef2ff;
+            border-left: 3px solid #4a6cf7;
+        }
+        .notification-item .notif-title {
+            font-weight: 600;
+            font-size: 12px;
+            color: #1a1a2e;
+        }
+        .notification-item .notif-message {
             font-size: 11px;
             color: #666;
-            word-break: break-all;
+            margin-top: 3px;
+        }
+        .notification-item .notif-time {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+        }
+        .notification-empty {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+        .notification-empty .material-icons {
+            font-size: 36px;
+            opacity: 0.4;
         }
 
-        .dropdown-item {
-            padding: 12px 16px;
-            display: flex;
+        /* ===== BANNED OVERLAY ===== */
+        .banned-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
             align-items: center;
-            gap: 12px;
+            z-index: 9999;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .banned-overlay.show { display: flex; }
+        .banned-box {
+            background: #1a1a1a;
+            border: 2px solid #e94560;
+            border-radius: 16px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+        .banned-box .icon { font-size: 80px; margin-bottom: 20px; }
+        .banned-box h2 { color: #e94560; margin-bottom: 15px; }
+        .banned-box p { color: #aaa; margin-bottom: 20px; line-height: 1.6; }
+        .banned-box .btn-logout-banned {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: background 0.2s;
-            color: #202122;
-            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .banned-box .btn-logout-banned:hover { background: #c0392b; }
+        .banned-box .ban-details {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* ===== BANNER WIKI ===== */
+        .wiki-banner {
+            background: linear-gradient(135deg, #1a3c5e 0%, #2c7da0 100%);
+            color: white;
+            padding: 20px 24px;
+            text-align: center;
+        }
+        .wiki-banner h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 5px;
+        }
+        .wiki-banner p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-bar {
+            background: white;
+            padding: 15px 24px;
+            border-bottom: 1px solid #eaecf0;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .search-bar-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1px solid #a2a9b1;
+            border-radius: 4px;
             font-size: 14px;
         }
-
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
+        .search-bar-input:focus {
+            outline: none;
+            border-color: #36c;
         }
-
-        .dropdown-divider {
-            height: 1px;
-            background-color: #eaecf0;
-            margin: 8px 0;
-        }
-
-        .logout-item {
-            color: #d33;
-        }
-
-        .login-dropdown-btn, .temp-login-btn {
-            width: calc(100% - 32px);
-            padding: 12px;
+        .search-bar-btn {
+            padding: 10px 20px;
             background: #36c;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
-            margin: 12px 16px;
+            transition: background 0.2s;
         }
-
-        .temp-login-btn {
+        .search-bar-btn:hover {
+            background: #2a5a9e;
+        }
+        .search-bar-btn.random {
             background: #28a745;
-            margin-top: 0;
         }
-
-        .temp-login-btn:hover {
+        .search-bar-btn.random:hover {
             background: #218838;
         }
 
-        .login-dropdown-btn:hover {
-            background: #2a5a9e;
-        }
-
-        .dropdown-footer {
-            padding: 12px 16px;
-            border-top: 1px solid #eaecf0;
-            font-size: 11px;
-            color: #999;
-            text-align: center;
-        }
-
-        .temp-badge {
-            background-color: #28a745;
-            color: white;
-            border-radius: 20px;
-            padding: 2px 8px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 0;
-            border-bottom: 1px solid #a2a9b1;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .nav-tab {
-            padding: 8px 16px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            color: #0645ad;
-            position: relative;
-        }
-
-        .nav-tab.active {
-            background-color: #f6f6f6;
-            border: 1px solid #a2a9b1;
-            border-bottom: none;
-            margin-bottom: -1px;
-        }
-
+        /* ===== MAIN WRAPPER ===== */
         .main-wrapper {
             display: flex;
             max-width: 1600px;
@@ -324,23 +380,19 @@
         .sidebar-menu.collapsed {
             width: 60px;
         }
-
         .sidebar-menu.collapsed .menu-item-text,
         .sidebar-menu.collapsed .menu-section-title span:not(.material-icons),
         .sidebar-menu.collapsed .menu-footer p,
         .sidebar-menu.collapsed .menu-header h3 {
             display: none;
         }
-
         .sidebar-menu.collapsed .menu-item {
             justify-content: center;
             padding: 12px 0;
         }
-
         .sidebar-menu.collapsed .menu-item .material-icons {
             margin-right: 0;
         }
-
         .sidebar-menu.collapsed .menu-section-title {
             justify-content: center;
             padding: 10px 0;
@@ -363,7 +415,6 @@
             font-size: 12px;
             color: #0645ad;
         }
-
         .menu-toggle-btn:hover {
             background-color: #e9ecef;
         }
@@ -373,17 +424,14 @@
             border-bottom: 1px solid #eaecf0;
             margin-bottom: 8px;
         }
-
         .menu-header h3 {
             font-size: 1.1em;
             font-weight: normal;
             color: #202122;
         }
-
         .menu-section {
             margin-bottom: 20px;
         }
-
         .menu-section-title {
             padding: 8px 16px;
             font-weight: 600;
@@ -394,12 +442,10 @@
             align-items: center;
             gap: 8px;
         }
-
         .menu-section-title .material-icons {
             font-size: 18px;
             color: #36c;
         }
-
         .menu-item {
             display: flex;
             align-items: center;
@@ -411,17 +457,14 @@
             transition: background 0.1s;
             cursor: pointer;
         }
-
         .menu-item:hover {
             background-color: #eaf3ff;
             text-decoration: none;
         }
-
         .menu-item .material-icons {
             font-size: 18px;
             color: #54595d;
         }
-
         .menu-footer {
             padding: 16px;
             border-top: 1px solid #eaecf0;
@@ -466,25 +509,21 @@
             transition: all 0.3s;
             cursor: pointer;
         }
-
         .subcollection-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             border-color: #a7d7f9;
         }
-
         .subcollection-icon {
             font-size: 2em;
             margin-bottom: 10px;
         }
-
         .subcollection-name {
             font-size: 1.2em;
             font-weight: bold;
             color: #0645ad;
             margin-bottom: 8px;
         }
-
         .subcollection-meta {
             font-size: 0.85em;
             color: #54595d;
@@ -492,7 +531,6 @@
             padding-top: 10px;
             border-top: 1px solid #eaecf0;
         }
-
         .article-count {
             display: inline-block;
             background-color: #eaf3ff;
@@ -513,24 +551,15 @@
             line-height: 1.6;
         }
 
-        .article-content h1 {
-            font-family: 'Times New Roman', serif;
-            font-size: 1.8em;
-            border-bottom: 1px solid #a2a9b1;
-            margin-bottom: 15px;
-        }
-
         .wiki-content-rendered {
             line-height: 1.6;
         }
-        
         .wiki-content-rendered h1, .wiki-content-rendered h2 {
             font-family: 'Times New Roman', serif;
             border-bottom: 1px solid #a2a9b1;
             margin: 1.5em 0 0.5em 0;
             padding-bottom: 0.17em;
         }
-        
         .wiki-content-rendered h1 { font-size: 1.8em; }
         .wiki-content-rendered h2 { font-size: 1.5em; }
         .wiki-content-rendered h3 { font-size: 1.2em; margin: 1.2em 0 0.3em 0; }
@@ -561,12 +590,122 @@
             border: none;
             font-size: 14px;
         }
-
         .btn-abrir-painel:hover {
             background-color: #2a5a9e;
         }
 
-        /* Editor Modal */
+        /* ===== FOOTER PADRONIZADO WAZZIMAGIYGG ===== */
+        .site-footer {
+            background: linear-gradient(135deg, #0a0a0a 0%, #141414 100%);
+            border-top: 1px solid #2a2a2a;
+            margin-top: 40px;
+            padding: 25px 20px 20px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 12px;
+            margin-bottom: 15px;
+        }
+
+        .footer-link {
+            color: #aaa !important;
+            text-decoration: none;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            padding: 4px 0;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            color: #667eea !important;
+            transform: translateY(-1px);
+        }
+
+        .footer-link.highlight {
+            color: #ffb347 !important;
+        }
+
+        .footer-link.highlight:hover {
+            color: #ff9500 !important;
+            text-shadow: 0 0 8px rgba(255, 180, 71, 0.3);
+        }
+
+        .footer-divider {
+            color: #444;
+            font-size: 11px;
+            margin: 0 2px;
+        }
+
+        .footer-copyright {
+            color: #666;
+            font-size: 11px;
+            padding-top: 12px;
+            border-top: 1px solid #222;
+            margin-top: 8px;
+        }
+
+        /* ===== MODAIS E EDITOR ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #a2a9b1;
+            padding: 15px 20px;
+        }
+        .modal-header h3 {
+            margin: 0;
+        }
+        .close-modal {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+            background: none;
+            border: none;
+        }
+        .close-modal:hover {
+            color: #d33;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* EDITOR */
         .editor-modal {
             display: none;
             position: fixed;
@@ -578,6 +717,9 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
+        }
+        .editor-modal.show {
+            display: flex;
         }
 
         .editor-container {
@@ -598,16 +740,13 @@
             background-color: #2c3e50;
             color: white;
         }
-
         .editor-header h3 {
             margin: 0;
         }
-
         .editor-header-buttons {
             display: flex;
             gap: 10px;
         }
-
         .editor-btn {
             padding: 8px 16px;
             background-color: #36c;
@@ -616,20 +755,114 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
         .editor-btn:hover {
             background-color: #2a5a9e;
         }
-
         .editor-btn-danger {
             background-color: #dc3545;
         }
-
         .editor-btn-danger:hover {
             background-color: #c82333;
         }
 
-        /* Botão do editor auxiliar */
+        .editor-body {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+        .editor-sidebar {
+            width: 30%;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .editor-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .editor-field {
+            margin-bottom: 15px;
+        }
+        .editor-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .editor-field input, .editor-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .editor-field textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        .editor-field .preview-box {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            background: #fafafa;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .article-list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .article-list-item:hover {
+            background-color: #eaf3ff;
+        }
+        .delete-article-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .format-guide {
+            background-color: #fff8e7;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+        .format-guide h4 {
+            color: #b8860b;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .format-guide table {
+            width: 100%;
+            font-size: 11px;
+        }
+        .format-guide td {
+            padding: 4px;
+            border-bottom: 1px solid #ffe4b5;
+        }
+        .format-guide code {
+            background: #fff;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
         .btn-helper {
             display: inline-flex;
             align-items: center;
@@ -643,149 +876,21 @@
             font-size: 13px;
             font-weight: 500;
             transition: all 0.3s;
-            margin-bottom: 15px;
+            margin-top: 10px;
             width: 100%;
             justify-content: center;
         }
-
         .btn-helper:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255,152,0,0.3);
         }
 
-        .btn-helper i {
-            font-size: 18px;
-        }
-
-        .editor-body {
-            flex: 1;
-            display: flex;
-            padding: 20px;
-            gap: 20px;
-            overflow: hidden;
-        }
-
-        .editor-sidebar {
-            width: 30%;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+        .highlight {
+            background-color: #e8f0fe;
             padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .editor-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow-y: auto;
-        }
-
-        .editor-field {
-            margin-bottom: 15px;
-        }
-
-        .editor-field label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .editor-field input, .editor-field textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-
-        .editor-field textarea {
-            min-height: 200px;
-            resize: vertical;
-            font-family: monospace;
-        }
-
-        .article-list {
-            list-style: none;
-        }
-
-        .article-list-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .article-list-item:hover {
-            background-color: #eaf3ff;
-        }
-
-        .article-list-item.active {
-            background-color: #eaf3ff;
-            border-left: 3px solid #36c;
-        }
-
-        .delete-article-btn {
-            color: #dc3545;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Guia de formatação */
-        .format-guide {
-            background-color: #fff8e7;
-            border: 1px solid #ffd700;
             border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
-        }
-
-        .format-guide h4 {
-            color: #b8860b;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .format-guide table {
-            width: 100%;
-            font-size: 11px;
-        }
-
-        .format-guide td {
-            padding: 4px;
-            border-bottom: 1px solid #ffe4b5;
-        }
-
-        .format-guide code {
-            background: #fff;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: monospace;
-            font-size: 11px;
-        }
-
-        .footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #a2a9b1;
-            padding: 20px 40px;
-            margin-top: 40px;
-            font-size: 0.85em;
-            color: #54595d;
-            text-align: center;
-        }
-
-        .footer a {
-            color: #0645ad;
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
+            margin: 20px 0;
+            border-left: 4px solid #36c;
         }
 
         .loading {
@@ -797,7 +902,6 @@
         .article-view {
             display: none;
         }
-
         .article-view.active {
             display: block;
         }
@@ -811,7 +915,6 @@
             margin-bottom: 20px;
             padding: 5px 0;
         }
-
         .back-button:hover {
             text-decoration: underline;
         }
@@ -819,20 +922,17 @@
         .form-group {
             margin-bottom: 15px;
         }
-
         .form-group label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #a2a9b1;
             border-radius: 4px;
         }
-
         .form-group textarea {
             resize: vertical;
             min-height: 100px;
@@ -846,61 +946,8 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
         .submit-btn:hover {
             background-color: #2a5a9e;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            width: 90%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border-radius: 8px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #a2a9b1;
-            padding: 15px 20px;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-        }
-
-        .close-modal {
-            cursor: pointer;
-            font-size: 24px;
-            color: #666;
-        }
-
-        .close-modal:hover {
-            color: #d33;
-        }
-
-        .highlight {
-            background-color: #e8f0fe;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #36c;
         }
 
         .guest-info {
@@ -910,6 +957,7 @@
             text-align: center;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
             .sidebar-menu {
                 position: fixed;
@@ -930,12 +978,17 @@
             .main-container {
                 padding: 15px;
             }
-            .header-top {
+            .header-content {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 8px;
             }
-            .search-input {
-                width: 100%;
+            .user-info-header {
+                justify-content: space-between;
+            }
+            .notification-dropdown {
+                width: 300px;
+                right: -20px;
             }
             .editor-body {
                 flex-direction: column;
@@ -944,71 +997,110 @@
                 width: 100%;
                 max-height: 300px;
             }
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar-input {
+                width: 100%;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .footer-divider {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .user-name, .user-email { display: none; }
+            .notification-dropdown {
+                width: calc(100vw - 40px);
+                right: -10px;
+            }
+            .wiki-banner h2 {
+                font-size: 1.3em;
+            }
+            .subcollections-grid {
+                grid-template-columns: 1fr;
+            }
+            .content-area {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="wikipedia-header">
-    <div class="header-top">
-        <div class="logo-area" onclick="showListView()">
-            <img src="https://wiki.wazzimagiygg.com/Favicom.png" alt="Logo WikiZero" class="logo-img">
-            <div class="wiki-title">
-                <h1>WikiZero</h1>
-                <p>A enciclopédia livre e colaborativa</p>
-            </div>
-        </div>
-        <div class="search-area">
-            <input type="text" id="search-input" class="search-input" placeholder="Pesquisar páginas...">
-            <button id="search-btn" class="search-btn">🔍 Buscar</button>
-            <button id="random-btn" class="random-btn">🎲 Aleatório</button>
-        </div>
-        
-        <div class="user-dropdown" id="user-dropdown">
-            <div class="user-dropdown-trigger" id="dropdown-trigger">
-                <div class="user-avatar-small" id="dropdown-avatar-small">👤</div>
-                <span class="user-name-small" id="dropdown-user-name">Conta</span>
-                <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu">
-                <div id="dropdown-not-logged" style="display: block;">
-                    <button id="login-dropdown-btn" class="login-dropdown-btn">🔑 Entrar com Google</button>
-                    <div style="text-align: center; color: #999; font-size: 12px; margin: 5px 0;">ou</div>
-                    <button id="guest-login-btn" class="temp-login-btn">🎭 Acesso Convidado (Leitura)</button>
-                    <div class="guest-info">🔒 Acesso temporário apenas para leitura</div>
-                    <div class="dropdown-footer">Faça login com Google para criar e editar páginas</div>
-                </div>
-                <div id="dropdown-logged" style="display: none;">
-                    <div class="dropdown-header">
-                        <div class="dropdown-avatar" id="dropdown-big-avatar">👤</div>
-                        <div class="dropdown-user-info">
-                            <div class="dropdown-user-name" id="dropdown-full-name"></div>
-                            <div class="dropdown-user-email" id="dropdown-email"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" onclick="showMyDataModal(); closeDropdown()">📋 Meus Dados (LGPD)</div>
-                    <div class="dropdown-item" onclick="showSecurityView(); closeDropdown()">🔐 Segurança da Conta</div>
-                    <div class="dropdown-item" onclick="showDonationView(); closeDropdown()">💝 Sobre Doações</div>
-                    <div class="dropdown-item" onclick="showPrivacyView(); closeDropdown()">🔒 Política de Privacidade</div>
-                    <div class="dropdown-item" onclick="showTermsView(); closeDropdown()">📜 Termos de Uso</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item logout-item" id="logout-dropdown-btn">🚪 Sair da conta</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="nav-tabs">
-        <button class="nav-tab active" data-view="list">🏠 Página principal</button>
-        <button class="nav-tab" data-view="create">✏️ Criar Página</button>
-        <button class="nav-tab" data-view="security">🔐 Segurança</button>
-        <button class="nav-tab" data-view="donation">💝 Doação</button>
-        <button class="nav-tab" data-view="privacy">🔒 Privacidade</button>
-        <button class="nav-tab" data-view="terms">📜 Termos</button>
-        <button class="nav-tab" data-view="mydata">📋 Meus Dados</button>
+<!-- ===== BANNED OVERLAY ===== -->
+<div id="bannedOverlay" class="banned-overlay">
+    <div class="banned-box">
+        <div class="icon">🚫</div>
+        <h2>⚠️ Conta Banida</h2>
+        <p>Sua conta foi banida permanentemente do sistema.</p>
+        <div id="banDetails" class="ban-details">Motivo: Violação das políticas de uso</div>
+        <button class="btn-logout-banned" onclick="logoutBanned()">🚪 Sair da conta</button>
     </div>
 </div>
 
+<!-- ===== HEADER PADRONIZADO WAZZIMAGIYGG ===== -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo-area-header" onclick="location.reload()">
+            <img src="https://wazzimagiygg.com/favicom.png" alt="Logo">
+            <div>
+                <h1>WazzimaGiygg</h1>
+                <small>Wiki</small>
+            </div>
+        </div>
+        <div class="user-info-header" id="userInfo">
+            <div class="user-avatar" id="userAvatar">👤</div>
+            <div>
+                <div class="user-name" id="userName">Carregando...</div>
+                <div class="user-email" id="userEmail">aguarde</div>
+            </div>
+            <span id="userBadge"></span>
+            
+            <!-- NOTIFICATION BELL -->
+            <div class="notification-bell" id="notificationBell" onclick="toggleNotifications(event)">
+                <span class="material-icons">notifications</span>
+                <span class="notification-badge" id="notifBadge" style="display:none;">0</span>
+                <div class="notification-dropdown" id="notifDropdown">
+                    <div class="notification-dropdown-header">
+                        <h3>🔔 Notificações</h3>
+                        <button onclick="markAllAsRead(event)">Marcar todas como lidas</button>
+                    </div>
+                    <div id="notificationList">
+                        <div class="notification-empty">
+                            <span class="material-icons">notifications_off</span>
+                            <p>Nenhuma notificação</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-logout" id="btnLogout" style="display:none;" onclick="logout()">Sair</button>
+            <button class="btn-login" id="btnLogin" onclick="showLoginModal()">
+                <span class="material-icons" style="font-size:16px;">person</span> Entrar
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== BANNER WIKI ===== -->
+<div class="wiki-banner">
+    <h2>📚 WikiZero - A Enciclopédia Livre</h2>
+    <p>Conhecimento colaborativo, livre e gratuito para todos</p>
+</div>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+    <input type="text" id="search-input" class="search-bar-input" placeholder="Pesquisar páginas...">
+    <button id="search-btn" class="search-bar-btn">🔍 Buscar</button>
+    <button id="random-btn" class="search-bar-btn random">🎲 Aleatório</button>
+</div>
+
+<!-- ===== MAIN WRAPPER ===== -->
 <div class="main-wrapper">
     <div class="sidebar-menu" id="sidebar-menu">
         <div class="menu-toggle-btn" id="menu-toggle-btn">◀</div>
@@ -1098,28 +1190,64 @@
     </div>
 </div>
 
-    
-<!-- footer.html -->
-<div class="footer">
-    <div class="footer-links">
-        <a href="https://wazzimagiygg.com/donate/" style="color:white;">💝 Faça sua doação!</a>
-        <span class="footer-divider">|</span>
-        <a href="https://wazzimagiygg.com/desktop.html" target="_blank">🖥️ Acessar Desktop</a>
-        <span class="footer-divider">|</span>
-        <a href="https://wazzimagiygg.com/LGPD" style="color:white;">🔒 LGPD</a>
-        <span class="footer-divider">|</span>
-        <a href="https://wazzimagiygg.com/MarcoCivil" style="color:white;">📜 Marco Civil</a>
-        <span class="footer-divider">|</span>
-        <a href="https://wazzimagiygg.com/relatorio-wikipedia.html" target="_blank" style="color:#ffb347;">📄 Relatório Wikipédia</a>
-        <span class="footer-divider">|</span>
-        <a href="https://support.wazzimagiygg.com/" target="_blank" class="footer-ticket">🎫 Contato por Ticket</a>
-        <span class="footer-divider">|</span>
-        <a href="https://wazzimagiygg.com/produtos" target="_blank" style="color:#ffb347;">🛍️ Produtos WazzimaGiygg</a>
+<!-- ===== FOOTER PADRONIZADO WAZZIMAGIYGG ===== -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="https://wazzimagiygg.com/donate/" class="footer-link" target="_blank">💝 Doação</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/desktop.html" class="footer-link" target="_blank">🖥️ Desktop</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/LGPD" class="footer-link" target="_blank">🔒 LGPD</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/MarcoCivil" class="footer-link" target="_blank">📜 Marco Civil</a>
+            <span class="footer-divider">|</span>
+            <a href="https://support.wazzimagiygg.com/" class="footer-link" target="_blank">🎫 Ticket</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/produtos" class="footer-link highlight" target="_blank">🛍️ Produtos</a>
+            <span class="footer-divider">|</span>
+            <a href="https://painel.wazzimagiygg.com/" class="footer-link highlight" target="_blank">👤 Sua conta</a>
+        </div>
+        <div class="footer-copyright">
+            © 2026 WikiZero - Enciclopédia Livre e Colaborativa
+        </div>
+    </div>
+</footer>
+
+<!-- ===== MODAL GENÉRICO ===== -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title">Aviso</h3>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modal-body"></div>
     </div>
 </div>
 
+<!-- ===== MODAL LOGIN ===== -->
+<div id="login-modal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <h3><i class="material-icons">login</i> Entrar na WikiZero</h3>
+            <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 20px;">Faça login para criar e editar páginas</p>
+            <button id="google-login-btn" class="btn-abrir-painel" style="width:100%; margin-bottom:10px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:20px; height:20px;">
+                Entrar com Google
+            </button>
+            
+            <div style="text-align:center; margin:20px 0; color:#999;">ou</div>
+            
+            <button id="guest-login-btn" class="btn-abrir-painel" style="width:100%; background:#28a745;">🎭 Acesso Convidado (Leitura)</button>
+            <div class="guest-info">🔒 Acesso temporário apenas para leitura</div>
+        </div>
+    </div>
+</div>
 
-<!-- EDITOR MODAL INTEGRADO COM GUIA DE FORMATAÇÃO E BOTÃO PARA AUXILIAR -->
+<!-- ===== EDITOR MODAL ===== -->
 <div id="editor-modal" class="editor-modal">
     <div class="editor-container">
         <div class="editor-header">
@@ -1138,26 +1266,24 @@
                 <div id="editor-article-list" style="max-height: 250px; overflow-y: auto;"></div>
                 <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
                 
-                <!-- Botão para abrir o editor auxiliar -->
                 <button id="open-helper-editor" class="btn-helper">
                     <i class="material-icons">open_in_new</i> Editor Avançado (Nova Aba)
                 </button>
                 
-                <!-- GUIA DE FORMATAÇÃO -->
                 <div class="format-guide">
                     <h4>📝 Guia Rápido de Formatação</h4>
-                    <table style="width:100%; font-size:11px;">
-                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td</tr>
-                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td</tr>
-                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td</tr>
-                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td</tr>
-                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td</tr>
-                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td</tr>
-                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td</tr>
-                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td</tr>
-                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td</tr>
-                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td</tr>
-                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td</tr>
+                    <table>
+                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
+                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
+                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
+                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
+                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
+                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
+                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
+                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
+                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
+                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
+                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
                     </table>
                 </div>
             </div>
@@ -1185,17 +1311,10 @@
                 </div>
                 <div class="editor-field">
                     <label>Pré-visualização</label>
-                    <div id="editor-preview" style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; background: #fafafa; max-height: 200px; overflow-y: auto;"></div>
+                    <div id="editor-preview" class="preview-box"><em>Sem conteúdo para pré-visualizar</em></div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header"><h3 id="modal-title">Aviso</h3><span class="close-modal" onclick="closeModal()">&times;</span></div>
-        <div id="modal-body"></div>
     </div>
 </div>
 
@@ -1204,7 +1323,9 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-// Configuração Firebase
+// ============================================
+// FIREBASE CONFIG
+// ============================================
 const firebaseConfig = {
     apiKey: "AIzaSyB9GkSqTIZ0kbVsba_WOdQeVAETrF9qna0",
     authDomain: "wzzm-ce3fc.firebaseapp.com",
@@ -1218,52 +1339,53 @@ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+// ============================================
+// VARIÁVEIS GLOBAIS
+// ============================================
 let currentUser = null;
 let isGuestUser = false;
+let isBanned = false;
 let allSubcollections = [];
 let currentEditingPageUid = null;
 let currentEditingArticleId = null;
+let notifications = [];
+let unreadCount = 0;
+let notificationListener = null;
 
 // ============================================
-// FUNÇÃO PARA REGISTRAR USUÁRIO
+// FUNÇÕES DE UTILIDADE
 // ============================================
-async function registerUser(user) {
-    try {
-        const uid = user.uid;
-        const userData = {
-            uid: uid,
-            email: user.email || '',
-            name: user.displayName || 'Usuário',
-            profilePictureUrl: user.photoURL || '',
-            isAdmin: false,
-            isBan: false,
-            isBanned: false,
-            isTeacher: false,
-            isTeatcher: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        // Registra na coleção 'users'
-        await db.collection('users').doc(uid).set(userData, { merge: true });
-        
-        // Registra na coleção 'usuários'
-        await db.collection('usuários').doc(uid).set(userData, { merge: true });
-
-        console.log(`Usuário ${uid} registrado com sucesso!`);
-        return true;
-    } catch (error) {
-        console.error('Erro ao registrar usuário:', error);
-        return false;
-    }
-}
-
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+function getInitials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+    return name.substring(0, 2).toUpperCase();
+}
+
+function formatDate(timestamp) {
+    if (!timestamp) return 'Data desconhecida';
+    if (timestamp.toDate) timestamp = timestamp.toDate();
+    return timestamp.toLocaleString('pt-BR');
+}
+
+function getTimeAgo(date) {
+    if (!date) return '';
+    if (date.toDate) date = date.toDate();
+    const seconds = Math.floor((new Date() - date) / 1000);
+    if (seconds < 60) return 'agora';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days}d`;
 }
 
 // ============================================
@@ -1274,7 +1396,6 @@ function wikitextToHtml(wikitext) {
     
     let html = wikitext;
     
-    // Títulos
     html = html.replace(/^======(.+?)======/gm, '<h6>$1</h6>');
     html = html.replace(/^=====(.+?)=====/gm, '<h5>$1</h5>');
     html = html.replace(/^====(.+?)====/gm, '<h4>$1</h4>');
@@ -1282,23 +1403,19 @@ function wikitextToHtml(wikitext) {
     html = html.replace(/^==(.+?)==/gm, '<h2>$1</h2>');
     html = html.replace(/^=(.+?)=/gm, '<h1>$1</h1>');
     
-    // Formatação de texto
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
     html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
     
-    // Links internos [[Página]] ou [[Página|Texto]]
     html = html.replace(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g, (match, target, text) => {
         const displayText = text || target;
         return `<a href="#" class="wiki-link">${escapeHtml(displayText)}</a>`;
     });
     
-    // Links externos [url texto] ou [url]
     html = html.replace(/\[(https?:\/\/[^\s\]]+)\s+([^\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>');
     html = html.replace(/\[(https?:\/\/[^\s\]]+)\]/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
     
-    // Listas
     let inList = false;
     let listType = '';
     const lines = html.split('\n');
@@ -1323,14 +1440,10 @@ function wikitextToHtml(wikitext) {
     if (inList) processed.push(listType === 'ul' ? '</ul>' : '</ol>');
     html = processed.join('\n');
     
-    // Citações em bloco
     html = html.replace(/^&gt;(.+)$/gm, '<blockquote>$1</blockquote>');
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-    
-    // Código inline
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
     
-    // Parágrafos
     const paragraphs = html.split('\n\n');
     html = paragraphs.map(para => {
         para = para.trim();
@@ -1348,72 +1461,263 @@ function wikitextToHtml(wikitext) {
     return html;
 }
 
-function showListView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('list-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const listTab = document.querySelector('.nav-tab[data-view="list"]');
-    if (listTab) listTab.classList.add('active');
-}
+// ============================================
+// REGISTRO DE USUÁRIO
+// ============================================
+async function registerUser(user) {
+    try {
+        const uid = user.uid;
+        const userDoc = await db.collection('users').doc(uid).get();
+        const existingData = userDoc.exists ? userDoc.data() : {};
+        
+        const userData = {
+            uid: uid,
+            email: user.email || '',
+            name: user.displayName || 'Usuário',
+            profilePictureUrl: user.photoURL || '',
+            isAdmin: false,
+            isBan: existingData.isBan || false,
+            isBanned: existingData.isBanned || false,
+            isTeacher: false,
+            isTeatcher: false,
+            createdAt: existingData.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-function showCreateView() {
-    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('create-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const createTab = document.querySelector('.nav-tab[data-view="create"]');
-    if (createTab) createTab.classList.add('active');
-}
+        await db.collection('users').doc(uid).set(userData, { merge: true });
+        await db.collection('usuários').doc(uid).set(userData, { merge: true });
 
-function showSecurityView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('security-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const securityTab = document.querySelector('.nav-tab[data-view="security"]');
-    if (securityTab) securityTab.classList.add('active');
-    const uidDisplay = document.getElementById('user-uid-display');
-    if (uidDisplay && currentUser) {
-        uidDisplay.innerHTML = isGuestUser ? `<strong>Modo Convidado</strong><br>UID: ${currentUser.uid}` : `<strong>Usuário</strong><br>${currentUser.email}`;
+        console.log(`Usuário ${uid} registrado com sucesso!`);
+        return userData;
+    } catch (error) {
+        console.error('Erro ao registrar usuário:', error);
+        return null;
     }
 }
 
-function showDonationView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('donation-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const donationTab = document.querySelector('.nav-tab[data-view="donation"]');
-    if (donationTab) donationTab.classList.add('active');
+// ============================================
+// VERIFICAÇÃO DE BANIMENTO
+// ============================================
+async function checkIfUserIsBanned(user) {
+    if (!user) return false;
+    try {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+            const data = userDoc.data();
+            return data.isBanned === true || data.isBan === true;
+        }
+    } catch (error) {
+        console.log("Erro ao verificar banimento:", error);
+    }
+    return false;
 }
 
-function showPrivacyView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('privacy-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const privacyTab = document.querySelector('.nav-tab[data-view="privacy"]');
-    if (privacyTab) privacyTab.classList.add('active');
+function showBannedScreen(reason = 'Violação das políticas de uso') {
+    const overlay = document.getElementById('bannedOverlay');
+    const details = document.getElementById('banDetails');
+    details.textContent = `Motivo: ${reason}`;
+    overlay.classList.add('show');
+    document.querySelector('.main-container').style.opacity = '0.3';
+    document.querySelector('.main-container').style.pointerEvents = 'none';
+    document.querySelector('.header').style.opacity = '0.3';
+    document.querySelector('.header').style.pointerEvents = 'none';
+    document.querySelector('.site-footer').style.opacity = '0.3';
+    document.querySelector('.site-footer').style.pointerEvents = 'none';
 }
 
-function showTermsView() {
-    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('terms-view').classList.add('active');
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    const termsTab = document.querySelector('.nav-tab[data-view="terms"]');
-    if (termsTab) termsTab.classList.add('active');
+async function logoutBanned() {
+    try { await auth.signOut(); location.reload(); } catch (e) { location.reload(); }
 }
 
-function showRandomPage() {
-    if (allSubcollections.length > 0) {
-        openSubcollection(allSubcollections[Math.floor(Math.random() * allSubcollections.length)].uid);
-    } else { alert('Nenhuma página disponível.'); }
+// ============================================
+// NOTIFICAÇÕES
+// ============================================
+async function loadNotifications() {
+    if (!currentUser) return;
+    try {
+        const snapshot = await db.collection('notifications')
+            .where('userId', '==', currentUser.uid)
+            .orderBy('timestamp', 'desc')
+            .limit(50)
+            .get();
+        notifications = [];
+        snapshot.forEach(doc => {
+            notifications.push({ 
+                id: doc.id, 
+                ...doc.data(),
+                timestamp: doc.data().timestamp || new Date()
+            });
+        });
+        unreadCount = notifications.filter(n => !n.lida).length;
+        updateNotificationBadge();
+        renderNotifications();
+    } catch (error) {
+        console.error('Erro ao carregar notificações:', error);
+    }
 }
 
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-function closeDropdown() {
-    const dropdown = document.getElementById('user-dropdown');
-    if (dropdown) dropdown.classList.remove('active');
+function updateNotificationBadge() {
+    const badge = document.getElementById('notifBadge');
+    if (unreadCount > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+    } else {
+        badge.style.display = 'none';
+    }
 }
 
+function renderNotifications() {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+    if (notifications.length === 0) {
+        list.innerHTML = `<div class="notification-empty"><span class="material-icons">notifications_off</span><p>Nenhuma notificação</p></div>`;
+        return;
+    }
+    list.innerHTML = notifications.slice(0, 10).map(notif => `
+        <div class="notification-item ${notif.lida ? '' : 'unread'}" onclick="markAsRead('${notif.id}')">
+            <div class="notif-title">${escapeHtml(notif.titulo || 'Notificação')}</div>
+            <div class="notif-message">${escapeHtml(notif.mensagem || '')}</div>
+            <div class="notif-time">${getTimeAgo(notif.timestamp)}</div>
+        </div>
+    `).join('');
+}
+
+async function markAsRead(id) {
+    if (!id) return;
+    try {
+        await db.collection('notifications').doc(id).update({ lida: true });
+        const notif = notifications.find(n => n.id === id);
+        if (notif && !notif.lida) { notif.lida = true; unreadCount--; updateNotificationBadge(); renderNotifications(); }
+    } catch (error) { console.error('Erro:', error); }
+}
+
+async function markAllAsRead(event) {
+    if (event) event.stopPropagation();
+    if (unreadCount === 0) return;
+    try {
+        const batch = db.batch();
+        notifications.filter(n => !n.lida).forEach(n => batch.update(db.collection('notifications').doc(n.id), { lida: true }));
+        await batch.commit();
+        notifications.forEach(n => n.lida = true);
+        unreadCount = 0;
+        updateNotificationBadge();
+        renderNotifications();
+    } catch (error) { console.error('Erro:', error); }
+}
+
+function toggleNotifications(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('notifDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+        if (dropdown.classList.contains('show')) loadNotifications();
+    }
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.notification-bell')) {
+        const dropdown = document.getElementById('notifDropdown');
+        if (dropdown) dropdown.classList.remove('show');
+    }
+});
+
+function listenNotifications() {
+    if (notificationListener) { notificationListener(); notificationListener = null; }
+    if (!currentUser) return;
+    notificationListener = db.collection('notifications')
+        .where('userId', '==', currentUser.uid)
+        .orderBy('timestamp', 'desc')
+        .limit(50)
+        .onSnapshot((snapshot) => {
+            notifications = [];
+            snapshot.forEach(doc => notifications.push({ id: doc.id, ...doc.data(), timestamp: doc.data().timestamp || new Date() }));
+            unreadCount = notifications.filter(n => !n.lida).length;
+            updateNotificationBadge();
+            renderNotifications();
+        }, (error) => console.error('Erro no listener:', error));
+}
+
+// ============================================
+// AUTENTICAÇÃO - UI
+// ============================================
+function updateUI() {
+    const avatar = document.getElementById('userAvatar');
+    const name = document.getElementById('userName');
+    const email = document.getElementById('userEmail');
+    const badge = document.getElementById('userBadge');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnLogout = document.getElementById('btnLogout');
+    
+    if (currentUser && !isBanned) {
+        let displayName = currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Usuário');
+        if (isGuestUser) displayName = '👤 Convidado';
+        
+        if (currentUser.photoURL) {
+            avatar.innerHTML = `<img src="${currentUser.photoURL}" alt="Avatar">`;
+        } else {
+            avatar.textContent = getInitials(displayName);
+        }
+        name.textContent = displayName.length > 20 ? displayName.substring(0,17)+'...' : displayName;
+        email.textContent = currentUser.email || '';
+        let badges = '';
+        if (isBanned) badges += '<span class="badge-banned">🚫 Banido</span> ';
+        badge.innerHTML = badges;
+        btnLogin.style.display = 'none';
+        btnLogout.style.display = 'inline-block';
+    } else {
+        avatar.innerHTML = '👤';
+        name.textContent = 'Visitante';
+        email.textContent = '';
+        badge.innerHTML = '';
+        btnLogin.style.display = 'inline-block';
+        btnLogout.style.display = 'none';
+    }
+}
+
+function showLoginModal() { document.getElementById('login-modal').classList.add('show'); }
+function closeLoginModal() { document.getElementById('login-modal').classList.remove('show'); }
+
+async function loginWithGoogle() {
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const result = await auth.signInWithPopup(provider);
+        currentUser = result.user;
+        await registerUser(currentUser);
+        isBanned = await checkIfUserIsBanned(currentUser);
+        if (isBanned) { showBannedScreen('Sua conta foi banida.'); await auth.signOut(); updateUI(); return; }
+        updateUI();
+        closeLoginModal();
+        await loadNotifications();
+        listenNotifications();
+        location.reload();
+    } catch (error) {
+        console.error('Erro no login:', error);
+        alert('Erro ao fazer login: ' + error.message);
+    }
+}
+
+async function logout() {
+    try {
+        await auth.signOut();
+        currentUser = null;
+        isBanned = false;
+        isGuestUser = false;
+        if (notificationListener) { notificationListener(); notificationListener = null; }
+        notifications = [];
+        unreadCount = 0;
+        updateNotificationBadge();
+        updateUI();
+        location.reload();
+    } catch (error) {
+        console.error('Erro no logout:', error);
+        alert('Erro ao sair: ' + error.message);
+    }
+}
+
+// ============================================
+// FUNÇÕES DE CONVIDADO
+// ============================================
 function generateGuestUID() {
     let hex = '';
     for (let i = 0; i < 32; i++) hex += Math.floor(Math.random() * 16).toString(16);
@@ -1443,32 +1747,76 @@ function clearGuestUser() {
     localStorage.removeItem('wikizero_guest_expiry');
 }
 
-function updateAuthUI() {
-    const notLoggedDiv = document.getElementById('dropdown-not-logged');
-    const loggedDiv = document.getElementById('dropdown-logged');
-    const dropdownAvatarSmall = document.getElementById('dropdown-avatar-small');
-    const dropdownUserName = document.getElementById('dropdown-user-name');
-    const dropdownFullName = document.getElementById('dropdown-full-name');
-    const dropdownEmail = document.getElementById('dropdown-email');
-    
-    if (currentUser) {
-        notLoggedDiv.style.display = 'none';
-        loggedDiv.style.display = 'block';
-        let name = currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Usuário');
-        if (isGuestUser) name = 'Convidado';
-        const initial = name ? name[0].toUpperCase() : 'U';
-        dropdownAvatarSmall.textContent = initial;
-        dropdownUserName.textContent = name.length > 15 ? name.substring(0,12)+'...' : name;
-        dropdownFullName.innerHTML = name + (isGuestUser ? ' <span class="temp-badge">Convidado</span>' : '');
-        dropdownEmail.textContent = isGuestUser ? 'Modo convidado (leitura)' : (currentUser.email || 'sem email');
-    } else {
-        notLoggedDiv.style.display = 'block';
-        loggedDiv.style.display = 'none';
-        dropdownAvatarSmall.textContent = '👤';
-        dropdownUserName.textContent = 'Conta';
+function guestLogin() {
+    const guestUser = createGuestUser();
+    currentUser = guestUser;
+    isGuestUser = true;
+    updateUI();
+    document.getElementById('login-modal').classList.remove('show');
+    loadSubcollections();
+}
+
+// ============================================
+// VIEWS
+// ============================================
+function showListView() {
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('list-view').classList.add('active');
+}
+
+function showCreateView() {
+    if (isGuestUser) { alert('Modo convidado: faça login para criar.'); return; }
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('create-view').classList.add('active');
+}
+
+function showSecurityView() {
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('security-view').classList.add('active');
+    const uidDisplay = document.getElementById('user-uid-display');
+    if (uidDisplay && currentUser) {
+        uidDisplay.innerHTML = isGuestUser ? `<strong>Modo Convidado</strong><br>UID: ${currentUser.uid}` : `<strong>Usuário</strong><br>${currentUser.email}`;
     }
 }
 
+function showDonationView() {
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('donation-view').classList.add('active');
+}
+
+function showPrivacyView() {
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('privacy-view').classList.add('active');
+}
+
+function showTermsView() {
+    document.querySelectorAll('.article-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('terms-view').classList.add('active');
+}
+
+function showRandomPage() {
+    if (allSubcollections.length > 0) {
+        openSubcollection(allSubcollections[Math.floor(Math.random() * allSubcollections.length)].uid);
+    } else { alert('Nenhuma página disponível.'); }
+}
+
+function showMyDataModal() {
+    if (!currentUser || isGuestUser) { alert('Faça login.'); return; }
+    document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
+    document.getElementById('modal-body').innerHTML = `
+        <p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || '-')}</p>
+        <p><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p>
+        <p><strong>UID:</strong> <code>${currentUser.uid}</code></p>
+        <p><strong>Tipo:</strong> ${isGuestUser ? 'Convidado' : 'Usuário registrado'}</p>
+    `;
+    document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+
+// ============================================
+// CARREGAR PÁGINAS
+// ============================================
 async function loadSubcollections() {
     const container = document.getElementById('subcollections-container');
     if (!currentUser) { container.innerHTML = '<div class="loading">Faça login</div>'; return; }
@@ -1507,6 +1855,9 @@ function displaySubcollections(subcollections) {
     `).join('')}</div>`;
 }
 
+// ============================================
+// ABRIR PÁGINA E ARTIGOS
+// ============================================
 window.openSubcollection = async function(uid) {
     const articleView = document.getElementById('article-view');
     const listView = document.getElementById('list-view');
@@ -1553,21 +1904,20 @@ window.openArticle = async function(collectionUid, articleId) {
         const article = await articleRef.get();
         if (!article.exists) { alert('Artigo não encontrado'); return; }
         const data = article.data();
-        
         const formattedContent = wikitextToHtml(data.descricao || 'Sem conteúdo.');
         
         document.getElementById('modal-title').innerHTML = `📄 ${escapeHtml(data.titulo)}`;
         document.getElementById('modal-body').innerHTML = `
             <div class="wiki-content-rendered">
                 <div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc; font-size:0.85em; color:#666;">
-                    📅 Criado: ${data.dataCriacao ? new Date(data.dataCriacao.seconds * 1000).toLocaleString('pt-BR') : 'Data desconhecida'}
+                    📅 Criado: ${data.dataCriacao ? formatDate(data.dataCriacao) : 'Data desconhecida'}
                     ${data.criadorNome ? `<br>👤 Criado por: ${escapeHtml(data.criadorNome)}` : ''}
                 </div>
                 ${formattedContent}
             </div>
-            ${!isGuestUser ? `<div style="margin-top:20px; text-align:center;"><button onclick="closeModal(); openEditor('${collectionUid}', '${articleId}')" class="btn-abrir-painel">✏️ Editar</button></div>` : ''}
+            ${!isGuestUser ? `<div style="margin-top:20px; text-align:center;"><button onclick="document.getElementById('modal').classList.remove('show'); openEditor('${collectionUid}', '${articleId}')" class="btn-abrir-painel">✏️ Editar</button></div>` : ''}
         `;
-        document.getElementById('modal').style.display = 'flex';
+        document.getElementById('modal').classList.add('show');
     } catch (error) { alert('Erro: ' + error.message); }
 };
 
@@ -1600,7 +1950,7 @@ async function openEditor(pageUid, articleId) {
         document.getElementById('editor-preview').innerHTML = '<em>Pré-visualização aparecerá aqui</em>';
     }
     
-    document.getElementById('editor-modal').style.display = 'flex';
+    document.getElementById('editor-modal').classList.add('show');
     
     const contentTextarea = document.getElementById('editor-article-content');
     const updatePreview = () => {
@@ -1697,7 +2047,7 @@ async function saveArticle() {
         await loadArticleList(currentEditingPageUid);
         
         if (!confirm('Salvo com sucesso! Deseja continuar editando?')) {
-            document.getElementById('editor-modal').style.display = 'none';
+            document.getElementById('editor-modal').classList.remove('show');
             await openSubcollection(currentEditingPageUid);
         }
     } catch (error) {
@@ -1728,27 +2078,18 @@ async function deleteArticle(pageUid, articleId) {
 }
 
 function closeEditor() {
-    document.getElementById('editor-modal').style.display = 'none';
+    document.getElementById('editor-modal').classList.remove('show');
     currentEditingPageUid = null;
     currentEditingArticleId = null;
 }
-
-// ============================================
-// FUNÇÃO PARA ABRIR O EDITOR AUXILIAR
-// ============================================
 
 function openHelperEditor() {
     window.open('https://wiki.wazzimagiygg.com/pages/editor/', '_blank');
 }
 
-function showMyDataModal() {
-    if (!currentUser || isGuestUser) { alert('Faça login.'); return; }
-    document.getElementById('modal-title').innerHTML = '📋 Meus Dados';
-    document.getElementById('modal-body').innerHTML = `<p><strong>Nome:</strong> ${escapeHtml(currentUser.displayName || '-')}</p><p><strong>Email:</strong> ${escapeHtml(currentUser.email)}</p><p><strong>UID:</strong> <code>${currentUser.uid}</code></p>`;
-    document.getElementById('modal').style.display = 'flex';
-}
-
-// Event Listeners
+// ============================================
+// EVENT LISTENERS
+// ============================================
 document.getElementById('create-subcollection-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (isGuestUser) { alert('Faça login para criar.'); return; }
@@ -1779,17 +2120,8 @@ document.getElementById('search-btn')?.addEventListener('click', () => {
 });
 
 document.getElementById('random-btn')?.addEventListener('click', showRandomPage);
-document.getElementById('login-dropdown-btn')?.addEventListener('click', () => { 
-    clearGuestUser(); 
-    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async (result) => {
-        await registerUser(result.user);
-    }); 
-    closeDropdown(); 
-});
-document.getElementById('guest-login-btn')?.addEventListener('click', () => { createGuestUser(); location.reload(); closeDropdown(); });
-document.getElementById('logout-dropdown-btn')?.addEventListener('click', () => { clearGuestUser(); if (auth.currentUser) auth.signOut(); else location.reload(); closeDropdown(); });
-document.getElementById('dropdown-trigger')?.addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('user-dropdown'); if (dropdown) dropdown.classList.toggle('active'); });
-document.addEventListener('click', () => closeDropdown());
+document.getElementById('google-login-btn')?.addEventListener('click', loginWithGoogle);
+document.getElementById('guest-login-btn')?.addEventListener('click', guestLogin);
 
 // Editor eventos
 document.getElementById('editor-save-btn')?.addEventListener('click', saveArticle);
@@ -1810,50 +2142,54 @@ if (menuToggle) {
     });
 }
 
-// Abas
-document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        const view = tab.getAttribute('data-view');
-        if (view === 'list') showListView();
-        else if (view === 'create') showCreateView();
-        else if (view === 'security') showSecurityView();
-        else if (view === 'donation') showDonationView();
-        else if (view === 'privacy') showPrivacyView();
-        else if (view === 'terms') showTermsView();
-        else if (view === 'mydata') showMyDataModal();
-    });
-});
-
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    auth.onAuthStateChanged(async user => {
-        if (user) {
-            currentUser = user; 
-            isGuestUser = false; 
-            clearGuestUser();
-            
-            // Registra o usuário no Firestore
-            await registerUser(user);
-            
-            updateAuthUI(); 
-            loadSubcollections();
-        } else {
-            const guestUser = getStoredGuestUser();
-            if (guestUser) { 
-                currentUser = guestUser; 
-                isGuestUser = true; 
-                updateAuthUI(); 
-                loadSubcollections(); 
-            } else { 
-                currentUser = null; 
-                isGuestUser = false; 
-                updateAuthUI(); 
-                loadSubcollections(); 
-            }
+// Fechar modais ao clicar fora
+document.querySelectorAll('.modal, .editor-modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
         }
     });
 });
 
+// ============================================
+// INICIALIZAÇÃO
+// ============================================
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        currentUser = user;
+        isGuestUser = false;
+        clearGuestUser();
+        
+        await registerUser(user);
+        isBanned = await checkIfUserIsBanned(user);
+        if (isBanned) { showBannedScreen('Sua conta foi banida.'); await auth.signOut(); updateUI(); return; }
+        
+        updateUI();
+        await loadNotifications();
+        listenNotifications();
+        loadSubcollections();
+    } else {
+        const guestUser = getStoredGuestUser();
+        if (guestUser) {
+            currentUser = guestUser;
+            isGuestUser = true;
+            updateUI();
+            loadSubcollections();
+        } else {
+            currentUser = null;
+            isGuestUser = false;
+            isBanned = false;
+            updateUI();
+            if (notificationListener) { notificationListener(); notificationListener = null; }
+            notifications = [];
+            unreadCount = 0;
+            updateNotificationBadge();
+            loadSubcollections();
+        }
+    }
+});
+
+// Expor funções globalmente
 window.showListView = showListView;
 window.showRandomPage = showRandomPage;
 window.showCreateView = showCreateView;
@@ -1867,11 +2203,17 @@ window.openArticle = openArticle;
 window.openEditor = openEditor;
 window.closeEditor = closeEditor;
 window.closeModal = closeModal;
-window.closeDropdown = closeDropdown;
 window.deleteArticle = deleteArticle;
 window.openHelperEditor = openHelperEditor;
+window.logout = logout;
+window.logoutBanned = logoutBanned;
+window.toggleNotifications = toggleNotifications;
+window.markAllAsRead = markAllAsRead;
+window.showLoginModal = showLoginModal;
+window.loginWithGoogle = loginWithGoogle;
+
+console.log('📚 WikiZero inicializada com sucesso!');
+console.log('🔔 Notificações integradas via coleção "notifications"');
 </script>
-        <!-- Iframe do verificador/logs (mantido como você tinha) -->
-<script src="https://gspotfverwazzimagiygg.wazzimagiygg.com/D6FefD0De/EfdFeF1ExcE0C/De0Var6H6f/QXdv0/dddcefb.js"></script>
 </body>
 </html>
