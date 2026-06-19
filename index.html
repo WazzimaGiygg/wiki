@@ -1697,9 +1697,31 @@ async function loginWithGoogle() {
     }
 }
 
+// ============================================
+// FUNÇÃO DE LOGOUT CORRIGIDA
+// ============================================
 async function logout() {
     try {
-        await auth.signOut();
+        // Se for usuário convidado, limpa o localStorage
+        if (isGuestUser) {
+            clearGuestUser();
+            currentUser = null;
+            isGuestUser = false;
+            isBanned = false;
+            if (notificationListener) { notificationListener(); notificationListener = null; }
+            notifications = [];
+            unreadCount = 0;
+            updateNotificationBadge();
+            updateUI();
+            location.reload();
+            return;
+        }
+        
+        // Se for usuário autenticado, desloga do Firebase
+        if (auth.currentUser) {
+            await auth.signOut();
+        }
+        
         currentUser = null;
         isBanned = false;
         isGuestUser = false;
