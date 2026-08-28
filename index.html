@@ -1,645 +1,340 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WikiZero - A enciclopédia livre que todos podem editar">
-    <meta name="theme-color" content="#0645ad">
-    
-    <title>WikiZero - A Enciclopédia Livre</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="/Favicom.png" type="image/png">
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <!-- CSS Principal - CAMINHOS CORRIGIDOS -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/themes/light.css">
-    <link rel="stylesheet" href="/css/themes/dark.css">
-    <link rel="stylesheet" href="/css/themes/sepia.css">
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    
-    <!-- Configuração do Firebase -->
-    <script>
-        // ===== CONFIGURAÇÃO DO FIREBASE =====
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9GkSqTIZ0kbVsba_WOdQeVAETrF9qna0",
-            authDomain: "wzzm-ce3fc.firebaseapp.com",
-            projectId: "wzzm-ce3fc",
-            storageBucket: "wzzm-ce3fc.appspot.com",
-            messagingSenderId: "249427877153",
-            appId: "1:249427877153:web:0e4297294794a5aadeb260"
-        };
-        
-        // Inicializar Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        
-        // Exportar para uso global
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const storage = firebase.storage();
-        
-        // Configurar Firestore
-        db.settings({
-            timestampsInSnapshots: true,
-            merge: true
-        });
-        
-        console.log('🔥 Firebase inicializado com sucesso!');
-    </script>
-    
-    <!-- Service Worker para PWA - CAMINHO CORRIGIDO -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('📱 Service Worker registrado:', registration);
-                    })
-                    .catch(error => {
-                        console.log('❌ Falha ao registrar Service Worker:', error);
-                    });
-            });
-        }
-    </script>
+    <title>WikiZero - Enciclopédia Livre</title>
+    <link rel="icon" href="https://gspotfverwazzimagiygg.wazzimagiygg.com/wiki/Favicom.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://gspotfverwazzimagiygg.wazzimagiygg.com/wiki/style.css">
 </head>
 <body>
-    
-    <!-- ===== LOADING GLOBAL ===== -->
-    <div id="global-loader" class="global-loader">
-        <div class="loader-spinner"></div>
-        <p>Carregando WikiZero...</p>
-    </div>
 
-    <!-- ===== HEADER ===== -->
-    <header class="wiki-header" id="wiki-header">
-        <div class="header-container">
-            <!-- Logo -->
-            <div class="header-logo" onclick="window.WikiZero?.router?.navigate('/')">
-                <img src="/images/logo.svg" alt="WikiZero" class="logo-image" onerror="this.style.display='none'">
-                <div class="logo-text">
-                    <h1>WikiZero</h1>
-                    <span class="logo-tagline">A Enciclopédia Livre</span>
-                </div>
+<!-- ===== COOKIE CONSENT BANNER ===== -->
+<div id="cookieConsent" class="cookie-consent">
+    <div class="cookie-content">
+        <div class="cookie-text">
+            <h3>🍪 Nós usamos cookies</h3>
+            <p>Este site utiliza cookies para melhorar sua experiência, analisar tráfego e exibir anúncios personalizados. 
+               Ao continuar navegando, você concorda com nossa 
+               <a href="https://wazzimagiygg.com/LGPD" target="_blank" style="color: #4a9eff; text-decoration: underline;">Política de Privacidade</a>.</p>
+            <div class="cookie-options">
+                <label>
+                    <input type="checkbox" id="cookieEssential" checked disabled> 
+                    <span>🔒 Essenciais (obrigatórios)</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="cookieAnalytics" checked> 
+                    <span>📊 Análise de dados</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="cookieAdvertising" checked> 
+                    <span>🎯 Publicidade personalizada</span>
+                </label>
             </div>
-            
-            <!-- Busca -->
-            <div class="header-search">
-                <div class="search-wrapper">
-                    <span class="search-icon material-icons">search</span>
-                    <input type="text" 
-                           id="global-search" 
-                           class="search-input" 
-                           placeholder="Pesquisar na WikiZero..."
-                           aria-label="Pesquisar">
-                    <button class="search-clear" id="search-clear" style="display:none;">×</button>
-                </div>
-                <div id="search-suggestions" class="search-suggestions" style="display:none;"></div>
+        </div>
+        <div class="cookie-buttons">
+            <button id="cookieAcceptAll" class="cookie-btn accept">✅ Aceitar Todos</button>
+            <button id="cookieRejectAll" class="cookie-btn reject">❌ Recusar Todos</button>
+            <button id="cookieCustomize" class="cookie-btn customize">⚙️ Personalizar</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== BANNED OVERLAY ===== -->
+<div id="bannedOverlay" class="banned-overlay">
+    <div class="banned-box">
+        <div class="icon">🚫</div>
+        <h2>⚠️ Conta Banida</h2>
+        <p>Sua conta foi banida permanentemente do sistema.</p>
+        <div id="banDetails" class="ban-details">Motivo: Violação das políticas de uso</div>
+        <button class="btn-logout-banned" onclick="logoutBanned()">🚪 Sair da conta</button>
+    </div>
+</div>
+
+<!-- ===== HEADER PADRONIZADO WAZZIMAGIYGG ===== -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo-area-header" onclick="location.reload()">
+            <img src="https://wazzimagiygg.com/favicom.png" alt="Logo">
+            <div>
+                <h1>WazzimaGiygg</h1>
+                <small>Wiki</small>
             </div>
+        </div>
+        <div class="user-info-header" id="userInfo">
+            <div class="user-avatar" id="userAvatar">👤</div>
+            <div>
+                <div class="user-name" id="userName">Carregando...</div>
+                <div class="user-email" id="userEmail">aguarde</div>
+            </div>
+            <span id="userBadge"></span>
             
-            <!-- Ações do Usuário -->
-            <div class="header-actions">
-                <!-- Notificações -->
-                <div class="notification-bell" id="notificationBell" onclick="window.WikiZero?.toggleNotifications(event)">
-                    <span class="material-icons">notifications_none</span>
-                    <span class="notification-badge" id="notifBadge" style="display:none;">0</span>
-                    <div class="notification-dropdown" id="notifDropdown">
-                        <div class="dropdown-header">
-                            <h3>🔔 Notificações</h3>
-                            <button onclick="window.WikiZero?.markAllNotificationsRead(event)">Marcar todas como lidas</button>
-                        </div>
-                        <div class="dropdown-body" id="notificationList">
-                            <div class="notification-empty">
-                                <span class="material-icons">notifications_off</span>
-                                <p>Nenhuma notificação</p>
-                            </div>
-                        </div>
+            <!-- NOTIFICATION BELL -->
+            <div class="notification-bell" id="notificationBell" onclick="toggleNotifications(event)">
+                <span class="material-icons">notifications</span>
+                <span class="notification-badge" id="notifBadge" style="display:none;">0</span>
+                <div class="notification-dropdown" id="notifDropdown">
+                    <div class="notification-dropdown-header">
+                        <h3>🔔 Notificações</h3>
+                        <button onclick="markAllAsRead(event)">Marcar todas como lidas</button>
                     </div>
-                </div>
-                
-                <!-- Tema -->
-                <button class="theme-toggle" id="themeToggle" title="Alternar tema">
-                    <span class="material-icons">dark_mode</span>
-                </button>
-                
-                <!-- Usuário -->
-                <div class="user-menu" id="userMenu">
-                    <div class="user-avatar" id="userAvatar">
-                        <span class="avatar-text">👤</span>
-                    </div>
-                    <div class="user-info" id="userInfo">
-                        <span class="user-name" id="userName">Visitante</span>
-                        <span class="user-email" id="userEmail"></span>
-                    </div>
-                    <div class="user-dropdown" id="userDropdown">
-                        <div class="dropdown-item" onclick="window.WikiZero?.router.navigate('/user/profile')">
-                            <span class="material-icons">person</span>
-                            <span>Meu Perfil</span>
-                        </div>
-                        <div class="dropdown-item" onclick="window.WikiZero?.router.navigate('/user/contributions')">
-                            <span class="material-icons">edit</span>
-                            <span>Minhas Contribuições</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-item" onclick="window.WikiZero?.router.navigate('/create')">
-                            <span class="material-icons">create</span>
-                            <span>Criar Artigo</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-item" id="loginBtn" onclick="window.WikiZero?.showLoginModal()">
-                            <span class="material-icons">login</span>
-                            <span>Entrar</span>
-                        </div>
-                        <div class="dropdown-item" id="logoutBtn" style="display:none;" onclick="window.WikiZero?.auth.logout()">
-                            <span class="material-icons">logout</span>
-                            <span>Sair</span>
+                    <div id="notificationList">
+                        <div class="notification-empty">
+                            <span class="material-icons">notifications_off</span>
+                            <p>Nenhuma notificação</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Menu Mobile Toggle -->
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                <span class="material-icons">menu</span>
+            <button class="btn-logout" id="btnLogout" style="display:none;" onclick="logout()">Sair</button>
+            <button class="btn-login" id="btnLogin" onclick="showLoginModal()">
+                <span class="material-icons" style="font-size:16px;">person</span> Entrar
             </button>
         </div>
-        
-        <!-- Navegação Mobile -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item" onclick="window.WikiZero?.router.navigate('/')">
-                <span class="material-icons">home</span>
-                <span>Início</span>
-            </div>
-            <div class="mobile-nav-item" onclick="window.WikiZero?.router.navigate('/categories')">
-                <span class="material-icons">category</span>
-                <span>Categorias</span>
-            </div>
-            <div class="mobile-nav-item" onclick="window.WikiZero?.router.navigate('/random')">
-                <span class="material-icons">shuffle</span>
-                <span>Aleatório</span>
-            </div>
-            <div class="mobile-nav-item" onclick="window.WikiZero?.router.navigate('/create')">
-                <span class="material-icons">create</span>
-                <span>Criar</span>
-            </div>
-        </div>
-    </header>
+    </div>
+</header>
 
-    <!-- ===== SIDEBAR ===== -->
-    <aside class="wiki-sidebar" id="wikiSidebar">
-        <div class="sidebar-content">
-            <!-- Navegação Principal -->
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <h3 class="nav-title">📖 Navegação</h3>
-                    <ul class="nav-list">
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/')">
-                            <span class="material-icons">home</span>
-                            <span>Página Principal</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/random')">
-                            <span class="material-icons">shuffle</span>
-                            <span>Aleatório</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/categories')">
-                            <span class="material-icons">category</span>
-                            <span>Categorias</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/search')">
-                            <span class="material-icons">search</span>
-                            <span>Busca Avançada</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="nav-section">
-                    <h3 class="nav-title">✏️ Contribuição</h3>
-                    <ul class="nav-list">
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/create')">
-                            <span class="material-icons">create</span>
-                            <span>Criar Artigo</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/contribute')">
-                            <span class="material-icons">help</span>
-                            <span>Como Contribuir</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/about')">
-                            <span class="material-icons">info</span>
-                            <span>Sobre a WikiZero</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="nav-section">
-                    <h3 class="nav-title">📂 Categorias</h3>
-                    <ul class="nav-list" id="sidebarCategories">
-                        <li class="nav-item loading">Carregando...</li>
-                    </ul>
-                </div>
-                
-                <div class="nav-section">
-                    <h3 class="nav-title">⚙️ Configurações</h3>
-                    <ul class="nav-list">
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/privacy')">
-                            <span class="material-icons">privacy_tip</span>
-                            <span>Privacidade (LGPD)</span>
-                        </li>
-                        <li class="nav-item" onclick="window.WikiZero?.router.navigate('/terms')">
-                            <span class="material-icons">description</span>
-                            <span>Termos de Uso</span>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            
-            <!-- Footer do Sidebar -->
-            <div class="sidebar-footer">
-                <p>📚 WikiZero v2.0</p>
-                <p>📜 Conteúdo livre</p>
-                <p>🔒 LGPD compliant</p>
-                <div class="sidebar-social">
-                    <a href="#" class="social-link">🐦</a>
-                    <a href="#" class="social-link">💬</a>
-                    <a href="#" class="social-link">📧</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Toggle Sidebar -->
-        <button class="sidebar-toggle" id="sidebarToggle" title="Alternar sidebar">
-            <span class="material-icons">chevron_left</span>
-        </button>
-    </aside>
+<!-- ===== BANNER WIKI ===== -->
+<div class="wiki-banner">
+    <h2>📚 WikiZero - A Enciclopédia Livre</h2>
+    <p>Conhecimento colaborativo, livre e gratuito para todos</p>
+</div>
 
-    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
-    <main class="wiki-main">
-        <div class="main-content">
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb" id="breadcrumb">
-                <a href="/">Início</a>
-                <span class="separator">›</span>
-                <span id="breadcrumbCurrent">Carregando...</span>
-            </nav>
-            
-            <!-- Aplicação -->
-            <div id="app" class="app-container">
-                <!-- O conteúdo será renderizado aqui pelo JavaScript -->
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p>Carregando conteúdo...</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- TOC (Table of Contents) - Apenas para artigos -->
-        <aside class="wiki-toc" id="wikiToc" style="display:none;">
-            <div class="toc-content">
-                <h3>📑 Índice</h3>
-                <div id="tocContainer"></div>
-            </div>
-        </aside>
-    </main>
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+    <input type="text" id="search-input" class="search-bar-input" placeholder="Pesquisar páginas...">
+    <button id="search-btn" class="search-bar-btn">🔍 Buscar</button>
+    <button id="random-btn" class="search-bar-btn random">🎲 Aleatório</button>
+</div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="wiki-footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                <div class="footer-column">
-                    <h4>WikiZero</h4>
-                    <ul>
-                        <li><a href="/about">Sobre</a></li>
-                        <li><a href="/contribute">Contribuir</a></li>
-                        <li><a href="/privacy">Privacidade</a></li>
-                        <li><a href="/terms">Termos</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Comunidade</h4>
-                    <ul>
-                        <li><a href="/forum">Fórum</a></li>
-                        <li><a href="/blog">Blog</a></li>
-                        <li><a href="/events">Eventos</a></li>
-                        <li><a href="/donate">Doações</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Recursos</h4>
-                    <ul>
-                        <li><a href="/help">Ajuda</a></li>
-                        <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/api">API</a></li>
-                        <li><a href="/status">Status</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Conecte-se</h4>
-                    <div class="social-links">
-                        <a href="#" class="social-link" title="Twitter">🐦</a>
-                        <a href="#" class="social-link" title="Discord">💬</a>
-                        <a href="#" class="social-link" title="GitHub">🐙</a>
-                        <a href="#" class="social-link" title="YouTube">▶️</a>
-                    </div>
-                    <div class="footer-newsletter">
-                        <p>Receba novidades</p>
-                        <form id="newsletterForm">
-                            <input type="email" placeholder="Seu email" required>
-                            <button type="submit">Assinar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    © 2026 WikiZero - A Enciclopédia Livre e Colaborativa
-                </div>
-                <div class="footer-languages">
-                    <select id="languageSelect">
-                        <option value="pt-BR">Português (BR)</option>
-                        <option value="en-US">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                    </select>
-                </div>
-            </div>
+<!-- ===== MAIN WRAPPER ===== -->
+<div class="main-wrapper">
+    <div class="sidebar-menu" id="sidebar-menu">
+        <div class="menu-toggle-btn" id="menu-toggle-btn">◀</div>
+        <div class="menu-header"><h3>📖 Navegação</h3></div>
+        <div class="menu-section">
+            <div class="menu-section-title"><span class="material-icons">home</span><span>Principal</span></div>
+            <a class="menu-item" onclick="showListView()"><span class="material-icons">dashboard</span><span class="menu-item-text">Página principal</span></a>
+            <a class="menu-item" onclick="showRandomPage()"><span class="material-icons">shuffle</span><span class="menu-item-text">Aleatório</span></a>
+            <a class="menu-item" onclick="showCreateView()"><span class="material-icons">edit</span><span class="menu-item-text">Criar página</span></a>
         </div>
-    </footer>
-
-    <!-- ===== COOKIE CONSENT ===== -->
-    <div id="cookieConsent" class="cookie-consent" style="display:none;">
-        <div class="cookie-content">
-            <div class="cookie-text">
-                <h3>🍪 Nós usamos cookies</h3>
-                <p>
-                    Este site utiliza cookies para melhorar sua experiência, 
-                    analisar tráfego e exibir anúncios personalizados. 
-                    Ao continuar navegando, você concorda com nossa 
-                    <a href="/privacy">Política de Privacidade</a>.
-                </p>
-                <div class="cookie-options">
-                    <label>
-                        <input type="checkbox" id="cookieEssential" checked disabled>
-                        <span>🔒 Essenciais (obrigatórios)</span>
-                    </label>
-                    <label>
-                        <input type="checkbox" id="cookieAnalytics" checked>
-                        <span>📊 Análise de dados</span>
-                    </label>
-                    <label>
-                        <input type="checkbox" id="cookieAdvertising" checked>
-                        <span>🎯 Publicidade personalizada</span>
-                    </label>
-                </div>
-            </div>
-            <div class="cookie-buttons">
-                <button id="cookieAcceptAll" class="cookie-btn accept">✅ Aceitar Todos</button>
-                <button id="cookieRejectAll" class="cookie-btn reject">❌ Recusar Todos</button>
-                <button id="cookieCustomize" class="cookie-btn customize">⚙️ Personalizar</button>
-            </div>
+        <div class="menu-section">
+            <div class="menu-section-title"><span class="material-icons">info</span><span>WikiZero</span></div>
+            <a class="menu-item" onclick="showSecurityView()"><span class="material-icons">security</span><span class="menu-item-text">Segurança</span></a>
+            <a class="menu-item" onclick="showDonationView()"><span class="material-icons">favorite</span><span class="menu-item-text">Doações</span></a>
+            <a class="menu-item" onclick="showPrivacyView()"><span class="material-icons">privacy_tip</span><span class="menu-item-text">Privacidade (LGPD)</span></a>
+            <a class="menu-item" onclick="showTermsView()"><span class="material-icons">description</span><span class="menu-item-text">Termos de Uso</span></a>
+            <a class="menu-item" onclick="showMyDataModal()"><span class="material-icons">badge</span><span class="menu-item-text">Meus dados</span></a>
         </div>
+        <div class="menu-footer"><p>WikiZero v3.0</p><p>📜 Conteúdo livre</p><p>🔒 LGPD compliant</p></div>
     </div>
 
-    <!-- ===== LOGIN MODAL ===== -->
-    <div id="loginModal" class="modal" style="display:none;">
-        <div class="modal-content login-modal">
-            <div class="modal-header">
-                <h2>🔐 Entrar na WikiZero</h2>
-                <button class="modal-close" onclick="window.WikiZero?.closeLoginModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="login-options">
-                    <button id="googleLoginBtn" class="login-btn google">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                        <span>Entrar com Google</span>
-                    </button>
-                    
-                    <div class="login-divider">
-                        <span>ou</span>
-                    </div>
-                    
-                    <button id="guestLoginBtn" class="login-btn guest">
-                        <span>🎭</span>
-                        <span>Modo Convidado (Leitura)</span>
-                    </button>
-                    <small class="guest-info">🔒 Acesso temporário apenas para leitura</small>
-                    
-                    <div class="login-divider">
-                        <span>ou</span>
-                    </div>
-                    
-                    <form id="emailLoginForm" class="email-login">
-                        <div class="form-group">
-                            <input type="email" id="loginEmail" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" id="loginPassword" placeholder="Senha" required>
-                        </div>
-                        <button type="submit" class="login-btn email">📧 Entrar com Email</button>
-                    </form>
-                    
-                    <div class="login-footer">
-                        <a href="#" onclick="window.WikiZero?.showRegisterModal()">Criar conta</a>
-                        <a href="#" onclick="window.WikiZero?.showPasswordReset()">Esqueceu a senha?</a>
-                    </div>
+    <div class="main-container">
+        <div class="content-area">
+            <div id="list-view" class="article-view active">
+                <h1 class="page-title">Páginas Wiki</h1>
+                <div id="subcollections-container"><div class="loading">Carregando páginas...</div></div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <span>📊 Total de páginas: <strong id="total-count">0</strong></span>
+                    <span style="margin-left: 20px;">📄 Total de artigos: <strong id="total-articles">0</strong></span>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- ===== REGISTER MODAL ===== -->
-    <div id="registerModal" class="modal" style="display:none;">
-        <div class="modal-content register-modal">
-            <div class="modal-header">
-                <h2>📝 Criar conta</h2>
-                <button class="modal-close" onclick="window.WikiZero?.closeRegisterModal()">×</button>
+            <div id="article-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div id="article-content"></div>
             </div>
-            <div class="modal-body">
-                <form id="registerForm">
+
+            <div id="create-view" class="article-view">
+                <h1 class="page-title">Criar nova página</h1>
+                <form id="create-subcollection-form">
                     <div class="form-group">
-                        <label for="registerName">Nome completo</label>
-                        <input type="text" id="registerName" placeholder="Seu nome" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" placeholder="seu@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Senha</label>
-                        <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required minlength="6">
+                        <label>Nome da página (UID)</label>
+                        <input type="text" id="sub-name" required placeholder="ex: meu_projeto">
+                        <small>Use letras, números e underscores</small>
                     </div>
                     <div class="form-group">
-                        <label for="registerConfirm">Confirmar senha</label>
-                        <input type="password" id="registerConfirm" placeholder="Confirme sua senha" required>
+                        <label>Título da página</label>
+                        <input type="text" id="sub-title" required>
                     </div>
-                    <div class="form-group checkbox">
-                        <input type="checkbox" id="registerTerms" required>
-                        <label for="registerTerms">Aceito os <a href="/terms" target="_blank">Termos de Uso</a></label>
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <textarea id="sub-description" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="register-btn">📝 Criar conta</button>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <input type="text" id="sub-category" placeholder="Ex: Tecnologia, Ciência">
+                    </div>
+                    <button type="submit" class="submit-btn">✨ Criar Página</button>
                 </form>
-                <div class="register-footer">
-                    Já tem uma conta? <a href="#" onclick="window.WikiZero?.showLoginModal()">Faça login</a>
+            </div>
+
+            <div id="security-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div class="article-content"><h1>🔐 Segurança da Conta</h1><div class="highlight"><p><strong>🔒 Tipos de Acesso:</strong></p><ul><li><strong>Login com Google:</strong> Acesso completo</li><li><strong>Acesso Convidado:</strong> Apenas leitura</li></ul></div><div id="user-uid-display" class="article-meta"></div></div>
+            </div>
+
+            <div id="donation-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div class="article-content"><h1>💝 Doações</h1><div class="highlight"><p><strong>🎉 A WikiZero é 100% gratuita!</strong></p></div></div>
+            </div>
+
+            <div id="privacy-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div class="article-content"><h1>Política de Privacidade - LGPD</h1><p>Em conformidade com a Lei 13.709/2018.</p><div class="highlight"><p><strong>DPO:</strong> <a href="https://wazzimagiygg.com/Marco%20Civil/">E-mail por formulário</a></p></div></div>
+            </div>
+
+            <div id="terms-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div class="article-content"><h1>📜 Termos de Uso</h1><p>Ao utilizar a WikiZero, você concorda com estes Termos.</p></div>
+            </div>
+
+            <div id="mydata-view" class="article-view">
+                <button class="back-button" onclick="showListView()">← Voltar</button>
+                <div id="user-data-container"><div class="loading">Carregando...</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== FOOTER PADRONIZADO WAZZIMAGIYGG ===== -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="https://wazzimagiygg.com/donate/" class="footer-link" target="_blank">💝 Doação</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/desktop.html" class="footer-link" target="_blank">🖥️ Desktop</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/LGPD" class="footer-link" target="_blank">🔒 LGPD</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/MarcoCivil" class="footer-link" target="_blank">📜 Marco Civil</a>
+            <span class="footer-divider">|</span>
+            <a href="https://support.wazzimagiygg.com/" class="footer-link" target="_blank">🎫 Ticket</a>
+            <span class="footer-divider">|</span>
+            <a href="https://wazzimagiygg.com/produtos" class="footer-link highlight" target="_blank">🛍️ Produtos</a>
+            <span class="footer-divider">|</span>
+            <a href="https://painel.wazzimagiygg.com/" class="footer-link highlight" target="_blank">👤 Sua conta</a>
+        </div>
+        <div class="footer-copyright">
+            © 2026 WikiZero - Enciclopédia Livre e Colaborativa
+        </div>
+    </div>
+</footer>
+
+<!-- ===== MODAL GENÉRICO ===== -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title">Aviso</h3>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<!-- ===== MODAL LOGIN ===== -->
+<div id="login-modal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <h3><i class="material-icons">login</i> Entrar na WikiZero</h3>
+            <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 20px;">Faça login para criar e editar páginas</p>
+            <button id="google-login-btn" class="btn-abrir-painel" style="width:100%; margin-bottom:10px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:20px; height:20px;">
+                Entrar com Google
+            </button>
+            
+            <div style="text-align:center; margin:20px 0; color:#999;">ou</div>
+            
+            <button id="guest-login-btn" class="btn-abrir-painel" style="width:100%; background:#28a745;">🎭 Acesso Convidado (Leitura)</button>
+            <div class="guest-info">🔒 Acesso temporário apenas para leitura</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== EDITOR MODAL ===== -->
+<div id="editor-modal" class="editor-modal">
+    <div class="editor-container">
+        <div class="editor-header">
+            <h3 id="editor-title">📝 Editor de Conteúdo</h3>
+            <div class="editor-header-buttons">
+                <button id="editor-helper-btn" class="editor-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);" title="Abrir Editor Auxiliar">
+                    🛠️ Auxiliar
+                </button>
+                <button id="editor-save-btn" class="editor-btn">💾 Salvar</button>
+                <button id="editor-close-btn" class="editor-btn editor-btn-danger">❌ Fechar</button>
+            </div>
+        </div>
+        <div class="editor-body">
+            <div class="editor-sidebar">
+                <h4>📄 Artigos desta página</h4>
+                <div id="editor-article-list" style="max-height: 250px; overflow-y: auto;"></div>
+                <button id="editor-new-article-btn" class="editor-btn" style="margin-top: 15px; width: 100%;">➕ Novo Artigo</button>
+                
+                <button id="open-helper-editor" class="btn-helper">
+                    <i class="material-icons">open_in_new</i> Editor Avançado (Nova Aba)
+                </button>
+                
+                <div class="format-guide">
+                    <h4>📝 Guia Rápido de Formatação</h4>
+                    <table>
+                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
+                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
+                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
+                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
+                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
+                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
+                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
+                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
+                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
+                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
+                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="editor-main">
+                <div class="editor-field">
+                    <label>Título do Artigo</label>
+                    <input type="text" id="editor-article-title" placeholder="Título do artigo">
+                </div>
+                <div class="editor-field">
+                    <label>Conteúdo (Wiki Markdown)</label>
+                    <textarea id="editor-article-content" placeholder="Exemplo:
+= Título Principal =
+== Subtítulo ==
+**Texto em negrito** e *texto em itálico*
+
+* Item 1
+* Item 2
+
+[[Link para outra página]]
+[Exemplo de link externo](https://exemplo.com)"></textarea>
+                </div>
+                <div class="editor-field">
+                    <label>Descrição curta (opcional)</label>
+                    <textarea id="editor-article-description" rows="2" placeholder="Uma breve descrição do artigo que aparecerá na lista"></textarea>
+                </div>
+                <div class="editor-field">
+                    <label>Pré-visualização</label>
+                    <div id="editor-preview" class="preview-box"><em>Sem conteúdo para pré-visualizar</em></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- ===== TOAST NOTIFICATIONS ===== -->
-    <div id="toastContainer" class="toast-container"></div>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://gspotfverwazzimagiygg.wazzimagiygg.com/wiki/script.js"></script>
 
-    <!-- ===== SCROLL TO TOP ===== -->
-    <button id="scrollTop" class="scroll-top" style="display:none;" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        <span class="material-icons">arrow_upward</span>
-    </button>
-
-    <!-- ===== SCRIPTS ===== -->
-    
-    <!-- Cookie Consent -->
-    <script>
-        // ===== COOKIE CONSENT MANAGER =====
-        const CookieManager = {
-            STORAGE_KEY: 'wikizero_cookie_consent',
-            
-            init() {
-                const consent = this.getConsent();
-                if (!consent) {
-                    document.getElementById('cookieConsent').style.display = 'block';
-                } else {
-                    this.applyConsent(consent);
-                }
-                
-                document.getElementById('cookieAcceptAll')?.addEventListener('click', () => this.acceptAll());
-                document.getElementById('cookieRejectAll')?.addEventListener('click', () => this.rejectAll());
-                document.getElementById('cookieCustomize')?.addEventListener('click', () => this.customize());
-            },
-            
-            getConsent() {
-                try {
-                    const data = localStorage.getItem(this.STORAGE_KEY);
-                    return data ? JSON.parse(data) : null;
-                } catch { return null; }
-            },
-            
-            saveConsent(preferences) {
-                localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
-                    ...preferences,
-                    timestamp: new Date().toISOString()
-                }));
-            },
-            
-            applyConsent(consent) {
-                if (consent.analytics !== false) {
-                    this.enableAnalytics();
-                } else {
-                    this.disableAnalytics();
-                }
-                if (consent.advertising !== false) {
-                    this.enablePersonalizedAds();
-                } else {
-                    this.disablePersonalizedAds();
-                }
-            },
-            
-            enableAnalytics() {
-                console.log('📊 Analytics habilitado');
-            },
-            
-            disableAnalytics() {
-                console.log('📊 Analytics desabilitado');
-            },
-            
-            enablePersonalizedAds() {
-                document.cookie = "ad_personalization=enabled; path=/; max-age=31536000; samesite=lax";
-            },
-            
-            disablePersonalizedAds() {
-                document.cookie = "ad_personalization=disabled; path=/; max-age=31536000; samesite=lax";
-            },
-            
-            acceptAll() {
-                const consent = { essential: true, analytics: true, advertising: true };
-                this.saveConsent(consent);
-                this.applyConsent(consent);
-                document.getElementById('cookieConsent').style.display = 'none';
-                this.showToast('✅ Todos os cookies foram aceitos!');
-            },
-            
-            rejectAll() {
-                const consent = { essential: true, analytics: false, advertising: false };
-                this.saveConsent(consent);
-                this.applyConsent(consent);
-                document.getElementById('cookieConsent').style.display = 'none';
-                this.showToast('ℹ️ Cookies não essenciais foram recusados.');
-            },
-            
-            customize() {
-                const analytics = document.getElementById('cookieAnalytics')?.checked !== false;
-                const advertising = document.getElementById('cookieAdvertising')?.checked !== false;
-                const consent = { essential: true, analytics, advertising };
-                this.saveConsent(consent);
-                this.applyConsent(consent);
-                document.getElementById('cookieConsent').style.display = 'none';
-                this.showToast('✅ Suas preferências foram salvas!');
-            },
-            
-            showToast(message) {
-                const toast = document.createElement('div');
-                toast.className = 'toast toast-info';
-                toast.textContent = message;
-                document.getElementById('toastContainer').appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }
-        };
-        
-        // Inicializar Cookie Consent
-        document.addEventListener('DOMContentLoaded', () => CookieManager.init());
-    </script>
-    
-    <!-- Módulos JS - CAMINHO CORRIGIDO -->
-    <script type="module" src="/js/app.js"></script>
-    
-    <!-- Fallback para navegadores antigos -->
-    <script nomodule>
-        console.warn('Seu navegador não suporta módulos ES6. Por favor, atualize seu navegador.');
-        document.getElementById('app').innerHTML = `
-            <div class="browser-warning">
-                <h2>⚠️ Navegador desatualizado</h2>
-                <p>Para uma melhor experiência, atualize seu navegador:</p>
-                <ul>
-                    <li><a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a></li>
-                    <li><a href="https://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a></li>
-                    <li><a href="https://www.microsoft.com/edge/" target="_blank">Microsoft Edge</a></li>
-                </ul>
-            </div>
-        `;
-    </script>
-    
-    <!-- Inicialização do App -->
-    <script>
-        // Garantir que o app seja inicializado mesmo se o módulo falhar
-        document.addEventListener('DOMContentLoaded', () => {
-            // O app é inicializado pelo módulo app.js
-            // Mas adicionamos um fallback
-            setTimeout(() => {
-                const app = document.getElementById('app');
-                if (app && app.innerHTML.includes('Carregando conteúdo...')) {
-                    console.warn('⚠️ App não inicializou. Verifique os módulos.');
-                }
-            }, 5000);
-        });
-    </script>
+<script src="https://gspotfverwazzimagiygg.wazzimagiygg.com/D6FefD0De/EfdFeF1ExcE0C/De0Var6H6f/QXdv0/dddcefb.js"></script>
 </body>
 </html>
