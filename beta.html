@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiZero | Enciclopédia Livre</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        :root {
+            --primary: #3366cc;
+            --primary-dark: #2a4b8d;
+            --bg-body: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-main: #202122;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+
+        /* --- LAYOUT ESTRUTURAL --- */
+        .app-grid {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "sidebar main"
+                "footer footer";
+            grid-template-columns: var(--sidebar-width) 1fr;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        .site-header {
+            grid-area: header;
+            height: var(--header-height);
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-group { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-group img { width: 40px; height: 40px; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            grid-area: sidebar;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: #444;
+            text-decoration: none;
+            cursor: pointer;
+            gap: 12px;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover { background: #f0f2f5; color: var(--primary); }
+        .nav-item.active { border-left: 4px solid var(--primary); background: #eaf2ff; color: var(--primary); }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            grid-area: main;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- COMPONENTES --- */
+        .search-wrapper {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+
+        /* --- MODAIS --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .app-grid {
+                grid-template-areas: "header" "main" "footer";
+                grid-template-columns: 1fr;
+            }
+            .sidebar { display: none; } /* Implementar menu hambúrguer se necessário */
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-grid">
+    <!-- Header Otimizado -->
+    <header class="site-header">
+        <div class="logo-group" onclick="switchView('view-home')">
+            <img src="https://wazzimagiygg.com/favicom.png" alt="WikiZero Logo">
+            <div>
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">WikiZero</h1>
+                <p style="font-size: 0.7rem; color: #666; text-transform: uppercase;">Enciclopédia Livre</p>
+            </div>
+        </div>
+
+        <div class="user-controls" style="display: flex; gap: 15px; align-items: center;">
+            <div id="user-badge" class="btn" style="background: #eee;">
+                <span class="material-icons">account_circle</span>
+                <span id="user-name-display">Visitante</span>
+            </div>
+            <button class="btn btn-primary" onclick="toggleModal('login-modal')">Entrar</button>
+        </div>
+    </header>
+
+    <!-- Sidebar de Navegação -->
+    <aside class="sidebar">
+        <nav>
+            <div class="nav-item active" onclick="switchView('view-home', this)">
+                <span class="material-icons">home</span> Principal
+            </div>
+            <div class="nav-item" onclick="switchView('view-create', this)">
+                <span class="material-icons">add_circle</span> Criar Artigo
+            </div>
+            <hr style="margin: 15px 25px; border: 0; border-top: 1px solid #eee;">
+            <div class="nav-item" onclick="switchView('view-privacy', this)">
+                <span class="material-icons">policy</span> Privacidade
+            </div>
+            <div class="nav-item" onclick="switchView('view-security', this)">
+                <span class="material-icons">security</span> Segurança
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Área de Conteúdo Principal -->
+    <main class="main-content">
+        
+        <!-- View: Home / Busca -->
+        <section id="view-home" class="view-section active">
+            <div class="search-wrapper">
+                <h2>O que você deseja aprender hoje?</h2>
+                <div class="search-input-group">
+                    <input type="text" id="main-search" placeholder="Pesquisar em milhares de artigos...">
+                    <button class="btn btn-primary"><span class="material-icons">search</span></button>
+                </div>
+            </div>
+            <div id="articles-list-container">
+                <!-- Artigos injetados via JS -->
+                <h3>Artigos Recentes</h3>
+                <p>Carregando conteúdo...</p>
+            </div>
+        </section>
+
+        <!-- View: Criar Página -->
+        <section id="view-create" class="view-section">
+            <div class="search-wrapper" style="text-align: left;">
+                <h2>📝 Criar novo conhecimento</h2>
+                <form id="form-create-wiki" style="margin-top: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <label>Título do Artigo</label>
+                        <input type="text" required placeholder="Ex: A História da Computação">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label>Categoria</label>
+                        <input type="text" placeholder="Ex: Tecnologia">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Edição</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Outras Views (Privacidade, Segurança...) seriam adicionadas aqui seguindo o mesmo padrão -->
+        <section id="view-privacy" class="view-section">
+            <h2>LGPD e Privacidade</h2>
+            <p>Conteúdo sobre proteção de dados...</p>
+        </section>
+
+    </main>
+
+    <!-- Footer Otimizado -->
+    <footer style="grid-area: footer; background: #333; color: #ccc; padding: 20px; text-align: center; font-size: 0.9rem;">
+        <p>© 2026 WikiZero & WazzimaGiygg. Conteúdo sob licença Creative Commons.</p>
+    </footer>
+</div>
+
+<!-- Modal de Login -->
+<div id="login-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 400px; padding: 30px;">
+        <h3 style="margin-bottom: 20px;">Acessar WikiZero</h3>
+        <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px; justify-content: center;">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Entrar com Google
+        </button>
+        <button class="btn" onclick="toggleModal('login-modal')" style="width: 100%; justify-content: center;">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    // 1. Gerenciamento de Telas (Views)
+    function switchView(viewId, element) {
+        // Esconde todas as views
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        // Mostra a view selecionada
+        document.getElementById(viewId).classList.add('active');
+
+        // Atualiza estado do menu lateral
+        if(element) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+        }
+    }
+
+    // 2. Gerenciamento de Modais
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    // 3. Simulação de Carregamento de Artigos
+    window.addEventListener('DOMContentLoaded', () => {
+        console.log("WikiZero Inicializada.");
+        // Aqui entraria a lógica de carregar do Firebase
+    });
+
+    // Fecha modal ao clicar fora
+    window.onclick = function(event) {
+        if (event.target.className === 'modal-overlay') {
+            event.target.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
