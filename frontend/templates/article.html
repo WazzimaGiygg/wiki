@@ -1,0 +1,72 @@
+<!-- ============================================
+     TEMPLATE: ARTIGO
+     ============================================ -->
+
+<div class="wiki-article">
+    <!-- Cabeçalho do artigo -->
+    <div class="article-header">
+        <h1>{{title}}</h1>
+        <div class="article-meta">
+            <span>✏️ Criado por <strong>{{author.name}}</strong></span>
+            <span>📅 {{formatDate created_at}}</span>
+            <span>👁️ {{views}} visualizações</span>
+        </div>
+    </div>
+    
+    <!-- TOC -->
+    {{{toc}}}
+    
+    <!-- Conteúdo -->
+    <div class="article-content" id="article-content">
+        {{{renderedContent}}}
+    </div>
+    
+    <!-- Categorias -->
+    {{#if categories}}
+    <div class="article-categories">
+        <h3>📂 Categorias</h3>
+        <div class="category-tags">
+            {{#each categories}}
+            <a href="/category/{{slugify this}}" class="category-tag">{{this}}</a>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+    
+    <!-- Ações -->
+    <div class="article-actions">
+        {{#if canEdit}}
+        <a href="/edit/{{slug}}" class="btn-primary">✏️ Editar</a>
+        {{/if}}
+        {{#if canModerate}}
+        <div class="moderation-actions">
+            <button onclick="window.moderation.approve('{{id}}')">✅ Aprovar</button>
+            <button onclick="window.moderation.reject('{{id}}')">❌ Rejeitar</button>
+            <button onclick="window.moderation.delete('{{id}}')">🗑️ Excluir</button>
+        </div>
+        {{/if}}
+        <button onclick="window.history.back()" class="btn-secondary">← Voltar</button>
+    </div>
+    
+    <!-- Discussão -->
+    <div class="article-discussion">
+        <h3>💬 Discussão</h3>
+        <div id="discussion-container">
+            {{#each discussions}}
+            <div class="comment">
+                <div class="comment-header">
+                    <strong>{{author.name}}</strong>
+                    <span>{{formatRelativeTime created_at}}</span>
+                </div>
+                <div class="comment-body">{{content}}</div>
+            </div>
+            {{/each}}
+        </div>
+        {{#if user}}
+        <form id="comment-form" class="comment-form">
+            <textarea name="content" placeholder="Adicione um comentário..." required></textarea>
+            <button type="submit" class="btn-primary">Enviar</button>
+        </form>
+        {{/if}}
+    </div>
+</div>
