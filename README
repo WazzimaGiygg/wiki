@@ -1,50 +1,83 @@
-📁 WikiZero 2.0
-├── 📁 backend/
-│   ├── firebase/
-│   │   ├── firestore.rules
-│   │   ├── firestore.indexes
-│   │   └── storage.rules
-│   ├── cloud-functions/
-│   │   ├── index.js
-│   │   ├── article-triggers.js
-│   │   ├── search-index.js
-│   │   └── moderation.js
-│   └── api/
-│       ├── articles.js
-│       ├── users.js
-│       ├── categories.js
-│       └── search.js
-├── 📁 frontend/
+wikizero/
+│
+├── 📁 public/                      # Arquivos públicos (raiz do site)
+│   ├── index.html                  # Página principal
+│   ├── offline.html                # Página offline
+│   ├── sw.js                       # Service Worker
+│   ├── favicon.ico                 # Favicon
+│   ├── apple-touch-icon.png        # Ícone para iOS
+│   │
 │   ├── 📁 css/
-│   │   ├── main.css
-│   │   ├── themes/
-│   │   │   ├── light.css
-│   │   │   ├── dark.css
-│   │   │   └── sepia.css
-│   │   └── components/
+│   │   ├── main.css                # CSS principal
+│   │   └── 📁 themes/
+│   │       ├── light.css           # Tema claro
+│   │       ├── dark.css            # Tema escuro
+│   │       └── sepia.css           # Tema sépia
+│   │
 │   ├── 📁 js/
-│   │   ├── app.js
+│   │   ├── app.js                  # Aplicação principal
 │   │   ├── 📁 core/
 │   │   │   ├── auth.js
 │   │   │   ├── database.js
 │   │   │   ├── router.js
 │   │   │   └── state.js
 │   │   ├── 📁 modules/
-│   │   │   ├── articles/
-│   │   │   ├── categories/
-│   │   │   ├── users/
-│   │   │   └── moderation/
+│   │   │   ├── articles.js
+│   │   │   ├── categories.js
+│   │   │   ├── moderation.js
+│   │   │   └── editor.js
 │   │   └── 📁 utils/
 │   │       ├── parser.js
 │   │       ├── validator.js
 │   │       └── helpers.js
-│   └── 📁 templates/
-│       ├── layout.html
+│   │
+│   ├── 📁 images/
+│   │   ├── logo.svg                # Logo principal
+│   │   ├── icon-192.png            # Ícone PWA 192x192
+│   │   ├── icon-512.png            # Ícone PWA 512x512
+│   │   └── badge-72.png            # Badge para notificações
+│   │
+│   └── 📁 templates/                # Templates HTML (carregados via JS)
 │       ├── home.html
 │       ├── article.html
-│       ├── edit.html
-│       └── search.html
-└── 📁 docs/
-    ├── api.md
-    ├── style-guide.md
-    └── contribution-guide.md
+│       ├── editor.html
+│       ├── category.html
+│       ├── categories.html
+│       ├── moderation.html
+│       ├── search.html
+│       ├── user.html
+│       ├── users.html
+│       ├── history.html
+│       ├── about.html
+│       ├── contribute.html
+│       ├── privacy.html
+│       ├── terms.html
+│       ├── 404.html
+│       └── error.html
+│
+├── 📁 api/                         # API do servidor (Node.js)
+│   ├── articles.js
+│   ├── users.js
+│   ├── categories.js
+│   └── search.js
+│
+├── 📁 functions/                   # Cloud Functions
+│   ├── index.js
+│   ├── parsers.js
+│   ├── search.js
+│   └── notifications.js
+│
+├── 📁 firebase/                    # Configurações Firebase
+│   ├── firestore.rules
+│   ├── firestore.indexes.json
+│   └── storage.rules
+│
+├── 📁 docs/                        # Documentação
+│   ├── api.md
+│   ├── style-guide.md
+│   └── contribution-guide.md
+│
+├── package.json                    # Dependências Node.js
+├── .gitignore                      # Arquivos ignorados pelo Git
+├── firebase.json                   # Configuração Firebase
+└── README.md                       # Documentação do projeto
