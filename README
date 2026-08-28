@@ -1,21 +1,25 @@
 wikizero/
 │
-├── 📁 public/                      # Arquivos públicos (raiz do site)
-│   ├── index.html                  # Página principal
-│   ├── offline.html                # Página offline
-│   ├── sw.js                       # Service Worker
-│   ├── favicon.ico                 # Favicon
-│   ├── apple-touch-icon.png        # Ícone para iOS
+├── 📁 frontend/                      # SITE COMPLETO
+│   ├── index.html                    # ✅ Principal
+│   ├── 404.html                      # ✅ Página 404
+│   ├── offline.html                  # ✅ Offline
+│   ├── sw.js                         # ✅ Service Worker
+│   ├── Favicom.png                   # ✅ Favicon
+│   ├── CNAME                         # ✅ Domínio
+│   ├── robots.txt                    # ✅ Robôs
+│   ├── sitemap.xml                   # ✅ Sitemap
+│   ├── sitemap-wiki.xml              # ✅ Sitemap Wiki
 │   │
 │   ├── 📁 css/
-│   │   ├── main.css                # CSS principal
+│   │   ├── main.css
 │   │   └── 📁 themes/
-│   │       ├── light.css           # Tema claro
-│   │       ├── dark.css            # Tema escuro
-│   │       └── sepia.css           # Tema sépia
+│   │       ├── light.css
+│   │       ├── dark.css
+│   │       └── sepia.css
 │   │
 │   ├── 📁 js/
-│   │   ├── app.js                  # Aplicação principal
+│   │   ├── app.js
 │   │   ├── 📁 core/
 │   │   │   ├── auth.js
 │   │   │   ├── database.js
@@ -32,12 +36,12 @@ wikizero/
 │   │       └── helpers.js
 │   │
 │   ├── 📁 images/
-│   │   ├── logo.svg                # Logo principal
-│   │   ├── icon-192.png            # Ícone PWA 192x192
-│   │   ├── icon-512.png            # Ícone PWA 512x512
-│   │   └── badge-72.png            # Badge para notificações
+│   │   ├── logo.svg
+│   │   ├── icon-192.png
+│   │   ├── icon-512.png
+│   │   └── badge-72.png
 │   │
-│   └── 📁 templates/                # Templates HTML (carregados via JS)
+│   └── 📁 templates/
 │       ├── home.html
 │       ├── article.html
 │       ├── editor.html
@@ -55,29 +59,18 @@ wikizero/
 │       ├── 404.html
 │       └── error.html
 │
-├── 📁 api/                         # API do servidor (Node.js)
-│   ├── articles.js
-│   ├── users.js
-│   ├── categories.js
-│   └── search.js
+├── 📁 backend/                       # API
+│   └── search.js                     # ✅ Busca com Firebase
 │
-├── 📁 functions/                   # Cloud Functions
-│   ├── index.js
-│   ├── parsers.js
-│   ├── search.js
-│   └── notifications.js
+├── 📁 docs/                          # Documentação
+│   └── README                        # ✅ Documentação
 │
-├── 📁 firebase/                    # Configurações Firebase
-│   ├── firestore.rules
-│   ├── firestore.indexes.json
-│   └── storage.rules
+├── 📁 pages/                         # Páginas específicas
+│   └── banned.html                   # ✅ Página de banido
 │
-├── 📁 docs/                        # Documentação
-│   ├── api.md
-│   ├── style-guide.md
-│   └── contribution-guide.md
+├── 📁 .github/                       # GitHub
+│   └── workflows/
+│       └── static.yml                # ✅ Deploy automático
 │
-├── package.json                    # Dependências Node.js
-├── .gitignore                      # Arquivos ignorados pelo Git
-├── firebase.json                   # Configuração Firebase
-└── README.md                       # Documentação do projeto
+├── README                            # ✅ README principal
+└── LICENSE                           # ✅ Licença MIT
