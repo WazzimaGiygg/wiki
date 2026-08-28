@@ -283,39 +283,72 @@
                 </button>
                 
                 <div class="format-guide">
-                    <h4>📝 Guia Rápido de Formatação</h4>
+                    <h4>📝 Guia Rápido de Formatação HTML</h4>
                     <table>
-                        <tr><td><code>= Título =</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
-                        <tr><td><code>== Subtítulo ==</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
-                        <tr><td><code>=== Seção ===</code></td><td>→</td><td>Seção (h3)</td></tr>
-                        <tr><td><code>**negrito**</code></td><td>→</td><td><strong>negrito</strong></td></tr>
-                        <tr><td><code>*itálico*</code></td><td>→</td><td><em>itálico</em></td></tr>
-                        <tr><td><code>[[Página]]</code></td><td>→</td><td>Link interno</td></tr>
-                        <tr><td><code>[https://url.com Texto]</code></td><td>→</td><td>Link externo</td></tr>
-                        <tr><td><code>* Item</code></td><td>→</td><td>Lista com marcadores</td></tr>
-                        <tr><td><code># Item</code></td><td>→</td><td>Lista numerada</td></tr>
-                        <tr><td><code>&gt; citação</code></td><td>→</td><td>Citação em bloco</td></tr>
-                        <tr><td><code>`código`</code></td><td>→</td><td>Código inline</td></tr>
+                        <tr><td><code>&lt;h1&gt;Título&lt;/h1&gt;</code></td><td>→</td><td><strong>Título principal (h1)</strong></td></tr>
+                        <tr><td><code>&lt;h2&gt;Subtítulo&lt;/h2&gt;</code></td><td>→</td><td>Subtítulo (h2)</td></tr>
+                        <tr><td><code>&lt;h3&gt;Seção&lt;/h3&gt;</code></td><td>→</td><td>Seção (h3)</td></tr>
+                        <tr><td><code>&lt;strong&gt;negrito&lt;/strong&gt;</code></td><td>→</td><td><strong>negrito</strong></td></tr>
+                        <tr><td><code>&lt;em&gt;itálico&lt;/em&gt;</code></td><td>→</td><td><em>itálico</em></td></tr>
+                        <tr><td><code>&lt;a href=&quot;pagina&quot;&gt;Link&lt;/a&gt;</code></td><td>→</td><td>Link interno</td></tr>
+                        <tr><td><code>&lt;a href=&quot;https://url.com&quot; target=&quot;_blank&quot;&gt;Texto&lt;/a&gt;</code></td><td>→</td><td>Link externo</td></tr>
+                        <tr><td><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></td><td>→</td><td>Lista com marcadores</td></tr>
+                        <tr><td><code>&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;</code></td><td>→</td><td>Lista numerada</td></tr>
+                        <tr><td><code>&lt;blockquote&gt;citação&lt;/blockquote&gt;</code></td><td>→</td><td>Citação em bloco</td></tr>
+                        <tr><td><code>&lt;code&gt;código&lt;/code&gt;</code></td><td>→</td><td>Código inline</td></tr>
+                        <tr><td><code>&lt;pre&gt;código&lt;/pre&gt;</code></td><td>→</td><td>Bloco de código</td></tr>
+                        <tr><td><code>&lt;img src=&quot;url&quot; alt=&quot;desc&quot;&gt;</code></td><td>→</td><td>Imagem</td></tr>
+                        <tr><td><code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></td><td>→</td><td>Tabela</td></tr>
+                        <tr><td><code>&lt;div class=&quot;destaque&quot;&gt;...&lt;/div&gt;</code></td><td>→</td><td>Div com classe personalizada</td></tr>
                     </table>
+                    <p style="margin-top:10px; font-size:11px; color:#666;">
+                        ⚠️ <strong>Segurança:</strong> Tags <code>&lt;script&gt;</code>, <code>&lt;iframe&gt;</code> e eventos <code>on*</code> são removidos automaticamente.
+                    </p>
                 </div>
             </div>
             <div class="editor-main">
+                <!-- BARRA DE FERRAMENTAS HTML -->
+                <div class="editor-toolbar">
+                    <button onclick="insertTag('h1')" class="toolbar-btn" title="Título H1">H1</button>
+                    <button onclick="insertTag('h2')" class="toolbar-btn" title="Subtítulo H2">H2</button>
+                    <button onclick="insertTag('h3')" class="toolbar-btn" title="Seção H3">H3</button>
+                    <span class="toolbar-divider">|</span>
+                    <button onclick="insertTag('strong')" class="toolbar-btn" title="Negrito"><b>B</b></button>
+                    <button onclick="insertTag('em')" class="toolbar-btn" title="Itálico"><i>I</i></button>
+                    <button onclick="insertTag('u')" class="toolbar-btn" title="Sublinhado"><u>U</u></button>
+                    <span class="toolbar-divider">|</span>
+                    <button onclick="insertTag('ul')" class="toolbar-btn" title="Lista não ordenada">• Lista</button>
+                    <button onclick="insertTag('ol')" class="toolbar-btn" title="Lista ordenada">1. Lista</button>
+                    <span class="toolbar-divider">|</span>
+                    <button onclick="insertTag('a')" class="toolbar-btn" title="Link">🔗 Link</button>
+                    <button onclick="insertTag('img')" class="toolbar-btn" title="Imagem">🖼️ Img</button>
+                    <button onclick="insertTag('blockquote')" class="toolbar-btn" title="Citação">❝ Citar</button>
+                    <button onclick="insertTag('pre')" class="toolbar-btn" title="Código">&lt;/&gt; Code</button>
+                </div>
+                
                 <div class="editor-field">
                     <label>Título do Artigo</label>
                     <input type="text" id="editor-article-title" placeholder="Título do artigo">
                 </div>
                 <div class="editor-field">
-                    <label>Conteúdo (Wiki Markdown)</label>
+                    <label>Conteúdo (HTML)</label>
                     <textarea id="editor-article-content" placeholder="Exemplo:
-= Título Principal =
-== Subtítulo ==
-**Texto em negrito** e *texto em itálico*
+&lt;h1&gt;Título Principal&lt;/h1&gt;
+&lt;h2&gt;Subtítulo&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Texto em negrito&lt;/strong&gt; e &lt;em&gt;texto em itálico&lt;/em&gt;&lt;/p&gt;
 
-* Item 1
-* Item 2
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;
 
-[[Link para outra página]]
-[Exemplo de link externo](https://exemplo.com)"></textarea>
+&lt;a href=&quot;https://exemplo.com&quot; target=&quot;_blank&quot;&gt;Link externo&lt;/a&gt;
+
+&lt;img src=&quot;https://via.placeholder.com/400x200&quot; alt=&quot;Descrição&quot; style=&quot;max-width:100%; border-radius:8px;&quot;&gt;
+
+&lt;div class=&quot;destaque&quot; style=&quot;background:#f0f7ff; padding:15px; border-radius:8px; border-left:4px solid #36c;&quot;&gt;
+  &lt;p&gt;Conteúdo destacado&lt;/p&gt;
+&lt;/div&gt;"></textarea>
                 </div>
                 <div class="editor-field">
                     <label>Descrição curta (opcional)</label>
