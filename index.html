@@ -9,8 +9,8 @@
     <title>WikiZero - A Enciclopédia Livre</title>
     
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/Favicom.png" type="image/png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
-    <!-- CSS Principal -->
+    <!-- CSS Principal - CAMINHOS CORRIGIDOS -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/themes/light.css">
     <link rel="stylesheet" href="/css/themes/dark.css">
@@ -61,7 +61,7 @@
         console.log('🔥 Firebase inicializado com sucesso!');
     </script>
     
-    <!-- Service Worker para PWA -->
+    <!-- Service Worker para PWA - CAMINHO CORRIGIDO -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -89,7 +89,7 @@
         <div class="header-container">
             <!-- Logo -->
             <div class="header-logo" onclick="window.WikiZero?.router?.navigate('/')">
-                <img src="/images/logo.svg" alt="WikiZero" class="logo-image">
+                <img src="/images/logo.svg" alt="WikiZero" class="logo-image" onerror="this.style.display='none'">
                 <div class="logo-text">
                     <h1>WikiZero</h1>
                     <span class="logo-tagline">A Enciclopédia Livre</span>
@@ -608,7 +608,7 @@
         document.addEventListener('DOMContentLoaded', () => CookieManager.init());
     </script>
     
-    <!-- Módulos JS -->
+    <!-- Módulos JS - CAMINHO CORRIGIDO -->
     <script type="module" src="/js/app.js"></script>
     
     <!-- Fallback para navegadores antigos -->
