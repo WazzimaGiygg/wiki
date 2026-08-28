@@ -1,155 +1,140 @@
 // ============================================
-// SISTEMA DE BUSCA AVANÇADA
+// API - BUSCA
 // ============================================
 
-class SearchEngine {
-    constructor() {
-        this.initialized = false;
-        this.index = null;
-        this.workers = [];
-    }
-    
-    async init() {
-        if (this.initialized) return;
-        
-        // Usar IndexedDB para busca local
-        this.index = await this.initIndexedDB();
-        this.initialized = true;
-        
-        console.log('🔍 Motor de busca inicializado');
-    }
-    
-    async initIndexedDB() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open('WikiZeroSearch', 1);
-            
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                const store = db.createObjectStore('articles', { keyPath: 'id' });
-                store.createIndex('title', 'title', { unique: false });
-                store.createIndex('content', 'content', { unique: false });
-                store.createIndex('category', 'categories', { unique: false });
-            };
-            
-            request.onsuccess = (event) => {
-                resolve(event.target.result);
-            };
-            
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-    
-    async indexArticle(article) {
-        const transaction = this.index.transaction('articles', 'readwrite');
-        const store = transaction.objectStore('articles');
-        
-        // Processar texto para busca
-        const processed = {
-            id: article.id,
-            title: article.title,
-            content: this.processText(article.content),
-            categories: article.categories,
-            tags: article.tags,
-            summary: article.summary
-        };
-        
-        store.put(processed);
-        return transaction.complete;
-    }
-    
-    async search(query, options = {}) {
-        if (!query || query.length < 2) {
-            return [];
-        }
-        
-        const processedQuery = this.processText(query);
-        const results = [];
-        
-        const transaction = this.index.transaction('articles', 'readonly');
-        const store = transaction.objectStore('articles');
-        
-        // Buscar por título e conteúdo
-        const titleIndex = store.index('title');
-        const contentIndex = store.index('content');
-        
-        // Buscar por título (prioridade alta)
-        let titleResults = [];
-        const titleRange = IDBKeyRange.bound(
-            processedQuery,
-            processedQuery + '\uffff'
-        );
-        
-        for await (const cursor of titleIndex.iterate(titleRange)) {
-            titleResults.push({
-                ...cursor.value,
-                score: 100 - (cursor.value.title.toLowerCase().indexOf(processedQuery) * 2)
+const express = require('express');
+const router = express.Router();
+const admin = require('firebase-admin');
+
+// ===== GET /api/search =====
+router.get('/', async (req, res) => {
+    try {
+        const { q, category, limit = 20, page = 1 } = req.query;
+
+        if (!q || q.length < 2) {
+            return res.status(400).json({
+                success: false,
+                error: 'Termo de busca muito curto. Mínimo 2 caracteres.'
             });
         }
-        
-        // Buscar por conteúdo
-        let contentResults = [];
-        const contentRange = IDBKeyRange.bound(
-            processedQuery,
-            processedQuery + '\uffff'
-        );
-        
-        for await (const cursor of contentIndex.iterate(contentRange)) {
-            const existing = contentResults.find(r => r.id === cursor.value.id);
-            if (!existing) {
-                contentResults.push({
-                    ...cursor.value,
-                    score: 50
+
+        const searchTerms = q.toLowerCase().split(' ').filter(t => t.length > 1);
+        const results = [];
+        let total = 0;
+
+        // Buscar por título e conteúdo
+        const articles = await admin.firestore().collection('articles')
+            .where('status', '==', 'published')
+            .limit(100)
+            .get();
+
+        articles.forEach(doc => {
+            const data = doc.data();
+            const title = data.title.toLowerCase();
+            const content = data.content.toLowerCase();
+            const summary = (data.summary || '').toLowerCase();
+
+            // Calcular score
+            let score = 0;
+            searchTerms.forEach(term => {
+                if (title.includes(term)) score += 10;
+                if (content.includes(term)) score += 3;
+                if (summary.includes(term)) score += 2;
+                
+                // Bônus para termos no início
+                if (title.startsWith(term)) score += 5;
+                if (summary.startsWith(term)) score += 3;
+            });
+
+            if (score > 0) {
+                results.push({
+                    id: doc.id,
+                    ...data,
+                    score: score
                 });
             }
-        }
-        
-        // Mesclar e ordenar resultados
-        const allResults = [...titleResults, ...contentResults];
-        const uniqueResults = this.deduplicateResults(allResults);
-        
-        // Aplicar filtros
-        let filtered = uniqueResults;
-        if (options.category) {
-            filtered = filtered.filter(r => 
-                r.categories && r.categories.includes(options.category)
+        });
+
+        // Ordenar por score
+        results.sort((a, b) => b.score - a.score);
+
+        // Aplicar filtro de categoria
+        let filtered = results;
+        if (category) {
+            filtered = results.filter(r => 
+                r.categories && r.categories.includes(category)
             );
         }
-        
-        if (options.tags) {
-            filtered = filtered.filter(r => 
-                r.tags && options.tags.some(tag => r.tags.includes(tag))
-            );
-        }
-        
-        // Ordenar por relevância
-        filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
-        
-        // Limitar resultados
-        const limit = options.limit || 20;
-        return filtered.slice(0, limit);
-    }
-    
-    processText(text) {
-        return text
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9\s]/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
-    }
-    
-    deduplicateResults(results) {
-        const seen = new Set();
-        return results.filter(r => {
-            if (seen.has(r.id)) return false;
-            seen.add(r.id);
-            return true;
+
+        // Paginação
+        const start = (parseInt(page) - 1) * parseInt(limit);
+        const paginated = filtered.slice(start, start + parseInt(limit));
+
+        res.json({
+            success: true,
+            data: paginated,
+            pagination: {
+                limit: parseInt(limit),
+                page: parseInt(page),
+                total: filtered.length,
+                pages: Math.ceil(filtered.length / parseInt(limit))
+            },
+            query: q
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
         });
     }
-}
+});
 
-// Exportar singleton
-export const searchEngine = new SearchEngine();
+// ===== GET /api/search/suggestions =====
+router.get('/suggestions', async (req, res) => {
+    try {
+        const { q, limit = 10 } = req.query;
+
+        if (!q || q.length < 1) {
+            return res.json({
+                success: true,
+                data: []
+            });
+        }
+
+        const articles = await admin.firestore().collection('articles')
+            .where('status', '==', 'published')
+            .limit(50)
+            .get();
+
+        const suggestions = [];
+        const term = q.toLowerCase();
+
+        articles.forEach(doc => {
+            const data = doc.data();
+            const title = data.title.toLowerCase();
+            
+            if (title.includes(term)) {
+                suggestions.push({
+                    title: data.title,
+                    slug: data.slug,
+                    score: title.indexOf(term) === 0 ? 2 : 1
+                });
+            }
+        });
+
+        // Ordenar por relevância
+        suggestions.sort((a, b) => b.score - a.score);
+
+        res.json({
+            success: true,
+            data: suggestions.slice(0, parseInt(limit))
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+module.exports = router;
