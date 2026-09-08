@@ -140,6 +140,7 @@
 
     <div class="main-container">
         <div class="content-area">
+            <!-- ===== LIST VIEW ===== -->
             <div id="list-view" class="article-view active">
                 <h1 class="page-title">Páginas Wiki</h1>
                 <div id="subcollections-container"><div class="loading">Carregando páginas...</div></div>
@@ -149,11 +150,13 @@
                 </div>
             </div>
 
+            <!-- ===== ARTICLE VIEW ===== -->
             <div id="article-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div id="article-content"></div>
             </div>
 
+            <!-- ===== CREATE VIEW ===== -->
             <div id="create-view" class="article-view">
                 <h1 class="page-title">Criar nova página</h1>
                 <form id="create-subcollection-form">
@@ -178,38 +181,45 @@
                 </form>
             </div>
 
+            <!-- ===== SECURITY VIEW ===== -->
             <div id="security-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div class="article-content"><h1>🔐 Segurança da Conta</h1><div class="highlight"><p><strong>🔒 Tipos de Acesso:</strong></p><ul><li><strong>Login com Google:</strong> Acesso completo</li><li><strong>Acesso Convidado:</strong> Apenas leitura</li></ul></div><div id="user-uid-display" class="article-meta"></div></div>
             </div>
 
+            <!-- ===== DONATION VIEW ===== -->
             <div id="donation-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div class="article-content"><h1>💝 Doações</h1><div class="highlight"><p><strong>🎉 A WikiZero é 100% gratuita!</strong></p></div></div>
             </div>
 
+            <!-- ===== PRIVACY VIEW ===== -->
             <div id="privacy-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div class="article-content"><h1>Política de Privacidade - LGPD</h1><p>Em conformidade com a Lei 13.709/2018.</p><div class="highlight"><p><strong>DPO:</strong> <a href="https://wazzimagiygg.com/Marco%20Civil/">E-mail por formulário</a></p></div></div>
             </div>
 
+            <!-- ===== TERMS VIEW ===== -->
             <div id="terms-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div class="article-content"><h1>📜 Termos de Uso</h1><p>Ao utilizar a WikiZero, você concorda com estes Termos.</p></div>
             </div>
 
+            <!-- ===== MY DATA VIEW ===== -->
             <div id="mydata-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div id="user-data-container"><div class="loading">Carregando...</div></div>
             </div>
 
-            <!-- ===== USER PAGE ===== -->
+            <!-- ============================================================ -->
+            <!-- ===== USER PAGE - CORRIGIDA ===== -->
+            <!-- ============================================================ -->
             <div id="userPageContainer" class="user-page-container" style="display:none;">
                 <div class="user-page-header">
                     <div class="user-page-avatar" id="userPageAvatar">👤</div>
                     <div class="user-page-info">
                         <h2 id="userPageName">Carregando...</h2>
-                        <p class="user-page-uid">UID: <span id="userPageUid">-</span></p>
+                        <p class="user-page-uid"><strong>UID:</strong> <span id="userPageUid">-</span></p>
                         <div class="user-page-stats">
                             <span>📄 Contribuições: <strong id="userContribCount">0</strong></span>
                             <span>📝 Artigos criados: <strong id="userArticlesCount">0</strong></span>
@@ -250,6 +260,9 @@
                     <div id="userNotificationsList"><div class="loading">Carregando notificações...</div></div>
                 </div>
             </div>
+            <!-- ===== FIM DA PÁGINA DO USUÁRIO ===== -->
+            <!-- ============================================================ -->
+
         </div>
     </div>
 </div>
