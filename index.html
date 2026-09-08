@@ -124,6 +124,10 @@
             <a class="menu-item" onclick="showCreateView()"><span class="material-icons">edit</span><span class="menu-item-text">Criar página</span></a>
         </div>
         <div class="menu-section">
+            <div class="menu-section-title"><span class="material-icons">person</span><span>Usuário</span></div>
+            <a class="menu-item" onclick="openUserPage()"><span class="material-icons">account_circle</span><span class="menu-item-text">👤 Minha Página</span></a>
+        </div>
+        <div class="menu-section">
             <div class="menu-section-title"><span class="material-icons">info</span><span>WikiZero</span></div>
             <a class="menu-item" onclick="showSecurityView()"><span class="material-icons">security</span><span class="menu-item-text">Segurança</span></a>
             <a class="menu-item" onclick="showDonationView()"><span class="material-icons">favorite</span><span class="menu-item-text">Doações</span></a>
@@ -197,6 +201,54 @@
             <div id="mydata-view" class="article-view">
                 <button class="back-button" onclick="showListView()">← Voltar</button>
                 <div id="user-data-container"><div class="loading">Carregando...</div></div>
+            </div>
+
+            <!-- ===== USER PAGE ===== -->
+            <div id="userPageContainer" class="user-page-container" style="display:none;">
+                <div class="user-page-header">
+                    <div class="user-page-avatar" id="userPageAvatar">👤</div>
+                    <div class="user-page-info">
+                        <h2 id="userPageName">Carregando...</h2>
+                        <p class="user-page-uid">UID: <span id="userPageUid">-</span></p>
+                        <div class="user-page-stats">
+                            <span>📄 Contribuições: <strong id="userContribCount">0</strong></span>
+                            <span>📝 Artigos criados: <strong id="userArticlesCount">0</strong></span>
+                            <span>📅 Membro desde: <strong id="userJoinDate">-</strong></span>
+                        </div>
+                    </div>
+                    <div class="user-page-actions">
+                        <button onclick="showUserDiscussion()" class="btn-abrir-painel" style="background:#28a745;">💬 Discussão</button>
+                        <button onclick="closeUserPage()" class="btn-abrir-painel" style="background:#dc3545;">✕ Fechar</button>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="user-tabs">
+                    <button class="user-tab active" data-tab="contributions" onclick="switchUserTab('contributions')">📄 Contribuições</button>
+                    <button class="user-tab" data-tab="discussion" onclick="switchUserTab('discussion')">💬 Discussão</button>
+                    <button class="user-tab" data-tab="notifications" onclick="switchUserTab('notifications')">🔔 Notificações</button>
+                </div>
+
+                <!-- TAB: Contribuições -->
+                <div id="userTabContributions" class="user-tab-content active">
+                    <div id="userContributionsList"><div class="loading">Carregando contribuições...</div></div>
+                </div>
+
+                <!-- TAB: Discussão -->
+                <div id="userTabDiscussion" class="user-tab-content">
+                    <div id="userDiscussionContainer">
+                        <div id="discussionMessages"><div class="loading">Carregando discussão...</div></div>
+                        <div class="discussion-form">
+                            <textarea id="discussionInput" rows="3" placeholder="Escreva uma mensagem na discussão..."></textarea>
+                            <button onclick="postDiscussionMessage()" class="submit-btn">💬 Enviar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Notificações -->
+                <div id="userTabNotifications" class="user-tab-content">
+                    <div id="userNotificationsList"><div class="loading">Carregando notificações...</div></div>
+                </div>
             </div>
         </div>
     </div>
